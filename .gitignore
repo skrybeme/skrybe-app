@@ -1,0 +1,8 @@
+# tests outputs
+coverage
+
+# build outputs
+dist
+
+# vendors
+node_modules
