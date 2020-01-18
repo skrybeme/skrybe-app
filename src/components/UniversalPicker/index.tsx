@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import * as S from './styles';
+import { useClickOutside } from '@/hooks';
 
 function Item(props) {
   const { title, wordsCount, modifiedDate } = props;
@@ -39,12 +40,12 @@ function List() {
 function UniversalPicker() {
   const [isOpen, setIsOpen] = useState(false);
 
-  function handleClick() {
-    setIsOpen(!isOpen);
-  }
+  const self = useRef(null);
+
+  useClickOutside(self, () => setIsOpen(false));
 
   return (
-    <S.Context isOpen={isOpen} onClick={handleClick}>
+    <S.Context isOpen={isOpen} onClick={() => setIsOpen(!isOpen)} ref={self}>
       <S.Picker>
         <S.Caption>
           Current project
