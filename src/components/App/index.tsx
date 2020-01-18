@@ -3,11 +3,11 @@ import Toolbar from '@/components/Toolbar';
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
 import * as Styles from './styles';
-import theme from '@/data/theme';
+import theme from '@/styles/theme';
 
 function App() {
   return (
-    <ThemeProvider theme={theme.sea}>
+    <ThemeProvider theme={theme.purple}>
       <Styles.App>
         <Toolbar />
         <Nav />
