@@ -3,6 +3,8 @@ import theme from './theme';
 describe(`themes`, function() {
   const desiredProperties = [
     'bg',
+    'bgLight',
+    'bgLightHover',
     'default',
     'defaultLight',
     'light',
