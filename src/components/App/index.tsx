@@ -1,3 +1,4 @@
+import WideView from '@/components/WideView';
 import Nav from '@/components/Nav';
 import Toolbar from '@/components/Toolbar';
 import React from 'react';
@@ -7,10 +8,11 @@ import theme from '@/styles/theme';
 
 function App() {
   return (
-    <ThemeProvider theme={theme.purple}>
+    <ThemeProvider theme={theme.sea}>
       <Styles.App>
         <Toolbar />
         <Nav />
+        <WideView />
       </Styles.App>
     </ThemeProvider>
   );

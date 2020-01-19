@@ -30,6 +30,8 @@ export const Title = styled.div`
 `;
 
 export const List = styled.div`
+  min-width: 100%;
+  box-shadow: 1px 1px 3px #ddd;
   position: absolute;
 `;
 

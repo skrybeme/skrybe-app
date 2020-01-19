@@ -12,10 +12,10 @@ function Item(props) {
       </div>
       <div className="caption">
         <span title={`${wordsCount} words`}>
-          <i className="fas fa-skiing-nordic"></i> {wordsCount}
+          <i class="fas fa-align-left"></i> &nbsp;{wordsCount}
         </span>
         <span title={`Last modified at ${modifiedDate}`}>
-          <i className="far fa-clock"></i> {modifiedDate}
+          <i className="far fa-clock"></i> &nbsp;{modifiedDate}
         </span>
       </div>
     </S.Item>
@@ -51,7 +51,7 @@ function UniversalPicker() {
           Current project
         </S.Caption>
         <S.Title>
-          Farewell to Arms <i className="fas fa-caret-down"></i>
+          Michael was not even Bay that day <i className="fas fa-caret-down"></i>
         </S.Title>
       </S.Picker>
       <List />
