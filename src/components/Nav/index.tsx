@@ -1,8 +1,11 @@
 import React from 'react';
+import * as S from './styles';
 
 function Nav() {
   return (
-    <nav></nav>
+    <S.Context>
+      ?
+    </S.Context>
   );
 }
 

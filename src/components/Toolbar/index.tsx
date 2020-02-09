@@ -3,25 +3,18 @@ import React from 'react';
 import * as Styles from './styles';
 
 function Toolbar() {
-  function handleClick() {
-    console.log('Should open navbar.');
-  }
-
   return (
     <Styles.Toolbar>
-      <Styles.Hamburger onClick={handleClick}>
-        <div>
-          <span />
-          <span />
-          <span />
-        </div>
-      </Styles.Hamburger>
       <Styles.Logo>
         <span>
-          Skrybe
+          <i className="fab fa-scribd"></i>
+          &nbsp;&nbsp;Skrybe.
         </span>
       </Styles.Logo>
       <UniversalPicker />
+      <div className="right">
+        T
+      </div>
     </Styles.Toolbar>
   );
 }

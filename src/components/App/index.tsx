@@ -1,3 +1,4 @@
+import PageView from '@/components/PageView';
 import WideView from '@/components/WideView';
 import Nav from '@/components/Nav';
 import Toolbar from '@/components/Toolbar';
@@ -8,11 +9,11 @@ import theme from '@/styles/theme';
 
 function App() {
   return (
-    <ThemeProvider theme={theme.sea}>
+    <ThemeProvider theme={theme.purple}>
       <Styles.App>
         <Toolbar />
         <Nav />
-        <WideView />
+        <PageView />
       </Styles.App>
     </ThemeProvider>
   );
