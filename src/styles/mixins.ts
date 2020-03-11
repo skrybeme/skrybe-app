@@ -1,15 +1,15 @@
-export const flex = props => `
+export const flex = () => `
   display: flex;
   align-items: center;
   justify-content: center;
 `;
 
-export const noSelect = props => `
+export const noSelect = () => `
   -webkit-touch-callout: none;
   user-select: none;
 `;
 
-export const positionCover = props => `
+export const positionCover = () => `
   top: 0;
   left: 0;
   bottom: 0;
