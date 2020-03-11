@@ -31,7 +31,7 @@ export const Title = styled.div`
 
 export const List = styled.div`
   min-width: 100%;
-  box-shadow: 1px 1px 3px #ddd;
+  box-shadow: 1px 1px 3px ${props => props.theme.shadow};
   position: absolute;
 `;
 

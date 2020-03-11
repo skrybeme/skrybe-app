@@ -1,21 +1,22 @@
+import Picker from '@/components/Picker';
 import UniversalPicker from '@/components/UniversalPicker';
 import React from 'react';
-import * as Styles from './styles';
+import * as S from './styles';
 
 function Toolbar() {
   return (
-    <Styles.Toolbar>
-      <Styles.Logo>
-        <span>
-          <i className="fab fa-scribd"></i>
-          &nbsp;&nbsp;Skrybe.
-        </span>
-      </Styles.Logo>
-      <UniversalPicker />
-      <div className="right">
-        T
-      </div>
-    </Styles.Toolbar>
+    <S.Toolbar flex>
+      <S.Flex>
+        <S.Logo>
+          <span>
+            <i className="fab fa-scribd"></i>
+            &nbsp;&nbsp;Skrybe
+          </span>
+        </S.Logo>
+        <UniversalPicker />
+      </S.Flex>
+      <Picker />
+    </S.Toolbar>
   );
 }
 

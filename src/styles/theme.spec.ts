@@ -12,7 +12,8 @@ describe(`themes`, function() {
     'primary',
     'primaryLight',
     'primaryBright',
-    'primaryDark'
+    'primaryDark',
+    'shadow'
   ];
 
   test(`each theme should have desired properties`, function() {

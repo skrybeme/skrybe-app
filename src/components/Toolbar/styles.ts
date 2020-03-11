@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const Toolbar = styled.div`
+export const Toolbar = styled.div<any>`
   background-color: ${props => props.theme.primaryLight};
   color: ${props => props.theme.light};
   position: absolute;
@@ -9,25 +9,18 @@ export const Toolbar = styled.div`
   right: 0;
   height: 83px;
   padding: 0 30px;
-  display: flex;
-  align-content: center;
   z-index: 599;
 
-  .right {
-    position: absolute;
-    top: 21px;
-    right: 30px;
-    height: 40px;
-    width: 40px;
-    border-radius: 50%;
-    background-color: ${props => props.theme.bgLight};
-    color: ${props => props.theme.primaryLight};
-    font-weight: 700;
-    line-height: 42px;
-    font-size: 21px;
-    text-align: center;
-    cursor: pointer;
-  }
+  ${props => props.flex !== null && `
+    display: flex;
+    align-content: center;
+    justify-content: space-between;
+  `}
+`;
+
+export const Flex = styled.div`
+  display: flex;
+  align-items: center;
 `;
 
 export const Hamburger = styled.div`

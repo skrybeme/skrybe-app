@@ -53,9 +53,11 @@ export const CardFooter = styled.div`
   }
 `;
 
-export const CardContainer = styled.div`
+export const CardContainer = styled.a`
+  transition: all 0.3s ease-in-out;
   margin: 5px;
   position: relative;
+  display: block;
 
   &:hover {
     ${CardBody} {
@@ -65,6 +67,21 @@ export const CardContainer = styled.div`
     ${CardFooter} {
       transition: all 0.2s ease-in-out 0.1s, background-color 0s ease-in-out 0s;
       opacity: 1;
+    }
+  }
+
+  &.is-open {
+    transform: translate(200px, 200px) scale(10);
+
+    ${CardBody} {
+      header,
+      footer {
+        opacity: 0;
+      }
+    }
+
+    ${CardFooter} {
+      opacity: 0;
     }
   }
 `;

@@ -12,7 +12,7 @@ function Item(props) {
       </div>
       <div className="caption">
         <span title={`${wordsCount} words`}>
-          <i class="fas fa-align-left"></i> &nbsp;{wordsCount}
+          <i className="fas fa-align-left"></i> &nbsp;{wordsCount}
         </span>
         <span title={`Last modified at ${modifiedDate}`}>
           <i className="far fa-clock"></i> &nbsp;{modifiedDate}
@@ -51,7 +51,7 @@ function UniversalPicker() {
           Current project
         </S.Caption>
         <S.Title>
-          Michael was not even Bay that day <i className="fas fa-caret-down"></i>
+          The Curious Case of Benjamin Button <i className="fas fa-caret-down"></i>
         </S.Title>
       </S.Picker>
       <List />

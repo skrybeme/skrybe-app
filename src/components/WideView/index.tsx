@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import * as S from './styles';
 
 function Card(props) {
+  const [isOpen, setIsOpen] = useState(false);
   const { header, tags } = props;
 
   return (
-    <S.CardContainer>
+    <S.CardContainer
+      onClick={e => setIsOpen(!isOpen)}
+      className={isOpen ? 'is-open' : ''}
+    >
       <S.CardBody title="Edit this card">
         <header>
           {header}
