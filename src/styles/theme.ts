@@ -20,7 +20,7 @@ export default {
     default: '#eee',
     defaultLight: '#eee',
     light: '#fff',
-    muted: '#999',
+    muted: '#c2c2c2',
     primary: '#222',
     primaryLight: '#333',
     primaryBright: 'lighten(#333, 25%)',

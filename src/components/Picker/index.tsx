@@ -24,7 +24,7 @@ function List() {
           Help
         </S.Link>
       </Item>
-      <Item>
+      {/* <Item>
         <S.Link>
           Account settings
         </S.Link>
@@ -32,6 +32,15 @@ function List() {
       <Item>
         <S.Link>
           Sign out
+        </S.Link>
+      </Item> */}
+      <Item>
+        <S.Link>
+          Sign in / Sign up
+          <div style={{ marginTop: '7px', fontSize: '13px' }}>
+            <i className="fas fa-user-plus" style={{ color: 'orange' }}></i>
+            &nbsp;&nbsp;No credit card required.
+          </div>
         </S.Link>
       </Item>
       {/* <Item>
@@ -54,7 +63,7 @@ function Picker(): JSX.Element {
   return (
     <S.Context isOpen={isOpen} ref={self}>
       <S.Picker flex onClick={() => setIsOpen(!isOpen)}>
-        T
+        <i className="fas fa-user-cog"></i>
       </S.Picker>
       <List />
     </S.Context>

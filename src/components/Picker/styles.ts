@@ -76,7 +76,10 @@ export const Context = styled.div<any>`
   ${noSelect}
 
   ${List} {
-    display: none;
+    transform: scale(0.9);
+    transition: all 0.1s ease-in-out;
+    opacity: 0;
+    pointer-events: none;
   }
 
   ${props => props.isOpen && `
@@ -85,7 +88,9 @@ export const Context = styled.div<any>`
     }
 
     ${List} {
-      display: block;
+      transform: none;
+      opacity: 1;
+      pointer-events: all;
     }
   `}
 `;

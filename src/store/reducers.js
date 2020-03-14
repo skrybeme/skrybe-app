@@ -9,3 +9,12 @@ export const settings = function(state = { theme: 'purple' }, action) {
       return state;
   }
 };
+
+export const view = function(state = 'page-view', action) {
+  switch (action.type) {
+    case 'change_page':
+      return action.page;
+    default:
+      return state;
+  }
+}

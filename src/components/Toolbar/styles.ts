@@ -8,7 +8,7 @@ export const Toolbar = styled.div<any>`
   left: 0;
   right: 0;
   height: 83px;
-  padding: 0 30px;
+  padding: 0 20px 0 30px;
   z-index: 599;
 
   ${props => props.flex !== null && `

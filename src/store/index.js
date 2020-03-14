@@ -1,9 +1,8 @@
 import { combineReducers, createStore } from 'redux';
-import { Provider } from 'react-redux';
-import { settings } from '@/store/reducers';
+import { settings, view } from '@/store/reducers';
 
 export default function() {
-  const rootReducer = combineReducers({ settings });
+  const rootReducer = combineReducers({ settings, view });
   
   return createStore(rootReducer);
 };

@@ -1,6 +1,13 @@
 import styled from 'styled-components';
 
-export const Context = styled.div`
+export const Wrapper = styled.div`
+  transition: all 0.1s ease-in-out;
+  max-width: 1280px;
+  width: 100%;
+  opacity: 0;
+`;
+
+export const Context = styled.div<any>`
   background-color: ${props => props.theme.bgLight};
   color: ${props => props.theme.defaultLight};
   padding: 185px 0 0;
@@ -24,6 +31,12 @@ export const Context = styled.div`
     line-height: 2.4rem;
     font-size: 17px;
   }
+
+  ${props => props.isReady && `
+    ${Wrapper} {
+      opacity: 1;
+    }
+  `}
 `;
 
 export const Editable = styled.div`
@@ -35,13 +48,38 @@ export const Editable = styled.div`
 
   .fixed {
     top: -16px;
-    left: calc(100% + 80px);
     position: absolute;
+
+    &-left {
+      right: calc(100% + 70px);
+    }
+
+    &-right {
+      left: calc(100% + 70px);
+    }
   }
 
   .link {
-    margin-top: 20px;
+    padding: 10px 20px;
     cursor: pointer;
+
+    &-title {
+      color: ${props => props.theme.muted};
+      transform: translateX(10px);
+      transition: transform 0s linear 0.1s, opacity 0.1s ease-in-out 0s;
+      margin-left: 20px;
+      opacity: 0;
+      display: inline-block;
+      white-space: nowrap;
+    }
+
+    &.mt-10 {
+      margin-top: 10px;
+    }
+
+    &.mt-48 {
+      margin-top: 48px;
+    }
 
     i {
       transition: all 0.1s ease-in-out;
@@ -49,14 +87,15 @@ export const Editable = styled.div`
     }
 
     &:hover {
+      .link-title {
+        transition: all 0.1s ease-in-out 0s;
+        transform: none;
+        opacity: 1;
+      }
+
       i {
         color: ${props => props.theme.primaryLight};
       }
     }
   }
-`;
-
-export const Wrapper = styled.div`
-  max-width: 1280px;
-  width: 100%;
 `;

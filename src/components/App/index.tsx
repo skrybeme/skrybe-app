@@ -11,6 +11,7 @@ import * as Styles from './styles';
 import theme from '@/styles/theme';
 
 function App() {
+  const currentView = useSelector(state => state.view);
   const currentTheme = useSelector(state => state.settings.theme);
   const currentThemeObject = theme[currentTheme];
 
@@ -18,8 +19,8 @@ function App() {
     <ThemeProvider theme={currentThemeObject}>
       <Styles.App>
         <Toolbar />
-        <Nav />
-        <PageView />
+        {currentView === 'wide-view' && <WideView />}
+        {currentView === 'page-view' && <PageView />}
       </Styles.App>
     </ThemeProvider>
   );

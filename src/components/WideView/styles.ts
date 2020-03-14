@@ -7,6 +7,74 @@ export const Context = styled.div`
   ${positionCover};
 `;
 
+export const SubcardsContext = styled.div`
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+`;
+
+export const CardContext = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  ${SubcardsContext} {
+    margin-top: 50px;
+  }
+
+  &:before,
+  &:after {
+    content: '';
+    background-color: #ccc;
+    position: absolute;
+  }
+
+  &:before {
+    width: 2px;
+    height: 25px;
+    left: calc(50% - 1px);
+    bottom: calc(100% - 5px);
+    
+  }
+
+  &:after {
+    height: 2px;
+    left: 0;
+    right: 0;
+    bottom: calc(100% + 19px);
+  }
+
+  &:first-child {
+    &:after {
+      left: 50%;
+      right: 0;
+    }
+  }
+
+  &:last-child {
+    &:after {
+      left: 0;
+      right: 50%;
+    }
+  }
+
+  &.root {
+    &:before,
+    &:after {
+      display: none;
+    }
+  }
+
+  &.only {
+    &:before,
+    &:after {
+      display: none;
+    }
+  }
+`;
+
 export const CardBody = styled.div`
   transition: transform 0.2s ease-out;
   background-color: ${props => props.theme.bgLight};
@@ -36,43 +104,40 @@ export const CardBody = styled.div`
 
 export const CardFooter = styled.div`
   transition: all 0.05s ease-in-out 0s;
-  background-color: ${props => props.theme.bgLight};
-  border-top: 1px solid ${props => props.theme.bg};
   height: 48px;
   width: 100%;
-  opacity: 0;
-  bottom: -24px;
+  bottom: -48px;
   font-size: 1.6rem;
+  opacity: 0.5;
   position: absolute;
   text-align: center;
   cursor: pointer;
   ${flex};
 
   &:hover {
-    background-color: ${props => props.theme.bgLightHover};
+    opacity: 1;
   }
 `;
 
 export const CardContainer = styled.a`
   transition: all 0.3s ease-in-out;
-  margin: 5px;
+  margin: 5px 10px;
+  z-index: 1;
   position: relative;
   display: block;
 
   &:hover {
-    ${CardBody} {
+    /* ${CardBody} {
       transform: translateY(-24px);
     }
 
     ${CardFooter} {
       transition: all 0.2s ease-in-out 0.1s, background-color 0s ease-in-out 0s;
       opacity: 1;
-    }
+    } */
   }
 
   &.is-open {
-    transform: translate(200px, 200px) scale(10);
-
     ${CardBody} {
       header,
       footer {
