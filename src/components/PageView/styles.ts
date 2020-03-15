@@ -56,46 +56,12 @@ export const Editable = styled.div`
 
     &-right {
       left: calc(100% + 70px);
+      padding-bottom: 100px;
     }
   }
+`;
 
-  .link {
-    padding: 10px 20px;
-    cursor: pointer;
-
-    &-title {
-      color: ${props => props.theme.muted};
-      transform: translateX(10px);
-      transition: transform 0s linear 0.1s, opacity 0.1s ease-in-out 0s;
-      margin-left: 20px;
-      opacity: 0;
-      display: inline-block;
-      white-space: nowrap;
-    }
-
-    &.mt-10 {
-      margin-top: 10px;
-    }
-
-    &.mt-48 {
-      margin-top: 48px;
-    }
-
-    i {
-      transition: all 0.1s ease-in-out;
-      color: #d2d2d2;
-    }
-
-    &:hover {
-      .link-title {
-        transition: all 0.1s ease-in-out 0s;
-        transform: none;
-        opacity: 1;
-      }
-
-      i {
-        color: ${props => props.theme.primaryLight};
-      }
-    }
-  }
+export const Panel = styled.div`
+  padding: 10px 20px;
+  font-size: 15px;
 `;

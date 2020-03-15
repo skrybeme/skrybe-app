@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import Calendar from '@/components/Calendar';
+import { Label } from '@/components/Elements'
 import * as S from './styles';
 
 function PageView() {
@@ -40,18 +42,11 @@ function PageView() {
             Suspendisse in nunc aliquam turpis lobortis pretium quis quis nulla. In varius pulvinar cursus. Aliquam erat volutpat. Quisque ut ultrices nisi, ut tincidunt sapien. Donec eget orci nec nulla faucibus bibendum at in magna. Duis sollicitudin nibh non erat vulputate, sed luctus nulla posuere. Fusce sed convallis eros. Morbi rhoncus commodo lorem. Donec facilisis purus nisl, vitae venenatis lacus lacinia id. Nullam ac ex tellus. Cras in porttitor tellus, a mollis sem. Proin fringilla eros ipsum, at luctus ipsum rutrum sed. Mauris tincidunt eros sed leo consectetur lacinia. Aliquam molestie dui quis felis placerat scelerisque. Fusce dolor sapien, finibus vel velit sagittis, molestie sagittis purus.
           </p>
           <div className="fixed fixed-left">
-            <div className="link mt-48" title="Go back to wide view" onClick={() => onClickReturn()}>
-              <i className="fas fa-arrow-left"></i>
-            </div>
+            <Label icon="fas fa-arrow-left" title="Go back to wide view" className="mt-48" onClick={() => onClickReturn()} isClickable={true} />
           </div>
           <div className="fixed fixed-right" style={{ minWidth: '320px' }}>
-            <div className="link mt-10">
-              <i className="fas fa-tag"></i>
-              <span className="link-title">
-                Tags
-              </span>
-            </div>
-            <div style={{ padding: '10px 20px', fontSize: '15px' }}>
+            <Label icon="fas fa-tag" label="Tags" className="mt-10 is-active" isClickable={true} />
+            <S.Panel>
               <div style={{ padding: '10px 10px', display: 'flex', justifyContent: 'space-between', backgroundColor: '#559955', color: '#fff' }}>
                 <span>Main storyline</span>
                 {/* <span><i className="fas fa-pen" style={{ fontSize: '13px', marginLeft: '5px', color: '#fff' }}></i></span> */}
@@ -68,14 +63,9 @@ function PageView() {
                 <span>+ Add new tag</span>
                 {/* <span><i className="fas fa-pen" style={{ fontSize: '13px', marginLeft: '5px', color: '#fff' }}></i></span> */}
               </div>
-            </div>
-            <div className="link">
-              <i className="fas fa-cog"></i>
-              <span className="link-title">
-                Editor settings
-              </span>
-            </div>
-            <div style={{ padding: '10px 20px', fontSize: '15px' }}>
+            </S.Panel>
+            <Label icon="fas fa-cog" label="Editor settings" isClickable={true} className="is-active" />
+            <S.Panel>
               <div style={{ padding: '10px 0', display: 'flex', justifyContent: 'space-between' }}>
                 <span>Characters in line</span>
                 <span>70 <i className="fas fa-pen" style={{ fontSize: '13px', marginLeft: '5px', color: '#999' }}></i></span>
@@ -92,63 +82,26 @@ function PageView() {
                 <span>Line height</span>
                 <span>1,5 <i className="fas fa-pen" style={{ fontSize: '13px', marginLeft: '5px', color: '#999' }}></i></span>
               </div>
-            </div>
-            <div className="link">
-              <i className="fas fa-chart-pie"></i>
-              <span className="link-title">
-                Writing progress & stats
-              </span>
-            </div>
-            <div style={{ padding: '10px 20px', fontSize: '15px' }}>
-              <div style={{ padding: '10px 20px', display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr 1fr 1fr', gridRowGap: '10px', gridColumnGap: '10px', justifyContent: 'start' }}>
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-                <span style={{ borderRadius: '50%', backgroundColor: '#5b3da222', width: '20px', height: '20px' }}></span>
-                <span style={{ borderRadius: '50%', backgroundColor: '#5b3da264', width: '20px', height: '20px' }}></span>
-                <span style={{ borderRadius: '50%', backgroundColor: '#5b3da266', width: '20px', height: '20px' }}></span>
-                <span style={{ borderRadius: '50%', backgroundColor: '#5b3da288', width: '20px', height: '20px' }}></span>
-                <span style={{ borderRadius: '50%', backgroundColor: '#5b3da233', width: '20px', height: '20px' }}></span>
-                <span style={{ borderRadius: '50%', backgroundColor: '#5b3da2cc', width: '20px', height: '20px' }}></span>
-                <span style={{ borderRadius: '50%', backgroundColor: '#5b3da2bb', width: '20px', height: '20px' }}></span>
-                <span style={{ borderRadius: '50%', backgroundColor: '#5b3da222', width: '20px', height: '20px' }}></span>
-                <span style={{ borderRadius: '50%', backgroundColor: '#5b3da255', width: '20px', height: '20px' }}></span>
-                <span style={{ borderRadius: '50%', backgroundColor: '#5b3da2dd', width: '20px', height: '20px' }}></span>
-                <span style={{ borderRadius: '50%', backgroundColor: '#5b3da2bb', width: '20px', height: '20px' }}></span>
-                <span style={{ borderRadius: '50%', backgroundColor: '#5b3da274', width: '20px', height: '20px' }}></span>
-                <span style={{ borderRadius: '50%', backgroundColor: '#5b3da266', width: '20px', height: '20px' }}></span>
-                <span style={{ borderRadius: '50%', backgroundColor: '#5b3da2ff', width: '20px', height: '20px' }}></span>
-                <span style={{ borderRadius: '50%', backgroundColor: '#5b3da233', width: '20px', height: '20px' }}></span>
-                <span style={{ borderRadius: '50%', backgroundColor: '#5b3da211', width: '20px', height: '20px' }}></span>
-                <span style={{ borderRadius: '50%', backgroundColor: '#5b3da233', width: '20px', height: '20px' }}></span>
-                <span style={{ borderRadius: '50%', backgroundColor: '#5b3da277', width: '20px', height: '20px' }}></span>
-                <span style={{ borderRadius: '50%', backgroundColor: '#5b3da277', width: '20px', height: '20px' }}></span>
-                <span style={{ borderRadius: '50%', backgroundColor: '#5b3da222', width: '20px', height: '20px' }}></span>
-                <span style={{ borderRadius: '50%', backgroundColor: '#5b3da222', width: '20px', height: '20px' }}></span>
-                <span style={{ borderRadius: '50%', backgroundColor: '#5b3da266', width: '20px', height: '20px' }}></span>
-                <span style={{ borderRadius: '50%', backgroundColor: '#5b3da211', width: '20px', height: '20px' }}></span>
-                <span style={{ borderRadius: '50%', backgroundColor: '#5b3da233', width: '20px', height: '20px' }}></span>
-                <span style={{ borderRadius: '50%', backgroundColor: '#5b3da211', width: '20px', height: '20px' }}></span>
-                <span style={{ borderRadius: '50%', backgroundColor: '#5b3da255', width: '20px', height: '20px' }}></span>
-                <span style={{ borderRadius: '50%', backgroundColor: '#5b3da244', width: '20px', height: '20px' }}></span>
-                <span style={{ borderRadius: '50%', backgroundColor: '#5b3da222', width: '20px', height: '20px' }}></span>
-                <span style={{ borderRadius: '50%', backgroundColor: '#5b3da233', width: '20px', height: '20px' }}></span>
-                <span style={{ borderRadius: '50%', backgroundColor: '#5b3da200', width: '20px', height: '20px' }}></span>
-                <span style={{ borderRadius: '50%', backgroundColor: '#5b3da211', width: '20px', height: '20px' }}></span>
-              </div>
-              <a style={{ marginTop: '20px', marginBottom: '20px', padding: '10px 20px;', textAlign: 'center', display: 'block', fontSize: '17px' }}>
+            </S.Panel>
+            <Label icon="fas fa-chart-pie" label="Writing progress & stats" isClickable={true} className="is-active" />
+            <S.Panel>
+              <Calendar
+                start={3}
+                items={
+                  new Array(30)
+                    .fill({ label: '' })
+                    .map(i => {
+                      const w = Math.round(Math.random() * 2000) + 20;
+                      return {...i, label: `${w} words`, opacity: w/2000 }
+                    })
+                }
+              />
+              <a style={{ marginTop: '20px', marginBottom: '20px', padding: '10px 20px', textAlign: 'center', display: 'block', fontSize: '17px' }}>
                 See all months...
               </a>
-            </div>
-            <div className="link">
-              <i className="fas fa-book-open"></i>
-              <span className="link-title">
-                Generate story
-              </span>
-            </div>
-            <div style={{ padding: '10px 20px', fontSize: '15px' }}>
+            </S.Panel>
+            <Label icon="fas fa-book-open" label="Generate story" isClickable={true} />
+            {/* <div style={{ padding: '10px 20px', fontSize: '15px' }}>
               <div>
                 By cards from edge nodes
               </div>
@@ -172,7 +125,7 @@ function PageView() {
                   The Curious Case of Benjamin Button, version 1
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </S.Editable>
       </S.Wrapper>
