@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useWindowSize } from '@/hooks';
 import { selectNestedCardTree } from '@/store/selectors';
@@ -7,7 +7,7 @@ import * as S from './styles';
 function Card(props) {
   const windowSize = useWindowSize();
 
-  const { handleClick, hasChildren, header, tags } = props;
+  const { handleClick, header, tags } = props;
 
   function onClickCard(e) {
     if (!handleClick) {
@@ -36,7 +36,7 @@ function Card(props) {
     <S.CardContainer>
       <S.CardBody
         onClick={onClickCard}
-        title="Edit this card"
+        title="Edit this cards"
       >
         <header>
           {header}
@@ -45,7 +45,7 @@ function Card(props) {
           {tags.map((tag: string) => <S.Tag color={tag} key={tag} />)}
         </footer>
       </S.CardBody>
-      <S.CardFooter title="Add subcards to this card">
+      {/* <S.CardFooter title="Add subcards to this card">
         {hasChildren && (
           <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none" style={{ transform: 'rotate(180deg) translateY(5px)' }}>
             <path d="M20 30 L50 70 L80 30" stroke="#aaa" strokeWidth="2" fill="transparent" />
@@ -56,7 +56,7 @@ function Card(props) {
             + Add subcards...
           </span>
         )}
-      </S.CardFooter>
+      </S.CardFooter> */}
     </S.CardContainer>
   );
 }
@@ -81,15 +81,39 @@ function WideView() {
     }, 200);
   }
 
-  function renderCardContext(rootTreeNode: any, className: string = ''): JSX.Element {
+  function CardContext(props): JSX.Element {
+    const [isExtended, setIsExtended] = useState(false);
+
+    const { rootTreeNode, className = ''} = props;
     const { header, id, subcards, tags } = rootTreeNode;
 
     return (
       <S.CardContext className={className} key={id}>
-        <Card header={header} tags={tags.map(t => t.color)} hasChildren={subcards.length > 0} handleClick={onClickCard} />
-        {subcards.length > 0 && (
+        <Card
+          header={header}
+          tags={tags.map(t => t.color)}
+          handleClick={onClickCard}
+        />
+        <S.CardFooter onClick={() => setIsExtended(!isExtended)}>
+          {subcards.length > 0 && isExtended && (
+            <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none" style={{ transform: 'rotate(180deg) translateY(5px)' }}>
+              <path d="M20 30 L50 70 L80 30" stroke="#aaa" strokeWidth="2" fill="transparent" />
+            </svg>
+          )}
+          {subcards.length > 0 && !isExtended && (
+            <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none" style={{ transform: 'rotate(0) translateY(-5px)' }}>
+              <path d="M20 30 L50 70 L80 30" stroke="#aaa" strokeWidth="2" fill="transparent" />
+            </svg>
+          )}
+          {!subcards.length && (
+            <span>
+              + Add subcards...
+            </span>
+          )}
+        </S.CardFooter>
+        {subcards.length > 0 && isExtended && (
           <S.SubcardsContext>
-            {subcards.map(card => renderCardContext(card, subcards.length === 1 ? 'only' : ''))}
+            {subcards.map(card => <CardContext rootTreeNode={card} className={subcards.length === 1 ? 'only' : ''} />)}
           </S.SubcardsContext>
         )}
       </S.CardContext>
@@ -98,7 +122,7 @@ function WideView() {
 
   return (
     <S.Context>
-      {nestedCardTree.map(card => renderCardContext(card, 'root'))}
+      {nestedCardTree.map(card => <CardContext rootTreeNode={card} className="root" key={card.id} />)}
       <S.DynamicOverlay ref={cardFadeRef} />
     </S.Context>
   );

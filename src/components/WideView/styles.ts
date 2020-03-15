@@ -2,9 +2,11 @@ import styled from 'styled-components';
 import { flex, positionCover } from '@/styles/mixins';
 
 export const Context = styled.div`
-  overflow: hidden;
+  padding-top: 143px;
   ${flex};
   ${positionCover};
+  align-items: baseline;
+  overflow: hidden;
 `;
 
 export const SubcardsContext = styled.div`
@@ -17,7 +19,7 @@ export const CardContext = styled.div`
   position: relative;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: baseline;
   flex-direction: column;
 
   ${SubcardsContext} {
@@ -105,11 +107,13 @@ export const CardBody = styled.div`
 export const CardFooter = styled.div`
   transition: all 0.05s ease-in-out 0s;
   height: 48px;
-  width: 100%;
+  width: calc(100% - 20px);
+  max-width: 200px;
   bottom: -48px;
+  left: 0;
+  margin: 5px 10px -50px;
   font-size: 1.6rem;
   opacity: 0.5;
-  position: absolute;
   text-align: center;
   cursor: pointer;
   ${flex};
@@ -159,6 +163,7 @@ export const DynamicOverlay = styled.div`
   opacity: 0;
   z-index: 1;
   position: fixed;
+  pointer-events: none;
 `;
 
 export const Tag = styled.div`
