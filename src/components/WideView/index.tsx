@@ -1,39 +1,12 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useWindowSize } from '@/hooks';
+import { selectNestedCardTree } from '@/store/selectors';
 import * as S from './styles';
 
-function useWindowSize() {
-  const isClient = typeof window === 'object';
-
-  function getSize() {
-    return {
-      width: isClient ? window.innerWidth : undefined,
-      height: isClient ? window.innerHeight : undefined
-    };
-  }
-
-  const [windowSize, setWindowSize] = useState(getSize);
-
-  useEffect((): any => {
-    if (!isClient) {
-      return false;
-    }
-    
-    function handleResize() {
-      setWindowSize(getSize());
-    }
-
-    window.addEventListener('resize', handleResize);
-
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  return windowSize;
-}
-
 function Card(props) {
-  const [isOpen, setIsOpen] = useState(false);
   const windowSize = useWindowSize();
+
   const { handleClick, hasChildren, header, tags } = props;
 
   function onClickCard(e) {
@@ -57,11 +30,10 @@ function Card(props) {
       y: boundingRect.y,
       transform: `translate(${translateX}px, ${translateY}px) scale(${scaleX}, ${scaleY})`
     });
-    // setIsOpen(!isOpen);
   }
 
   return (
-    <S.CardContainer className={isOpen ? 'is-open' : ''}>
+    <S.CardContainer>
       <S.CardBody
         onClick={onClickCard}
         title="Edit this card"
@@ -91,10 +63,11 @@ function Card(props) {
 
 function WideView() {
   const dispatch = useDispatch();
-  const cardFadeRef = useRef();
+  const cardFadeRef: any = useRef(null);
+  const nestedCardTree = useSelector(selectNestedCardTree());
 
   function onClickCard({ transform, x, y }) {
-    if (!cardFadeRef) {
+    if (!cardFadeRef) {          
       return;
     }
 
@@ -108,69 +81,25 @@ function WideView() {
     }, 200);
   }
 
+  function renderCardContext(rootTreeNode: any, className: string = ''): JSX.Element {
+    const { header, id, subcards, tags } = rootTreeNode;
+
+    return (
+      <S.CardContext className={className} key={id}>
+        <Card header={header} tags={tags.map(t => t.color)} hasChildren={subcards.length > 0} handleClick={onClickCard} />
+        {subcards.length > 0 && (
+          <S.SubcardsContext>
+            {subcards.map(card => renderCardContext(card, subcards.length === 1 ? 'only' : ''))}
+          </S.SubcardsContext>
+        )}
+      </S.CardContext>
+    );
+  }
+
   return (
     <S.Context>
-      <S.CardContext className="root">
-        <Card header="Michael was not even Bay that day." tags={['lightgray', 'green', 'magenta']} hasChildren={true} handleClick={onClickCard} />
-        <S.SubcardsContext>
-          <S.CardContext>
-            {/* <svg width="100%" height="60px" viewBox="0 0 100 100" style={{ position: 'absolute', top: '-55px' }}>
-              <path d="M50 100 C50 0, 400 100, 400 0" stroke="#ccc" stroke-width="4" fill="transparent" />
-            </svg> */}
-            <Card header="Some people said he was the greatest cheater of all time." tags={['red', 'orange']} hasChildren={true} handleClick={onClickCard} />
-            <S.SubcardsContext>
-              <S.CardContext>
-                <Card header="Some people said he was the greatest cheater of all time." tags={['red', 'orange']} handleClick={onClickCard} />
-              </S.CardContext>
-              <S.CardContext>
-                <Card header="The others claim that Michael's behaviour always has been bad." tags={['red', 'magenta']} hasChildren={true} handleClick={onClickCard} />
-                <S.SubcardsContext>
-                  <S.CardContext>
-                    <Card header="Some people said he was the greatest cheater of all time." tags={['red', 'orange']} handleClick={onClickCard} />
-                  </S.CardContext>
-                  <S.CardContext>
-                    <Card header="The others claim that Michael's behaviour always has been bad." tags={['red', 'magenta']} handleClick={onClickCard} />
-                  </S.CardContext>
-                </S.SubcardsContext>
-              </S.CardContext>
-            </S.SubcardsContext>
-          </S.CardContext>
-          <S.CardContext>
-            <Card header="The others claim that Michael's behaviour always has been bad." tags={['red', 'magenta']} hasChildren={true} handleClick={onClickCard} />
-            <S.SubcardsContext>
-            <S.CardContext>
-                <Card header="And Michael had that one problem: he could not give a fuck." tags={['lightblue', 'brown']} handleClick={onClickCard} />
-              </S.CardContext>
-              <S.CardContext>
-                <Card header="And Michael had that one problem: he could not give a fuck." tags={['lightblue', 'brown']} handleClick={onClickCard} />
-              </S.CardContext>
-            </S.SubcardsContext>
-          </S.CardContext>
-          <S.CardContext>
-            <Card header="And Michael had that one problem: he could not give a fuck." tags={['lightblue', 'brown']} handleClick={onClickCard} />
-          </S.CardContext>
-          <S.CardContext>
-            <Card header="And Michael had that one problem: he could not give a fuck." tags={['lightblue', 'brown']} hasChildren={true} handleClick={onClickCard} />
-            <S.SubcardsContext>
-              <S.CardContext className="only">
-                <Card header="And Michael had that one problem: he could not give a fuck." tags={['lightblue', 'brown']} handleClick={onClickCard} />
-              </S.CardContext>
-            </S.SubcardsContext>
-          </S.CardContext>
-        </S.SubcardsContext>
-      </S.CardContext>
-      <div
-        ref={cardFadeRef}
-        style={{
-          transition: 'opacity 0.1s, transform 0.2s ease-out',
-          position: 'fixed',
-          width: '200px',
-          height: '78px',
-          backgroundColor: '#fff',
-          opacity: 0,
-          zIndex: 1
-        }}
-      />
+      {nestedCardTree.map(card => renderCardContext(card, 'root'))}
+      <S.DynamicOverlay ref={cardFadeRef} />
     </S.Context>
   );
 }

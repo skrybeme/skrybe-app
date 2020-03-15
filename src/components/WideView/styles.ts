@@ -151,6 +151,16 @@ export const CardContainer = styled.a`
   }
 `;
 
+export const DynamicOverlay = styled.div`
+  transition: opacity 0.1s, transform 0.2s ease-out;
+  background-color: #fff;
+  width: 200px;
+  height: 78px;
+  opacity: 0;
+  z-index: 1;
+  position: fixed;
+`;
+
 export const Tag = styled.div`
   background-color: ${props => props.color || `lightgray`};
   height: 10px;
