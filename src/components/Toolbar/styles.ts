@@ -3,11 +3,11 @@ import styled from 'styled-components';
 export const Toolbar = styled.div<any>`
   background-color: ${props => props.theme.primaryLight};
   color: ${props => props.theme.light};
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  height: 83px;
+  height: 74px;
   padding: 0 20px 0 30px;
   z-index: 599;
 

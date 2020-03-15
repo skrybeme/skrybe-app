@@ -38,7 +38,7 @@ export const List = styled.div`
 export const Item = styled.div`
   transition: all 0.1s ease-in-out;
   background-color: ${props => props.theme.bgLight};
-  padding: 20px 24px;
+  padding: 12px 24px;
   cursor: pointer;
 
   & + & {
