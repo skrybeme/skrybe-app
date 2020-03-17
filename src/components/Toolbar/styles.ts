@@ -65,3 +65,16 @@ export const Logo = styled.div`
     font-size: 28px;
   }
 `;
+
+export const Bullet = styled.div`
+  background-color: ${props => props.theme.primaryContrast};
+  color: ${props => props.theme.primaryLight};
+  font-size: 15px;
+  width: 30px;
+  height: 30px;
+  margin: 10px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;

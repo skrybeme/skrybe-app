@@ -32,7 +32,7 @@ export const Picker = styled.div<any>`
     top: calc(50% - 20px);
     border-radius: 50%;
     z-index: -1;
-    background-color: ${props => props.theme.bgLight};
+    background-color: ${props => props.theme.primaryContrast};
     position: absolute;
   }
 `;

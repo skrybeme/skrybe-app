@@ -5,4 +5,9 @@ export const App = styled.div`
   color: ${props => props.theme.default};
   padding: 0;
   height: 100%;
+
+  *::selection {
+    background-color: ${props => props.theme.primaryLight};
+    color: ${props => props.theme.light};
+  }
 `;

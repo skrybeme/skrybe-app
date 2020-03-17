@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import Calendar from '@/components/Calendar';
+import { Settings as EditorSettings, Stats, Tags } from '@/components/Editor';
 import { Label } from '@/components/Elements'
 import * as S from './styles';
 
@@ -42,64 +43,17 @@ function PageView() {
             Suspendisse in nunc aliquam turpis lobortis pretium quis quis nulla. In varius pulvinar cursus. Aliquam erat volutpat. Quisque ut ultrices nisi, ut tincidunt sapien. Donec eget orci nec nulla faucibus bibendum at in magna. Duis sollicitudin nibh non erat vulputate, sed luctus nulla posuere. Fusce sed convallis eros. Morbi rhoncus commodo lorem. Donec facilisis purus nisl, vitae venenatis lacus lacinia id. Nullam ac ex tellus. Cras in porttitor tellus, a mollis sem. Proin fringilla eros ipsum, at luctus ipsum rutrum sed. Mauris tincidunt eros sed leo consectetur lacinia. Aliquam molestie dui quis felis placerat scelerisque. Fusce dolor sapien, finibus vel velit sagittis, molestie sagittis purus.
           </p>
           <div className="fixed fixed-left">
-            <Label icon="fas fa-arrow-left" title="Go back to wide view" className="mt-48" onClick={() => onClickReturn()} isClickable={true} />
+            <Label
+              icon="fas fa-arrow-left"
+              title="Go back to wide view"
+              className="mt-48"
+              onClick={() => onClickReturn()} isClickable={true}
+            />
           </div>
           <div className="fixed fixed-right" style={{ minWidth: '320px' }}>
-            <Label icon="fas fa-tag" label="Tags" className="mt-10 is-active" isClickable={true} />
-            <S.Panel>
-              <div style={{ padding: '10px 10px', display: 'flex', justifyContent: 'space-between', backgroundColor: '#559955', color: '#fff' }}>
-                <span>Main storyline</span>
-                {/* <span><i className="fas fa-pen" style={{ fontSize: '13px', marginLeft: '5px', color: '#fff' }}></i></span> */}
-              </div>
-              <div style={{ marginTop: '10px', padding: '10px 10px', display: 'flex', justifyContent: 'space-between', backgroundColor: '#995555', color: '#fff' }}>
-                <span>Character: Dorothy</span>
-                {/* <span><i className="fas fa-pen" style={{ fontSize: '13px', marginLeft: '5px', color: '#fff' }}></i></span> */}
-              </div>
-              <div style={{ marginTop: '10px', padding: '10px 10px', display: 'flex', justifyContent: 'space-between', backgroundColor: '#555599', color: '#fff' }}>
-                <span>No action</span>
-                {/* <span><i className="fas fa-pen" style={{ fontSize: '13px', marginLeft: '5px', color: '#fff' }}></i></span> */}
-              </div>
-              <div style={{ marginTop: '10px', padding: '10px 10px', display: 'flex', justifyContent: 'center', backgroundColor: '#fff', color: '#999' }}>
-                <span>+ Add new tag</span>
-                {/* <span><i className="fas fa-pen" style={{ fontSize: '13px', marginLeft: '5px', color: '#fff' }}></i></span> */}
-              </div>
-            </S.Panel>
-            <Label icon="fas fa-cog" label="Editor settings" isClickable={true} className="is-active" />
-            <S.Panel>
-              <div style={{ padding: '10px 0', display: 'flex', justifyContent: 'space-between' }}>
-                <span>Characters in line</span>
-                <span>70 <i className="fas fa-pen" style={{ fontSize: '13px', marginLeft: '5px', color: '#999' }}></i></span>
-              </div>
-              <div style={{ padding: '10px 0', display: 'flex', justifyContent: 'space-between' }}>
-                <span>Font</span>
-                <span>Cairo <i className="fas fa-pen" style={{ fontSize: '13px', marginLeft: '5px', color: '#999' }}></i></span>
-              </div>
-              <div style={{ padding: '10px 0', display: 'flex', justifyContent: 'space-between' }}>
-                <span>Font size</span>
-                <span>17px <i className="fas fa-pen" style={{ fontSize: '13px', marginLeft: '5px', color: '#999' }}></i></span>
-              </div>
-              <div style={{ padding: '10px 0', display: 'flex', justifyContent: 'space-between' }}>
-                <span>Line height</span>
-                <span>1,5 <i className="fas fa-pen" style={{ fontSize: '13px', marginLeft: '5px', color: '#999' }}></i></span>
-              </div>
-            </S.Panel>
-            <Label icon="fas fa-chart-pie" label="Writing progress & stats" isClickable={true} className="is-active" />
-            <S.Panel>
-              <Calendar
-                start={3}
-                items={
-                  new Array(30)
-                    .fill({ label: '' })
-                    .map(i => {
-                      const w = Math.round(Math.random() * 2000) + 20;
-                      return {...i, label: `${w} words`, opacity: w/2000 }
-                    })
-                }
-              />
-              <a style={{ marginTop: '20px', marginBottom: '20px', padding: '10px 20px', textAlign: 'center', display: 'block', fontSize: '17px' }}>
-                See all months...
-              </a>
-            </S.Panel>
+            <Tags />
+            <EditorSettings />
+            <Stats />
             <Label icon="fas fa-book-open" label="Generate story" isClickable={true} />
             {/* <div style={{ padding: '10px 20px', fontSize: '15px' }}>
               <div>

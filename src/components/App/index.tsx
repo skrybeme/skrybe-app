@@ -4,7 +4,7 @@ import PageView from '@/components/PageView';
 import WideView from '@/components/WideView';
 import Nav from '@/components/Nav';
 import Toolbar from '@/components/Toolbar';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { ThemeProvider } from 'styled-components';
 import * as Styles from './styles';

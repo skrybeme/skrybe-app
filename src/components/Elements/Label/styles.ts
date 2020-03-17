@@ -2,8 +2,10 @@ import styled from 'styled-components';
 
 export const Label = styled.div<any>`
   padding: 10px 20px;
+  user-select: none;
 
   .chevron {
+    transform: translateY(3px);
     right: 20px;
     opacity: 0;
     position: absolute;
@@ -57,6 +59,7 @@ export const Label = styled.div<any>`
 
     &.is-active {
       .chevron {
+        transform: none;
         opacity: 1;
       }
     }

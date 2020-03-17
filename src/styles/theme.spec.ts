@@ -12,6 +12,7 @@ describe(`themes`, function() {
     'primary',
     'primaryLight',
     'primaryBright',
+    'primaryContrast',
     'primaryDark',
     'shadow'
   ];

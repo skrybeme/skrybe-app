@@ -5,12 +5,33 @@ import { selectNestedCardTree } from '@/store/selectors';
 import * as S from './styles';
 
 function Card(props) {
-  const windowSize = useWindowSize();
-
   const { handleClick, header, tags } = props;
 
+  return (
+    <S.CardContainer>
+      <S.CardBody
+        onClick={handleClick}
+        title="Edit this cards"
+      >
+        <header>
+          {header}
+        </header>
+        <footer>
+          {tags.map((tag: string) => <S.Tag color={tag} key={tag} />)}
+        </footer>
+      </S.CardBody>
+    </S.CardContainer>
+  );
+}
+
+function WideView() {
+  const dispatch = useDispatch();
+  const cardOverlayRef: any = useRef(null);
+  const nestedCardTree = useSelector(selectNestedCardTree());
+  const windowSize = useWindowSize();
+
   function onClickCard(e) {
-    if (!handleClick) {
+    if (!cardOverlayRef) {          
       return;
     }
 
@@ -25,56 +46,10 @@ function Card(props) {
     const translateX = targetX - boundingRect.x;
     const translateY = targetY - boundingRect.y;
 
-    handleClick({
-      x: boundingRect.x,
-      y: boundingRect.y,
-      transform: `translate(${translateX}px, ${translateY}px) scale(${scaleX}, ${scaleY})`
-    });
-  }
-
-  return (
-    <S.CardContainer>
-      <S.CardBody
-        onClick={onClickCard}
-        title="Edit this cards"
-      >
-        <header>
-          {header}
-        </header>
-        <footer>
-          {tags.map((tag: string) => <S.Tag color={tag} key={tag} />)}
-        </footer>
-      </S.CardBody>
-      {/* <S.CardFooter title="Add subcards to this card">
-        {hasChildren && (
-          <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none" style={{ transform: 'rotate(180deg) translateY(5px)' }}>
-            <path d="M20 30 L50 70 L80 30" stroke="#aaa" strokeWidth="2" fill="transparent" />
-          </svg>
-        )}
-        {!hasChildren && (
-          <span>
-            + Add subcards...
-          </span>
-        )}
-      </S.CardFooter> */}
-    </S.CardContainer>
-  );
-}
-
-function WideView() {
-  const dispatch = useDispatch();
-  const cardFadeRef: any = useRef(null);
-  const nestedCardTree = useSelector(selectNestedCardTree());
-
-  function onClickCard({ transform, x, y }) {
-    if (!cardFadeRef) {          
-      return;
-    }
-
-    cardFadeRef.current.style.transform = transform;
-    cardFadeRef.current.style.left = x + 'px';
-    cardFadeRef.current.style.top = y + 'px';
-    cardFadeRef.current.style.opacity = 1;
+    cardOverlayRef.current.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scaleX}, ${scaleY})`;
+    cardOverlayRef.current.style.left = boundingRect.x + 'px';
+    cardOverlayRef.current.style.top = boundingRect.y + 'px';
+    cardOverlayRef.current.style.opacity = 1;
 
     setTimeout(() => {
       dispatch({ type: 'change_page', page: 'page-view' });
@@ -113,7 +88,7 @@ function WideView() {
         </S.CardFooter>
         {subcards.length > 0 && isExtended && (
           <S.SubcardsContext>
-            {subcards.map(card => <CardContext rootTreeNode={card} className={subcards.length === 1 ? 'only' : ''} />)}
+            {subcards.map(card => <CardContext rootTreeNode={card} className={subcards.length === 1 ? 'only' : ''} key={card.id} />)}
           </S.SubcardsContext>
         )}
       </S.CardContext>
@@ -123,7 +98,7 @@ function WideView() {
   return (
     <S.Context>
       {nestedCardTree.map(card => <CardContext rootTreeNode={card} className="root" key={card.id} />)}
-      <S.DynamicOverlay ref={cardFadeRef} />
+      <S.DynamicOverlay ref={cardOverlayRef} />
     </S.Context>
   );
 }

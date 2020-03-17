@@ -16,57 +16,15 @@ function Toolbar() {
         <UniversalPicker />
       </S.Flex>
       <S.Flex>
-        <div
-          title="Create new project"
-          style={{
-            fontSize: '15px',
-            width: '30px',
-            margin: '10px',
-            height: '30px',
-            backgroundColor: '#fff',
-            borderRadius: '50%',
-            color: '#5b3da2',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}
-        >
+        <S.Bullet title="Create new project">
           <i className="fas fa-plus"></i>
-        </div>
-        <div
-          title="My generated stories"
-          style={{
-            fontSize: '15px',
-            width: '30px',
-            margin: '10px',
-            height: '30px',
-            backgroundColor: '#fff',
-            borderRadius: '50%',
-            color: '#5b3da2',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}
-        >
+        </S.Bullet>
+        <S.Bullet title="My generated stories">
           <i className="fas fa-book-open"></i>
-        </div>
-        <div
-          title="Help"
-          style={{
-            fontSize: '15px',
-            width: '30px',
-            margin: '10px',
-            height: '30px',
-            backgroundColor: '#fff',
-            borderRadius: '50%',
-            color: '#5b3da2',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}
-        >
+        </S.Bullet>
+        <S.Bullet title="Help">
           <i className="fas fa-question"></i>
-        </div>
+        </S.Bullet>
         <Picker />
       </S.Flex>
     </S.Toolbar>
