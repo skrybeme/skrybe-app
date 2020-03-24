@@ -2,12 +2,11 @@ import DetailedView from '@/components/DetailedView';
 import EditableView from '@/components/EditableView';
 import PageView from '@/components/PageView';
 import WideView from '@/components/WideView';
-import Nav from '@/components/Nav';
 import Toolbar from '@/components/Toolbar';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import { ThemeProvider } from 'styled-components';
-import * as Styles from './styles';
+import * as S from './styles';
 import theme from '@/styles/theme';
 
 function App() {
@@ -17,11 +16,11 @@ function App() {
 
   return (
     <ThemeProvider theme={currentThemeObject}>
-      <Styles.App>
+      <S.App>
         <Toolbar />
         {currentView === 'wide-view' && <WideView />}
         {currentView === 'page-view' && <PageView />}
-      </Styles.App>
+      </S.App>
     </ThemeProvider>
   );
 }
