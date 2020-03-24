@@ -1,7 +1,6 @@
 export default {
   purple: {
     bg: '#e2e2e2',
-    bgContrast: '',
     bgLight: '#fff',
     bgLightHover: '#f6f6f6',
     default: '#111',

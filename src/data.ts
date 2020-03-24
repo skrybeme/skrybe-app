@@ -1,4 +1,6 @@
-export const defaultNestedCardTree = [
+import INestedStoryCard from '@/interfaces/INestedStoryCard';
+
+export const defaultNestedCardTree: Array<INestedStoryCard> = [
   {
     id: 1,
     header: 'Michael was not even Bay that day.',
@@ -10,7 +12,7 @@ export const defaultNestedCardTree = [
         label: 'lightgray'
       },
       {
-        id: null,
+        id: 2,
         color: 'green',
         label: 'green'
       },
@@ -27,7 +29,7 @@ export const defaultNestedCardTree = [
         body: '',
         tags: [
           {
-            id: null,
+            id: 4,
             color: 'red',
             label: 'red'
           },
@@ -44,7 +46,7 @@ export const defaultNestedCardTree = [
             body: '',
             tags: [
               {
-                id: null,
+                id: 4,
                 color: 'red',
                 label: 'red'
               },
@@ -62,7 +64,7 @@ export const defaultNestedCardTree = [
             body: '',
             tags: [
               {
-                id: null,
+                id: 4,
                 color: 'red',
                 label: 'red'
               },
@@ -79,7 +81,7 @@ export const defaultNestedCardTree = [
                 body: '',
                 tags: [
                   {
-                    id: null,
+                    id: 4,
                     color: 'red',
                     label: 'red'
                   },
@@ -97,7 +99,7 @@ export const defaultNestedCardTree = [
                 body: '',
                 tags: [
                   {
-                    id: null,
+                    id: 4,
                     color: 'red',
                     label: 'red'
                   },
@@ -119,7 +121,7 @@ export const defaultNestedCardTree = [
         body: '',
         tags: [
           {
-            id: null,
+            id: 4,
             color: 'red',
             label: 'red'
           },
