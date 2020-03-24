@@ -11,7 +11,7 @@ function Card(props) {
     <S.CardContainer>
       <S.CardBody
         onClick={handleClick}
-        title="Edit this cards"
+        title="Edit this card"
       >
         <header>
           {header}
@@ -64,26 +64,46 @@ function WideView() {
 
     return (
       <S.CardContext className={className} key={id}>
+        <S.Tentacle className="left">
+          <i className="fas fa-plus"></i>
+        </S.Tentacle>
         <Card
           header={header}
           tags={tags.map(t => t.color)}
           handleClick={onClickCard}
         />
+        <S.Tentacle className="right">
+          <i className="fas fa-plus"></i>
+        </S.Tentacle>
+        <S.ButtonDelete>
+          <i className="fas fa-trash"></i>
+        </S.ButtonDelete>
         <S.CardFooter onClick={() => setIsExtended(!isExtended)}>
           {subcards.length > 0 && isExtended && (
             <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none" style={{ transform: 'rotate(180deg) translateY(5px)' }}>
-              <path d="M20 30 L50 70 L80 30" stroke="#aaa" strokeWidth="2" fill="transparent" />
+              <path d="M20 30 L50 70 L80 30" stroke="rgb(204, 204, 204)" strokeWidth="2" fill="transparent" />
             </svg>
           )}
           {subcards.length > 0 && !isExtended && (
             <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none" style={{ transform: 'rotate(0) translateY(-5px)' }}>
-              <path d="M20 30 L50 70 L80 30" stroke="#aaa" strokeWidth="2" fill="transparent" />
+              <path d="M20 30 L50 70 L80 30" stroke="rgb(204, 204, 204)" strokeWidth="2" fill="transparent" />
             </svg>
           )}
           {!subcards.length && (
-            <span>
-              + Add subcards...
-            </span>
+            <div>
+              <S.HorizontalTentacle>
+                <S.Ball>
+                  <i className="fas fa-plus"></i>
+                </S.Ball>
+                Add subcard
+              </S.HorizontalTentacle>
+              <S.HorizontalTentacle>
+                <S.Ball>
+                  <i className="fas fa-plus"></i>
+                </S.Ball>
+                Generate subcards...
+              </S.HorizontalTentacle>
+            </div>
           )}
         </S.CardFooter>
         {subcards.length > 0 && isExtended && (

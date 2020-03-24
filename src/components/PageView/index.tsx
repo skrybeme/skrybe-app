@@ -55,31 +55,6 @@ function PageView() {
             <EditorSettings />
             <Stats />
             <Label icon="fas fa-book-open" label="Generate story" isClickable={true} />
-            {/* <div style={{ padding: '10px 20px', fontSize: '15px' }}>
-              <div>
-                By cards from edge nodes
-              </div>
-              <div>
-                By tags selection
-              </div>
-              <div>
-                By direct card/node selection
-              </div>
-              <div style={{ marginTop: '20px' }}>
-                <div>
-                  Previously generated stories
-                </div>
-                <div style={{ marginTop: '20px' }}>
-                  The Curious Case of Benjamin Button, version 3
-                </div>
-                <div style={{ marginTop: '20px' }}>
-                  The Curious Case of Benjamin Button, version 2
-                </div>
-                <div style={{ marginTop: '20px' }}>
-                  The Curious Case of Benjamin Button, version 1
-                </div>
-              </div>
-            </div> */}
           </div>
         </S.Editable>
       </S.Wrapper>

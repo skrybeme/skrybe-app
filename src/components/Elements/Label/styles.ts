@@ -5,7 +5,6 @@ export const Label = styled.div<any>`
   user-select: none;
 
   .chevron {
-    transform: translateY(3px);
     right: 20px;
     opacity: 0;
     position: absolute;
@@ -27,14 +26,12 @@ export const Label = styled.div<any>`
   }
 
   i {
-    transition: all 0.1s ease-in-out;
     color: ${props => props.theme.primaryLight};
   }
 
   &:hover,
   &.is-active {
     .title {
-      transition: all 0.1s ease-in-out 0s;
       transform: none;
       opacity: 1;
     }
@@ -49,7 +46,6 @@ export const Label = styled.div<any>`
 
     .title {
       transform: translateX(10px);
-      transition: transform 0s linear 0.1s, opacity 0.1s ease-in-out 0s;
       opacity: 0;
     }
 
