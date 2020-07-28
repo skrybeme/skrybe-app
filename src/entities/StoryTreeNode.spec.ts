@@ -34,4 +34,13 @@ describe(`StoryTreeNode`, () => {
       expect(node.getStoryCard()).toEqual(card);
     });
   });
+
+  describe(`getTree`, () => {
+    it(`returns tree bound to the node`, () => {
+      const tree = new StoryTree();
+      const node = new StoryTreeNode(tree, new StoryCard());
+
+      expect(node.getTree()).toEqual(tree);
+    });
+  });
 });

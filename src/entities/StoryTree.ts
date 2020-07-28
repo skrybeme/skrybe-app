@@ -1,5 +1,6 @@
-import { ITree, ITreeNode } from '@/interfaces';
+import { ITree, ITreeNode, IStoryCard } from '@/interfaces';
 import { UuidType } from '@/common/types';
+import StoryTreeNode from './StoryTreeNode';
 
 class StoryTree implements ITree {
   constructor(private _tree: Map<UuidType, ITreeNode> = new Map()) {}
@@ -38,6 +39,10 @@ class StoryTree implements ITree {
     }
 
     return false;
+  }
+
+  public makeNode(storyCard: IStoryCard): ITreeNode {
+    return new StoryTreeNode(this, storyCard);
   }
 
   public remove(node: ITreeNode): ITreeNode {

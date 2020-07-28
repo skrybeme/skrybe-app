@@ -36,6 +36,10 @@ class StoryTreeNode implements ITreeNode {
   public getStoryCard(): IStoryCard {
     return this._storyCard;
   }
+
+  public getTree(): ITree {
+    return this._storyTree;
+  }
 }
 
 export default StoryTreeNode;
