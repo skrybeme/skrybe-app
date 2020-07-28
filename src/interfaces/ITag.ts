@@ -1,5 +1,7 @@
+import { UuidType } from '@/common/types';
+
 interface ITag {
-  id: number | null; // for development purposes only
+  id: UuidType | null; // for development purposes only
   color: string;
   label: String;
 };

@@ -2,11 +2,11 @@ import ITreeNode from './ITreeNode';
 import { UuidType } from '@/common/types';
 
 interface ITree {
-  find(node: ITreeNode): ITreeNode | null;
   findById(id: UuidType): ITreeNode | null;
-  insert(node: ITreeNode, parentNode: ITreeNode | UuidType): boolean;
-  remove(node: ITreeNode): boolean;
-  removeById(id: UuidType): boolean;
+  getAllNodes(): Map<UuidType, ITreeNode>;
+  getRoot(): ITreeNode | null;
+  insert(node: ITreeNode, parentNode?: ITreeNode): boolean;
+  remove(node: ITreeNode | UuidType): ITreeNode;
 };
 
 export default ITree;

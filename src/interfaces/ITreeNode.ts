@@ -1,9 +1,11 @@
 import { UuidType } from '@/common/types';
 
 interface ITreeNode {
-  id: UuidType;
-  childrenIds: Array<UuidType>;
+  readonly id: UuidType;
   parentId: UuidType;
+
+  addChild(node: ITreeNode): ITreeNode;
+  getChildren(): Array<ITreeNode | UuidType>;
 };
 
 export default ITreeNode;

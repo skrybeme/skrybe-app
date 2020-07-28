@@ -1,1 +1,1 @@
-export type UuidType = string | null;
+export type UuidType = number | string;
