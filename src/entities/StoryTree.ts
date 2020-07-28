@@ -1,5 +1,6 @@
 import { ITree, ITreeNode, IStoryCard } from '@/interfaces';
 import { UuidType } from '@/common/types';
+import { crawl } from './Crawler';
 import StoryTreeNode from './StoryTreeNode';
 
 class StoryTree implements ITree {
@@ -50,17 +51,7 @@ class StoryTree implements ITree {
       throw new Error(`Given node does not exist in the story tree.`);
     }
 
-    function crawl(start) {
-      if (!start) {
-        return [];
-      }
-
-      const children = start.getChildren();
-
-      return [start].concat(...children.map(ch => crawl(ch)));
-    }
-
-    crawl(node).forEach(item => {
+    crawl<ITreeNode>(node, (item: ITreeNode) => item).forEach(item => {
       this._tree.delete(item.id);
     });
 
