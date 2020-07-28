@@ -1,6 +1,5 @@
 import StoryCard from './StoryCard';
 import StoryTree from './StoryTree';
-import StoryTreeNode from './StoryTreeNode';
 
 describe(`StoryTree`, () => {
   describe(`makeNode`, () => {
