@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useWindowSize } from '@/hooks';
-import { selectNestedCardTree } from '@/store/selectors';
+import { useWindowSize } from '@/ui/hooks';
+import { selectNestedCardTree } from '@/ui/store/selectors';
 import * as S from './styles';
 
 function Card(props) {

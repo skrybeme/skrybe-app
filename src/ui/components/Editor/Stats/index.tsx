@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import * as S from './styles';
-import Calendar from '@/components/Calendar';
-import { Label } from '@/components/Elements';
+import Calendar from '@/ui/components/Calendar';
+import { Label } from '@/ui/components/Elements';
 
 function Stats(props: any): JSX.Element {
   const [isExtended, setIsExtended] = useState(false);

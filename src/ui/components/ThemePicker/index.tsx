@@ -1,5 +1,5 @@
 import React from 'react';
-import themes from '@/styles/theme';
+import themes from '@/ui/styles/theme';
 import * as S from './styles';
 import { useDispatch, useSelector } from 'react-redux';
 

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { positionCover } from '@/styles/mixins';
+import { positionCover } from '@/ui/styles/mixins';
 
 export const Context = styled.div`
   overflow: hidden;

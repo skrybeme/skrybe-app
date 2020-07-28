@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { flex, positionCover } from '@/styles/mixins';
+import { flex, positionCover } from '@/ui/styles/mixins';
 
 const BallMixin = () => `
   background-color: #fff;

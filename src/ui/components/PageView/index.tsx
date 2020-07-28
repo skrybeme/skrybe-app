@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import Calendar from '@/components/Calendar';
-import { Settings as EditorSettings, Stats, Tags } from '@/components/Editor';
-import { Label } from '@/components/Elements'
+import Calendar from '@/ui/components/Calendar';
+import { Settings as EditorSettings, Stats, Tags } from '@/ui/components/Editor';
+import { Label } from '@/ui/components/Elements'
 import * as S from './styles';
 
 function PageView() {

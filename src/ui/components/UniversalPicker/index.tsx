@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import * as S from './styles';
-import { useClickOutside } from '@/hooks';
+import { useClickOutside } from '@/ui/hooks';
 
 function Item(props) {
   const { title, wordsCount, modifiedDate } = props;

@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
-import ThemePicker from '@/components/ThemePicker';
+import ThemePicker from '@/ui/components/ThemePicker';
 import * as S from './styles';
-import { useClickOutside } from '@/hooks';
+import { useClickOutside } from '@/ui/hooks';
 
 function Item(props) {
   const { children } = props;

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { noSelect } from '@/styles/mixins';
+import { noSelect } from '@/ui/styles/mixins';
 
 export const Picker = styled.div<any>`
   transition: all 0.1s ease-in-out;

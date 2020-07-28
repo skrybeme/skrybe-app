@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import * as S from './styles';
-import { Label, Tag } from '@/components/Elements';
+import { Label, Tag } from '@/ui/components/Elements';
 
 function Tags(props: any): JSX.Element {
   const [isExtended, setIsExtended] = useState(false);

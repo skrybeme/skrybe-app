@@ -1,5 +1,5 @@
-import Picker from '@/components/Picker';
-import UniversalPicker from '@/components/UniversalPicker';
+import Picker from '@/ui/components/Picker';
+import UniversalPicker from '@/ui/components/UniversalPicker';
 import React from 'react';
 import * as S from './styles';
 

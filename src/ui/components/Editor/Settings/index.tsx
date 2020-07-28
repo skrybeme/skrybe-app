@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import * as S from './styles';
-import { Label } from '@/components/Elements';
+import { Label } from '@/ui/components/Elements';
 
 function RangePicker(props: any): JSX.Element {
   const { children } = props;

@@ -1,13 +1,13 @@
-import DetailedView from '@/components/DetailedView';
-import EditableView from '@/components/EditableView';
-import PageView from '@/components/PageView';
-import WideView from '@/components/WideView';
-import Toolbar from '@/components/Toolbar';
+import DetailedView from '@/ui/components/DetailedView';
+import EditableView from '@/ui/components/EditableView';
+import PageView from '@/ui/components/PageView';
+import WideView from '@/ui/components/WideView';
+import Toolbar from '@/ui/components/Toolbar';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { ThemeProvider } from 'styled-components';
 import * as S from './styles';
-import theme from '@/styles/theme';
+import theme from '@/ui/styles/theme';
 
 function App() {
   const currentView = useSelector(state => state.view);
