@@ -1,6 +1,7 @@
 import INestedStoryCard from '@/interfaces/INestedStoryCard';
 import IStoryCard from '@/interfaces/IStoryCard';
 import ITag from '@/interfaces/ITag';
+import { UuidType } from '@/common/types';
 
 export function crawl(nestedCard: INestedStoryCard, cb: Function): void {
   cb(nestedCard);
@@ -28,7 +29,7 @@ export function edgeNodesStrategy(rootNestedCard: Array<INestedStoryCard>): Arra
   return out;
 }
 
-export function specifiedNodesStrategy(ids: Array<number>, rootNestedCard: Array<INestedStoryCard>): Array<IStoryCard> {
+export function specifiedNodesStrategy(ids: Array<UuidType>, rootNestedCard: Array<INestedStoryCard>): Array<IStoryCard> {
   let out: IStoryCard[] = [];
 
   crawl(rootNestedCard[0], (card: INestedStoryCard) => {
@@ -44,7 +45,7 @@ export function specifiedNodesStrategy(ids: Array<number>, rootNestedCard: Array
   return out;
 }
 
-export function byTagsStrategy(tagIds: Array<number>, rootNestedCard: Array<INestedStoryCard>): Array<IStoryCard> {
+export function byTagsStrategy(tagIds: Array<UuidType>, rootNestedCard: Array<INestedStoryCard>): Array<IStoryCard> {
   let out: IStoryCard[] = [];
 
   crawl(rootNestedCard[0], (card: INestedStoryCard) => {
