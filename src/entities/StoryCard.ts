@@ -1,16 +1,11 @@
 import { IStoryCard, ITag, ITreeNode } from '@/interfaces';
 import { UuidType } from '@/common/types';
-import { generateUuid } from '@/helpers';
 
 class StoryTreeNode implements IStoryCard {
-  public header: string;
-  public body: string;
-  public tags: Array<ITag>;
-
-  constructor() {
-    this.header = '';
-    this.body = '';
-    this.tags = [];
+  constructor(
+    public header: string = '',
+    public body: string = '',
+    public tags: Array<ITag> = []) {
   }
 
   public addTag(tag: ITag): IStoryCard {
