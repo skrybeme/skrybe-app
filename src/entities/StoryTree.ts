@@ -1,5 +1,5 @@
 import { ITree, ITreeNode, IStoryCard } from '@/interfaces';
-import { UuidType } from '@/common/types';
+import { Maybe, UuidType } from '@/common/types';
 import { crawl } from './Crawler';
 import StoryTreeNode from './StoryTreeNode';
 
@@ -22,24 +22,24 @@ class StoryTree implements ITree {
     return this._tree.get('root') || null;
   }
 
-  public insert(node: ITreeNode, parent?: ITreeNode): boolean {
+  public insert(node: ITreeNode, parentNode?: ITreeNode): Maybe<ITreeNode> {
     if (this._tree.size === 0) {
       this._tree.set('root', node);
 
-      return true;
+      return node;
     }
 
     this._tree.set(node.id, node);
 
-    if (!parent) {
+    if (!parentNode) {
       this.getRoot()?.addChild(node);
-    } else if (!this._tree.has(parent.id)) {
+    } else if (!this._tree.has(parentNode.id)) {
       throw new Error(`Given parent is not an node in the story tree.`);
     } else {
-      parent.addChild(node);
+      parentNode.addChild(node);
     }
 
-    return false;
+    return node;
   }
 
   public makeNode(storyCard: IStoryCard): ITreeNode {

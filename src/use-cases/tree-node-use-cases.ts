@@ -1,12 +1,22 @@
-import { ITreeNode, ITreeNodeRepo, ITreeNodeUseCases } from '@/interfaces';
+import { AsyncMaybe } from '@/common/types';
+import { ITreeNode, ITreeNodeUseCases, ITreeRepo } from '@/interfaces';
 
 export default function createTreeNodeUseCases(
-  treeNodeRepo: ITreeNodeRepo
+  treeRepo: ITreeRepo
 ): ITreeNodeUseCases {
   return {
-    rebindTreeNode(node: ITreeNode, parent: ITreeNode, position: number): ITreeNode {
-      treeNodeRepo.remove(node);
-      return treeNodeRepo.add(node, parent, position);
+    rebindTreeNode(
+      node: ITreeNode,
+      parent: ITreeNode,
+      position: number
+    ): AsyncMaybe<ITreeNode> {
+      const tree = node.getTree()
+
+      tree.remove(node);
+      
+      const newNode = tree.insert(node, parent);
+      
+      return treeRepo.save(tree).then(() => newNode);
     }
   }
 }

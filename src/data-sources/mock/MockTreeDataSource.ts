@@ -12,6 +12,9 @@ export default function createMockTreeDataSource(): ITreeDataSource {
       tree.insert(node);
 
       return Promise.resolve(tree);
+    },
+    save(tree: ITree): AsyncMaybe<ITree> {
+      return Promise.resolve(null);
     }
   }
 }

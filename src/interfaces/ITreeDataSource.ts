@@ -4,4 +4,5 @@ import ITree from './ITree';
 
 export default interface ITreeDataSource extends IDataSource {
   fetchTreeById(id: UuidType): AsyncMaybe<ITree>;
+  save(tree: ITree): AsyncMaybe<ITree>;
 }
