@@ -1,21 +1,15 @@
-import { IStoryCard, ITag, ITreeNode, ITree } from '@/interfaces';
+import { IStoryCard, ITree, ITreeNode } from '@/interfaces';
 import { UuidType } from '@/common/types';
 import { generateUuid } from '@/helpers';
 
 class StoryTreeNode implements ITreeNode {
-  public id: UuidType;
-  public childrenIds: Array<UuidType>;
-  public parentId: UuidType;
-  protected _storyCard: IStoryCard;
-  protected _storyTree: ITree;
-
-  constructor(storyTree: ITree, storyCard: IStoryCard) {
-    this.id = generateUuid();
-    this.childrenIds = [];
-    this.parentId = 0;
-    this._storyCard = storyCard;
-    this._storyTree = storyTree;
-  }
+  constructor(
+    protected _storyTree: ITree,
+    protected _storyCard: IStoryCard,
+    public parentId: UuidType = 0,
+    public childrenIds: Array<UuidType> = [],
+    public id: UuidType = generateUuid()
+  ) {}
 
   public addChild(node: ITreeNode): ITreeNode {
     if (this.childrenIds.indexOf(node.id) > -1) {

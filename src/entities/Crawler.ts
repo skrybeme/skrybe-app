@@ -1,9 +1,9 @@
 import { ITreeNode } from '@/interfaces';
 
-export function crawl<T>(root: ITreeNode, cb: Function): Array<T> {
+export function crawl<T>(root: ITreeNode, cb: (node: ITreeNode) => T): Array<T> {
   const children = root.getChildren();
 
   return [cb(root)].concat(
-    ...children.map(child => crawl(<ITreeNode>child, cb))
+    ...children.map(child => crawl(child as ITreeNode, cb))
   );
 }

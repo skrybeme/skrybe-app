@@ -1,7 +1,7 @@
-import { IStoryCard, ITag, ITreeNode } from '@/interfaces';
+import { IStoryCard, ITag } from '@/interfaces';
 import { UuidType } from '@/common/types';
 
-class StoryTreeNode implements IStoryCard {
+class StoryCard implements IStoryCard {
   constructor(
     public header: string = '',
     public body: string = '',
@@ -45,4 +45,4 @@ class StoryTreeNode implements IStoryCard {
   }
 }
 
-export default StoryTreeNode;
+export default StoryCard;

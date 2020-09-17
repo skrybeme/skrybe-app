@@ -1,6 +1,7 @@
 import StoryCard from './StoryCard';
 import StoryTree from './StoryTree';
 import { crawl } from './Crawler';
+import { UuidType } from '../common/types';
 
 describe(`Crawler`, () => {
   describe(`crawl`, () => {
@@ -12,7 +13,7 @@ describe(`Crawler`, () => {
       tree.insert(root);
       tree.insert(node);
 
-      const result = crawl(root, item => item.id);
+      const result = crawl<UuidType>(root, item => item.id);
 
       expect(result).toEqual([root.id, node.id]);
     });
