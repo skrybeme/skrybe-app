@@ -6,7 +6,7 @@ import StoryTreeNode from './StoryTreeNode';
 class StoryTree implements ITree {
   constructor(private _tree: Map<UuidType, ITreeNode> = new Map()) {}
 
-  public findById(id: UuidType): ITreeNode | null {
+  public findById(id: UuidType): Maybe<ITreeNode> {
     return this._tree.get(id) || null;
   }
 
@@ -14,7 +14,13 @@ class StoryTree implements ITree {
     return this._tree;
   }
 
-  public getRoot(): ITreeNode | null {
+  public getChildrenOf(node: ITreeNode): Array<ITreeNode> {
+    const ids = node.getChildrenIds();
+
+    return ids.map(id => this._tree.get(id)!);
+  }
+
+  public getRoot(): Maybe<ITreeNode> {
     if (!this._tree.size) {
       return null;
     }
@@ -22,7 +28,11 @@ class StoryTree implements ITree {
     return this._tree.get('root') || null;
   }
 
-  public insert(node: ITreeNode, parentNode?: ITreeNode): Maybe<ITreeNode> {
+  public insert(
+    node: ITreeNode,
+    parentNode?: ITreeNode,
+    placeBefore?: ITreeNode
+  ): Maybe<ITreeNode> {
     if (this._tree.size === 0) {
       this._tree.set('root', node);
 
@@ -36,7 +46,7 @@ class StoryTree implements ITree {
     } else if (!this._tree.has(parentNode.id)) {
       throw new Error(`Given parent is not an node in the story tree.`);
     } else {
-      parentNode.addChild(node);
+      parentNode.addChild(node, placeBefore);
     }
 
     return node;

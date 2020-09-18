@@ -8,13 +8,13 @@ export default function createTreeNodeUseCases(
     rebindTreeNode(
       node: ITreeNode,
       parent: ITreeNode,
-      position: number
+      placeBefore: ITreeNode
     ): AsyncMaybe<ITreeNode> {
       const tree = node.getTree()
 
       tree.remove(node);
       
-      const newNode = tree.insert(node, parent);
+      const newNode = tree.insert(node, parent, placeBefore);
       
       return treeRepo.save(tree).then(() => newNode);
     }

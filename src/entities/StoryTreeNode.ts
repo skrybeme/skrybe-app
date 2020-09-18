@@ -11,20 +11,24 @@ class StoryTreeNode implements ITreeNode {
     public id: UuidType = generateUuid()
   ) {}
 
-  public addChild(node: ITreeNode): ITreeNode {
+  public addChild(node: ITreeNode, placeBefore?: ITreeNode): ITreeNode {
     if (this.childrenIds.indexOf(node.id) > -1) {
       throw Error(`Tree node cannot have the same child added twice.`);
     }
 
-    this.childrenIds.push(node.id);
+    if (!placeBefore) {
+      this.childrenIds.push(node.id);
+    } else {
+      const placeIndex = this.childrenIds.indexOf(placeBefore.id);
+
+      this.childrenIds.splice(placeIndex, 0, node.id);
+    }
 
     return this;
   }
 
-  public getChildren(): Array<ITreeNode | UuidType> {
-    const tree = this._storyTree.getAllNodes();
-
-    return this.childrenIds.map(id => tree.get(id) || 1);
+  public getChildrenIds(): Array<UuidType> {
+    return this.childrenIds
   }
 
   public getStoryCard(): IStoryCard {

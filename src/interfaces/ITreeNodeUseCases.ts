@@ -5,6 +5,6 @@ export default interface ITreeNodeUseCases {
   rebindTreeNode(
     node: ITreeNode,
     parent: ITreeNode,
-    position: number
+    placeBefore: ITreeNode
   ): AsyncMaybe<ITreeNode>;
 }
