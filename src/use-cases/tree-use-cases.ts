@@ -8,11 +8,3 @@ export default function createTreeUseCases(treeRepo: ITreeRepo): ITreeUseCases {
     }
   }
 }
-
-// import { createGetTreeUseCase } from '@/use-cases';
-
-// const treeUseCases = createTreeUseCases(
-//   treeRepo: container.get<IStoryTreeRepo>(SYMBOL.StoryTreeRepo)
-// );
-
-// await treeUseCases.getTreeById(id)

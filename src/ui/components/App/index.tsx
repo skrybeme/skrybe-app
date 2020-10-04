@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux';
 import { ThemeProvider } from 'styled-components';
 import * as S from './styles';
 import theme from '@/ui/styles/theme';
+import TreeDetails from '@/ui/views/TreeDetails';
 
 function App() {
   const currentView = useSelector(state => state.view);
@@ -20,6 +21,7 @@ function App() {
         <Toolbar />
         {currentView === 'wide-view' && <WideView />}
         {currentView === 'page-view' && <PageView />}
+        {currentView === 'tree-details' && <TreeDetails />}
       </S.App>
     </ThemeProvider>
   );

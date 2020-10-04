@@ -1,22 +1,6 @@
-import { RefObject, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
-export const useClickOutside = (ref: RefObject<any>, cb: Function) => {
-  useEffect(() => {
-    const onClick = (e: MouseEvent) => {
-      if (!ref.current.contains(e.target)) {
-        cb();
-      }
-    }
-
-    window.addEventListener('click', onClick);
-
-    return () => {
-      window.removeEventListener('click', onClick);
-    };
-  })
-}
-
-export const useWindowSize = () => {
+export default function useWindowSize() {
   const isClient = typeof window === 'object';
 
   function getSize() {

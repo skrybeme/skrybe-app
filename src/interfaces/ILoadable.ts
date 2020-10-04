@@ -1,3 +1,7 @@
-interface ILoadable {}
+import { Maybe } from '@/common/types';
 
-export default ILoadable;
+export default interface ILoadable<T> {
+  data: Maybe<T>;
+  isError: boolean;
+  isLoading: boolean;
+}

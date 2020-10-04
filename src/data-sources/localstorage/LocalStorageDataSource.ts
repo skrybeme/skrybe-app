@@ -1,7 +1,7 @@
 import { UuidType, AsyncMaybe } from '@/common/types';
 import { ITree, ITreeDataSource } from '@/interfaces';
 
-export default function createLocalstorageDataSource(): ITreeDataSource {
+export default function createLocalStorageDataSource(): ITreeDataSource {
   return {
     fetchTreeById(id: UuidType): AsyncMaybe<ITree> {
       const trees = localStorage.getItem('trees') || [];
