@@ -41,7 +41,7 @@ export function createStoryUseCases(): IStoryUseCases {
         }
       };
     },
-    breadth(): CrawlerMethodType<Maybe<ITreeNode>> {
+    bfs(): CrawlerMethodType<Maybe<ITreeNode>> {
       return crawlBreadthFirst;
     },
     byEdgeNodes(): CrawlerCallbackType<Maybe<ITreeNode>> {
@@ -104,7 +104,7 @@ export function createStoryUseCases(): IStoryUseCases {
         return null;
       }
     },
-    deep(): CrawlerMethodType<Maybe<ITreeNode>> {
+    dfs(): CrawlerMethodType<Maybe<ITreeNode>> {
       return crawlDeepFirst;
     }
   }

@@ -5,6 +5,7 @@ import StoryCard from '../entities/StoryCard';
 import StoryTree from '../entities/StoryTree';
 import Tag from '../entities/Tag';
 import { createStoryUseCases } from './story-use-cases';
+import { ITag } from './../interfaces';
 
 describe(`StoryUseCases`, () => {
   const storyUseCases = createStoryUseCases();
@@ -15,18 +16,20 @@ describe(`StoryUseCases`, () => {
   const rootRightChild = tree.makeNode(new StoryCard('', '', [new Tag(), new Tag()]));
   const rootGrandLeftChild = tree.makeNode(new StoryCard('', '', [new Tag(), new Tag()]));
   const rootGrandRightChild = tree.makeNode(new StoryCard('', '', [new Tag(), new Tag()]));
+  const rootGrandGrandRightChild = tree.makeNode(new StoryCard('', '', [new Tag(), new Tag()]));
 
   tree.insert(root);
   tree.insert(rootLeftChild);
   tree.insert(rootRightChild);
   tree.insert(rootGrandLeftChild, rootLeftChild);
   tree.insert(rootGrandRightChild, rootRightChild);
+  tree.insert(rootGrandGrandRightChild, rootGrandRightChild);
 
   describe(`buildStory`, () => {
-    const { breadth, buildStory, deep } = storyUseCases;
+    const { bfs, buildStory, dfs } = storyUseCases;
 
     // @TODO
-    // Test BFS & DFS crawling directions and the returning object.
+    // Test the returning object.
     describe(`build`, () => {
       const mockedCallback = jest.fn();
 
@@ -35,24 +38,36 @@ describe(`StoryUseCases`, () => {
       });
 
       it(`calls piped methods for each node in given tree using BFS`, () => {
-        buildStory().for(root).go(breadth()).pipe(mockedCallback).build();
+        buildStory().for(root).go(bfs()).pipe(mockedCallback).build();
 
-        expect(mockedCallback).toBeCalledTimes(5);
+        expect(mockedCallback).toBeCalledTimes(6);
+        expect(mockedCallback).toHaveBeenNthCalledWith(1, root);
+        expect(mockedCallback).toHaveBeenNthCalledWith(2, rootLeftChild);
+        expect(mockedCallback).toHaveBeenNthCalledWith(3, rootRightChild);
+        expect(mockedCallback).toHaveBeenNthCalledWith(4, rootGrandLeftChild);
+        expect(mockedCallback).toHaveBeenNthCalledWith(5, rootGrandRightChild);
+        expect(mockedCallback).toHaveBeenNthCalledWith(6, rootGrandGrandRightChild);
       });
 
       it(`calls piped methods for each node in given tree using DFS`, () => {
-        buildStory().for(root).go(deep()).pipe(mockedCallback).build();
+        buildStory().for(root).go(dfs()).pipe(mockedCallback).build();
 
-        expect(mockedCallback).toBeCalledTimes(5);
+        expect(mockedCallback).toBeCalledTimes(6);
+        expect(mockedCallback).toHaveBeenNthCalledWith(1, root);
+        expect(mockedCallback).toHaveBeenNthCalledWith(2, rootLeftChild);
+        expect(mockedCallback).toHaveBeenNthCalledWith(3, rootGrandLeftChild);
+        expect(mockedCallback).toHaveBeenNthCalledWith(4, rootRightChild);
+        expect(mockedCallback).toHaveBeenNthCalledWith(5, rootGrandRightChild);
+        expect(mockedCallback).toHaveBeenNthCalledWith(6, rootGrandGrandRightChild);
       });
     });
   });
 
-  describe(`breadth`, () => {
+  describe(`bfs`, () => {
     it(`returns BFS function for story tree`, () => {
-      const { breadth } = storyUseCases;
+      const { bfs } = storyUseCases;
       
-      expect(breadth()).toEqual(crawlBreadthFirst);
+      expect(bfs()).toEqual(crawlBreadthFirst);
     });
   });
 
@@ -109,7 +124,7 @@ describe(`StoryUseCases`, () => {
 
       const hasAllRootTagIds = byTags(
         root.getStoryCard().tags.map(
-          (tag): UuidType => tag.id as UuidType
+          (tag: ITag) => tag.id as UuidType
         ),
         LOGICAL_OPERATOR.AND
       );
@@ -120,11 +135,11 @@ describe(`StoryUseCases`, () => {
     });
   });
 
-  describe(`deep`, () => {
+  describe(`dfs`, () => {
     it(`returns DFS function for story tree`, () => {
-      const { deep } = storyUseCases;
+      const { dfs } = storyUseCases;
       
-      expect(deep()).toEqual(crawlDeepFirst);
+      expect(dfs()).toEqual(crawlDeepFirst);
     });
   });
 });

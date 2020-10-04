@@ -6,9 +6,9 @@ import { LOGICAL_OPERATOR } from '@/common/enums';
 
 export default interface IStoryUseCases {
   buildStory(): IStoryBuilder;
-  breadth(): CrawlerMethodType<Maybe<ITreeNode>>;
+  bfs(): CrawlerMethodType<Maybe<ITreeNode>>;
   byEdgeNodes(): CrawlerCallbackType<Maybe<ITreeNode>>;
   byNodeIds(ids: Array<UuidType>): CrawlerCallbackType<Maybe<ITreeNode>>;
   byTags(ids: Array<UuidType>, operator?: LOGICAL_OPERATOR): CrawlerCallbackType<Maybe<ITreeNode>>;
-  deep(): CrawlerMethodType<Maybe<ITreeNode>>;
+  dfs(): CrawlerMethodType<Maybe<ITreeNode>>;
 }
