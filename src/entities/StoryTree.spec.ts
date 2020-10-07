@@ -31,8 +31,8 @@ describe(`StoryTree`, () => {
       tree.insert(root);
       tree.insert(rootChild);
 
-      expect(root.getChildren().length).toEqual(1);
-      expect(root.getChildren()[0]).toEqual(rootChild);
+      expect(root.getChildrenIds().length).toEqual(1);
+      expect(root.getChildrenIds()[0]).toEqual(rootChild.id);
     });
 
     it(`adds node as a child of given parent`, () => {
@@ -45,9 +45,9 @@ describe(`StoryTree`, () => {
       tree.insert(rootChild);
       tree.insert(rootGrandChild, rootChild);
 
-      expect(root.getChildren().length).toEqual(1);
-      expect(rootChild.getChildren().length).toEqual(1);
-      expect(rootChild.getChildren()[0]).toEqual(rootGrandChild);
+      expect(root.getChildrenIds().length).toEqual(1);
+      expect(rootChild.getChildrenIds().length).toEqual(1);
+      expect(rootChild.getChildrenIds()[0]).toEqual(rootGrandChild.id);
     });
 
     it(`throws error if given parent does not exist`, () => {

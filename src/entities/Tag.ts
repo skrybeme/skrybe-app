@@ -1,17 +1,14 @@
 import { ITag } from '@/interfaces';
 import { UuidType } from '@/common/types';
 import { generateUuid } from '@/helpers';
+import { ColorType } from './types';
 
 class Tag implements ITag {
-  public id: UuidType | null;
-  public color: string;
-  public label: String;
-
-  constructor() {
-    this.id = generateUuid();
-    this.color = '';
-    this.label = '';
-  }
+  constructor(
+    public color: ColorType = 'grey',
+    public label: string = '',
+    public id: UuidType = generateUuid()
+  ) {}
 }
 
 export default Tag;

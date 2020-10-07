@@ -11,7 +11,24 @@ describe(`StoryTreeNode`, () => {
 
       node.addChild(child);
 
-      expect(node.getChildren().length).toEqual(1);
+      expect(node.getChildrenIds().length).toEqual(1);
+    });
+
+    it(`adds child to given node on desired position`, () => {
+      const tree = new StoryTree();
+      const node = new StoryTreeNode(tree, new StoryCard());
+      const child = new StoryTreeNode(tree, new StoryCard());
+      const childAfter = new StoryTreeNode(tree, new StoryCard());
+      const childBefore = new StoryTreeNode(tree, new StoryCard());
+
+      node.addChild(child);
+      node.addChild(childAfter);
+
+      expect(node.getChildrenIds()[0]).toEqual(child.id);
+
+      node.addChild(childBefore, child);
+
+      expect(node.getChildrenIds()[0]).toEqual(childBefore.id);
     });
 
     it(`does not allow adding the same child twice`, () => {
