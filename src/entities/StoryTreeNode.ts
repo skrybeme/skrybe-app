@@ -16,6 +16,8 @@ class StoryTreeNode implements ITreeNode {
       throw Error(`Tree node cannot have the same child added twice.`);
     }
 
+    node.parentId = this.id;
+
     if (!placeBefore) {
       this.childrenIds.push(node.id);
     } else {
