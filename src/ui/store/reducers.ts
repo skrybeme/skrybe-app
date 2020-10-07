@@ -19,7 +19,7 @@ export const settings = function(state = { theme: 'purple' }, action) {
   }
 };
 
-export const view = function(state = 'tree-details', action) {
+export const view = function(state = 'wide-view', action) {
   switch (action.type) {
     case 'change_page':
       return action.page;

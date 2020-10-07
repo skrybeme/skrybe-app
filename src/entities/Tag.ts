@@ -5,7 +5,7 @@ import { ColorType } from './types';
 
 class Tag implements ITag {
   constructor(
-    public color: ColorType = 'white',
+    public color: ColorType = 'grey',
     public label: string = '',
     public id: UuidType = generateUuid()
   ) {}
