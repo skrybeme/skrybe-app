@@ -14,3 +14,4 @@ export { default as ITreeNodeUseCases } from './ITreeNodeUseCases';
 export { default as ITreeRepo } from './ITreeRepo';
 export { default as ITreeUseCases } from './ITreeUseCases';
 export { default as UIStoryTree } from './UIStoryTree';
+export { default as UITag } from './UITag';

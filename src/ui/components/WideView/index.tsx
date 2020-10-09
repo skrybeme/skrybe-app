@@ -4,26 +4,9 @@ import { useWindowSize } from '@/ui/hooks';
 import { selectNestedCardTree } from '@/ui/store/selectors';
 import * as S from './styles';
 import { useTreeDetails } from '@/ui/presenters';
+import { CardTeaser } from '../CardTeaser';
 
-function Card(props) {
-  const { handleClick, header, tags } = props;
-
-  return (
-    <S.CardContainer>
-      <S.CardBody
-        onClick={handleClick}
-        title="Edit this card"
-      >
-        <header>
-          {header}
-        </header>
-        <footer>
-          {tags.map((tag: string) => <S.Tag color={tag} key={tag} />)}
-        </footer>
-      </S.CardBody>
-    </S.CardContainer>
-  );
-}
+const Card = CardTeaser;
 
 function WideView() {
   const dispatch = useDispatch();
@@ -72,7 +55,7 @@ function WideView() {
         </S.Tentacle>
         <Card
           header={header}
-          tags={tags.map(t => t.color)}
+          tags={tags}
           handleClick={onClickCard}
         />
         <S.Tentacle className="right">
