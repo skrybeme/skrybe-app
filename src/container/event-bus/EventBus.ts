@@ -1,5 +1,5 @@
 import { UuidType } from '@/common/types';
-import { generateUuid } from '@/helpers';
+import { generateUuid } from '@/utils';
 
 interface IEmitable {
   emit(message: IMessage): any;

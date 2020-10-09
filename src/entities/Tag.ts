@@ -1,6 +1,6 @@
 import { ITag } from '@/interfaces';
 import { UuidType } from '@/common/types';
-import { generateUuid } from '@/helpers';
+import { generateUuid } from '@/utils';
 import { ColorType } from './types';
 
 class Tag implements ITag {

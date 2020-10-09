@@ -42,8 +42,10 @@ class StoryTree implements ITree {
     this._tree.set(node.id, node);
 
     if (!parentNode) {
-      this.getRoot()?.addChild(node);
-    } else if (!this._tree.has(parentNode.id)) {
+      this.getRoot()!.addChild(node);
+      // @TODO
+      // Refactor next line.
+    } else if (!this._tree.has(parentNode.id) && this.getRoot()!.id !== parentNode.id) {
       throw new Error(`Given parent is not an node in the story tree.`);
     } else {
       parentNode.addChild(node, placeBefore);

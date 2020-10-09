@@ -1,6 +1,6 @@
 import { IStoryCard, ITree, ITreeNode } from '@/interfaces';
 import { UuidType } from '@/common/types';
-import { generateUuid } from '@/helpers';
+import { generateUuid } from '@/utils';
 
 class StoryTreeNode implements ITreeNode {
   constructor(

@@ -1,30 +1,10 @@
 import StoryCard from '@/entities/StoryCard';
 import StoryTree from '@/entities/StoryTree';
-import Tag from '@/entities/Tag';
 import { AsyncMaybe, UuidType } from '@/common/types';
 import { ITree, ITreeDataSource, ITreeNode } from '@/interfaces';
+import { randomInt, randomOf } from '@/utils';
+import { generateRandomTags } from '@/helpers';
 import { lorem } from 'faker';
-import { ColorType } from '@/entities/types';
-
-function randomInt(start: number, end: number): number {
-  return Math.round(Math.random() * (end - start)) + start;
-}
-
-function randomOf<T>(arr: Array<T>): T {
-  return arr[Math.floor(Math.random() * (arr.length - 1))];
-}
-
-function generateRandomTags(amount: number): Array<Tag> {
-  const labels: Array<ColorType> = ['grey', 'red', 'black'];
-
-  let out: any = [];
-
-  for (let i = 0; i <= amount; i++) {
-    out.push(new Tag(randomOf<ColorType>(labels), lorem.word()));
-  }
-
-  return out;
-}
 
 export default function createMockTreeDataSource(): ITreeDataSource {
   return {
@@ -47,9 +27,7 @@ export default function createMockTreeDataSource(): ITreeDataSource {
           tree.insert(node);
         }
   
-        if (node.id !== tree.getRoot()!.id) {
-          nodes.push(node);
-        }
+        nodes.push(node);
       }
 
       return Promise.resolve(tree);
