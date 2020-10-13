@@ -1,6 +1,10 @@
-import IStoryCard from './IStoryCard';
+import { UuidType } from '@/common/types';
 
-interface INestedStoryCard extends IStoryCard {
+interface INestedStoryCard {
+  readonly id: UuidType;
+  header: string;
+  body: string;
+  tags: Array<any>;
   subcards: Array<INestedStoryCard>;
 };
 

@@ -1,10 +1,8 @@
 import { UuidType } from '@/common/types';
 import { ColorType } from '@/entities/types';
 
-interface ITag {
+export default interface UITag {
   id: UuidType;
   color: ColorType;
   label: String;
 };
-
-export default ITag;
