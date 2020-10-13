@@ -20,6 +20,7 @@ export const CardTeaser = styled.div<{ onClick: MouseEventHandler }>`${({ theme 
 export const Header = styled.div`
   font-size: 1.6rem;
   padding: 12px 16px;
+  user-select: none;
 `;
 
 export const TagLine = styled.div`

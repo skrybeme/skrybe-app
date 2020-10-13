@@ -11,3 +11,10 @@ export const App = styled.div`
     color: ${props => props.theme.light};
   }
 `;
+
+export const Workspace = styled.div`
+  height: 100vh;
+  padding-top: 74px;
+  position: relative;
+  width: 100%;
+`;

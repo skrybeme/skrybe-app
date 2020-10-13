@@ -19,9 +19,11 @@ function App() {
     <ThemeProvider theme={currentThemeObject}>
       <S.App>
         <Toolbar />
-        {currentView === 'wide-view' && <WideView />}
-        {currentView === 'page-view' && <PageView />}
-        {currentView === 'tree-details' && <TreeDetails />}
+        <S.Workspace>
+          {currentView === 'wide-view' && <WideView />}
+          {currentView === 'page-view' && <PageView />}
+          {currentView === 'tree-details' && <TreeDetails />}
+        </S.Workspace>
       </S.App>
     </ThemeProvider>
   );
