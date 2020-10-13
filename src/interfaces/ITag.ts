@@ -1,9 +1,6 @@
-import { UuidType } from '@/common/types';
-import { ColorType } from '@/entities/types';
-
 interface ITag {
-  id: UuidType;
-  color: ColorType;
+  id: number | null; // for development purposes only
+  color: string;
   label: String;
 };
 
