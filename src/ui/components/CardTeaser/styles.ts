@@ -2,15 +2,18 @@ import { MouseEventHandler } from '@/common/types';
 import { flex } from '@/ui/styles/mixins';
 import styled, { css } from 'styled-components';
 
+// @TODO
+// Handle scaling the better way.
+const SCALE = 0.9;
+
 export const CardTeaser = styled.div<{ onClick: MouseEventHandler }>`${({ theme }) => css`
   background-color: ${theme.bgLight};
-  border-radius: 2px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
+  border-radius: ${SCALE * 2}px;
+  box-shadow: 0px 0px ${SCALE * 10}px rgba(0, 0, 0, 0.05);
   cursor: pointer;
-  height: 120px;
-  margin: 5px 10px;
+  height: ${SCALE * 120}px;
   position: relative;
-  width: 200px;
+  width: ${SCALE * 200}px;
 
   &:hover {
     background-color: ${theme.bgLightHover};
@@ -18,8 +21,8 @@ export const CardTeaser = styled.div<{ onClick: MouseEventHandler }>`${({ theme 
 `}`;
 
 export const Header = styled.div`
-  font-size: 1.6rem;
-  padding: 12px 16px;
+  font-size: ${SCALE * 1.6}rem;
+  padding: ${SCALE * 12}px ${SCALE * 16}px;
   user-select: none;
 `;
 
@@ -27,14 +30,14 @@ export const TagLine = styled.div`
   ${flex};
   bottom: 0;
   left: 0;
-  padding: 0 13px;
+  padding: 0 ${SCALE * 13}px;
   position: absolute;
   right: 0;
 `;
 
 export const Tag = styled.div`${({ color }) => css`
   background-color: ${color || `lightgray`};
-  height: 10px;
+  height: ${SCALE * 10}px;
   width: 100%;
-  margin: 8px 3px 14px;
+  margin: ${SCALE * 8}px ${SCALE * 3}px ${SCALE * 14}px;
 `}`;
