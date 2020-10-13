@@ -5,14 +5,17 @@ import {
 import { useDraggable } from '@/ui/hooks';
 import { useTreeDetails } from '@/ui/presenters';
 import * as S from './styles';
+import * as GS from '@/ui/styles/global';
 
 export default function TreeDetails(): JSX.Element {
   const { nodes } = useTreeDetails();
-  const dragHandleRef = useDraggable();
+  const dragHandleRef = useDraggable<HTMLDivElement>();
 
   return (
-    <S.TreeDetails ref={dragHandleRef}>
-      <GenericCardTeaserTree_VariantA nodes={nodes.data} />
-    </S.TreeDetails>
+    <GS.Unscrollable>
+      <S.TreeDetails ref={dragHandleRef}>
+        <GenericCardTeaserTree_VariantA nodes={nodes.data} />
+      </S.TreeDetails>
+    </GS.Unscrollable>
   );
 }

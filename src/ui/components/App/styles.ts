@@ -13,7 +13,7 @@ export const App = styled.div`
 `;
 
 export const Workspace = styled.div`
-  height: 100vh;
+  height: 100%;
   padding-top: 74px;
   position: relative;
   width: 100%;

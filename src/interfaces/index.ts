@@ -2,6 +2,7 @@ export { default as IContainerContext } from './IContainerContetxt';
 export { default as IDataSource } from './IDataSource';
 export { default as ILoadable } from './ILoadable';
 export { default as IGeneratedStory } from './IGeneratedStory';
+export { default as IPoint } from './IPoint';
 export { default as IStoryBuilder } from './IStoryBuilder';
 export { default as IStoryCard } from './IStoryCard';
 export { default as IStoryUseCases } from './IStoryUseCases';

@@ -10,7 +10,7 @@ export const GenericCardTeaserTree_VariantA = styled.div`
   ${flex};
   flex-direction: column;
   justify-content: baseline;
-  padding-top: 143px;
+  padding-top: 69px;
   position: relative;
 
   ${LevelContext} {

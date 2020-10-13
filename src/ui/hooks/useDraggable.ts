@@ -1,39 +1,50 @@
+import { IPoint } from '@/interfaces';
 import { RefObject, useCallback, useEffect, useRef, useState } from 'react';
 
-export default function useDraggable(): RefObject<any> {
-  const ref = useRef<HTMLElement>(null);
+// @TODO
+// - Test this with RTL.
+// - Add dragging limits.
+export default function useDraggable<T extends HTMLElement = HTMLElement>(): RefObject<T> {
+  const ref = useRef<T>(null);
 
   const [isDragging, setIsDragging] = useState<boolean>(false);
 
-  const [dragStart, setDragStart] = useState<any>({ x: 0, y: 0 });
+  const [dragStartPosition, setDragStartPosition] = useState<IPoint>({ x: 0, y: 0 });
 
-  const [current, setCurrent] = useState<any>({ x: 0, y: 0 });
+  const [previousTranslation, setPreviousTranslation] = useState<IPoint>({ x: 0, y: 0 });
 
-  const onMouseDown = (e) => {
-    setDragStart({ x: e.pageX, y: e.pageY });
+  const onMouseDown = useCallback((e: MouseEvent) => {
+    if (e.button !== 0) {
+      return;
+    }
+  
+    setDragStartPosition({ x: e.pageX, y: e.pageY });
     setIsDragging(true);
-  };
+  }, []);
 
-  const onMouseMove = useCallback((e) => {
+  const onMouseMove = useCallback((e: MouseEvent) => {
     if (!isDragging) {
       return;
     }
 
-    const x = current.x + e.pageX - dragStart.x;
-    const y = current.y + e.pageY - dragStart.y;
+    const x = previousTranslation.x + e.pageX - dragStartPosition.x;
+    const y = previousTranslation.y + e.pageY - dragStartPosition.y;
   
     ref.current!.style.transform = `translateX(${x}px) translateY(${y}px)`;
-  }, [ref, isDragging, dragStart, current]);
+  }, [ref, isDragging]);
 
-  const onMouseUp = useCallback((e) => {
-    if (!isDragging) {
+  const onMouseUp = useCallback((e: MouseEvent) => {
+    if (!isDragging || e.button !== 0) {
       return;
     }
 
-    setCurrent({ x: current.x + e.pageX - dragStart.x, y: current.y + e.pageY - dragStart.y });
+    setPreviousTranslation({
+      x: previousTranslation.x + e.pageX - dragStartPosition.x,
+      y: previousTranslation.y + e.pageY - dragStartPosition.y
+    });
+
     setIsDragging(false);
-    console.log("stop")
-  }, [ref, isDragging, current, dragStart]);
+  }, [ref, isDragging]);
 
   useEffect(() => {
     ref.current?.addEventListener('mousedown', onMouseDown);
@@ -47,7 +58,7 @@ export default function useDraggable(): RefObject<any> {
       window.removeEventListener('mousemove', onMouseMove);
       window.removeEventListener('mouseup', onMouseUp);
     };
-  }, [ref, isDragging, dragStart, current]);
+  }, [ref, isDragging]);
 
   return ref;
 }
