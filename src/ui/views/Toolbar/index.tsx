@@ -9,8 +9,7 @@ export function Toolbar(): JSX.Element {
       <S.Flex>
         <S.Logo>
           <span>
-            <i className="fab fa-scribd"></i>
-            &nbsp;&nbsp;Skrybe
+            <i className="fas fa-home"></i>
           </span>
         </S.Logo>
         <PickerMainProjectList />

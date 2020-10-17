@@ -58,7 +58,6 @@ export const Logo = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-right: 30px;
 
   > span {
     height: auto;

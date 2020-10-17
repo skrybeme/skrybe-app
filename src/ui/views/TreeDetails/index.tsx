@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   GenericCardTeaserTree_VariantA
-} from '@/ui/components/GenericCardTeaserTree';
+} from '@/ui/domain-components/GenericCardTeaserTree';
 import { useDraggable } from '@/ui/hooks';
 import { useTreeDetails } from '@/ui/presenters';
 import * as S from './styles';

@@ -1,5 +1,5 @@
 import React from 'react';
-import { CardTeaser } from '../CardTeaser';
+import { CardTeaser } from '@/ui/components/CardTeaser';
 import { GenericCardTeaserTreeProps } from '@/interfaces/props';
 import { StoryTreeViewModel } from '@/interfaces/view-models';
 import * as S from './styles';
