@@ -2,10 +2,11 @@ import { ButtonProps } from '@/interfaces/props';
 import React from 'react';
 import * as S from './styles';
 
-export function Button({ children, muted, rounded }: ButtonProps): JSX.Element {
+export function Button({ children, muted, onClick, rounded }: ButtonProps): JSX.Element {
   return (
     <S.Button
       muted={muted || false}
+      onClick={onClick}
       rounded={rounded || false}
     >
       {children}

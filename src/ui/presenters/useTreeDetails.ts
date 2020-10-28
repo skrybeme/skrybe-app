@@ -1,18 +1,20 @@
-import { useEffect } from 'react';
-import { ILoadable, IStoryTreeUseCases } from '@/interfaces';
 import { StoryTreeViewModel } from '@/interfaces/view-models';
+import { useCallback, useEffect, useMemo } from 'react';
+import { ILoadable, ITreeNode, ITreeNodeUseCases, IStoryTreeUseCases, UIStoryTree } from '@/interfaces';
 import { useContainer, useLoadable } from '@/ui/hooks';
 import * as SYMBOL from '@/container/symbols';
 import { StoryTreeMap } from '@/mappers';
 import StoryCard from '@/entities/StoryCard';
 import Tree from '@/entities/Tree';
+import { TreeNodePresenter } from '@/interfaces/presenters';
 
-export default function useTreeDetails(): { nodes: ILoadable<StoryTreeViewModel> } {
-  const [nodes, setNodes] = useLoadable<StoryTreeViewModel>({ isLoading: true });
+export default function useTreeDetails(): TreeNodePresenter {
+  const [tree, setTree] = useLoadable<StoryTreeViewModel>({ isLoading: true });
 
   const { getTreeById } = useContainer<IStoryTreeUseCases<Tree<StoryCard>, StoryCard>>(
     SYMBOL.TreeUseCases
   );
+  const { insertTreeNode } = useContainer<ITreeNodeUseCases>(SYMBOL.TreeNodeUseCases);
 
   useEffect(() => {
     getTreeById?.({ id: "c0773e64-3a3a-11eb-adc1-0242ac120002" })
@@ -20,15 +22,50 @@ export default function useTreeDetails(): { nodes: ILoadable<StoryTreeViewModel>
       setNodes({
         data: result ? StoryTreeMap.toViewModel(result) : null,
         isLoading: false
-      })
+      });
     })
     .catch(() => {
-      setNodes({
+      setTree({
         isError: true,
         isLoading: false
-      })
+      });
     });
   }, []);
 
-  return { nodes };
+  const _ = useCallback(
+    (parentNode: UIStoryTree, placeBefore?: UIStoryTree): void => {
+      const pn = tree.data!.findById(parentNode.id)!;
+      const pb = placeBefore
+        ? tree.data!.findById(placeBefore!.id)!
+        : null;
+
+      console.log(pb)
+
+      insertTreeNode(tree.data!.makeNode(new StoryCard('', '')), pn, pb as ITreeNode | undefined)
+        .then((tree) => {
+          setTree({
+            data: tree as StoryTree,
+            isLoading: false
+          });
+        });
+    },
+    [insertTreeNode, tree]
+  );
+
+  const nodes = useMemo((): ILoadable<any> => {
+    if (!tree.data) {
+      return {
+        data: null,
+        isError: false,
+        isLoading: true
+      }
+    }
+    return {
+      data: mapTreeToUIStoryTree(tree.data),
+      isError: false,
+      isLoading: false
+    }
+  }, [tree]);
+
+  return { insertTreeNode: _, nodes };
 }

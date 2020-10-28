@@ -93,6 +93,8 @@ export const ClickableArea = styled.div<any>`
   }
 
   ${Button} {
+    opacity: 0.4;
+
     &:before {
       bottom: -44px;
       content: '';
@@ -100,6 +102,10 @@ export const ClickableArea = styled.div<any>`
       position: absolute;
       right: -44px;
       top: -44px;
+    }
+
+    &:hover {
+      opacity: 1;
     }
   }
 
