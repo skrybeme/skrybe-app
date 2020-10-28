@@ -1,9 +1,9 @@
-import Picker from '@/ui/components/Picker';
-import UniversalPicker from '@/ui/components/UniversalPicker';
 import React from 'react';
+import { PickerAccountSettings } from '@/ui/domain-components/PickerAccountSettings';
+import { PickerMainProjectList } from '@/ui/domain-components/PickerMainProjectList';
 import * as S from './styles';
 
-function Toolbar() {
+export function Toolbar(): JSX.Element {
   return (
     <S.Toolbar flex>
       <S.Flex>
@@ -13,10 +13,10 @@ function Toolbar() {
             &nbsp;&nbsp;Skrybe
           </span>
         </S.Logo>
-        <UniversalPicker />
+        <PickerMainProjectList />
       </S.Flex>
       <S.Flex>
-        <S.Bullet title="Create new project">
+        <S.Bullet title="My generated stories">
           <i className="fas fa-plus"></i>
         </S.Bullet>
         <S.Bullet title="My generated stories">
@@ -25,10 +25,8 @@ function Toolbar() {
         <S.Bullet title="Help">
           <i className="fas fa-question"></i>
         </S.Bullet>
-        <Picker />
+        <PickerAccountSettings />
       </S.Flex>
     </S.Toolbar>
   );
 }
-
-export default Toolbar;

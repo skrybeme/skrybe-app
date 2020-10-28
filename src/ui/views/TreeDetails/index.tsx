@@ -7,7 +7,7 @@ import { useTreeDetails } from '@/ui/presenters';
 import * as S from './styles';
 import * as GS from '@/ui/styles/global';
 
-export default function TreeDetails(): JSX.Element {
+export function TreeDetails(): JSX.Element {
   const { nodes } = useTreeDetails();
   const dragHandleRef = useDraggable<HTMLDivElement>();
 

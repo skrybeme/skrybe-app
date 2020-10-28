@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { noSelect } from '@/ui/styles/mixins';
 
-export const Picker = styled.div`
+export const Trigger = styled.div`
   transition: all 0.1s ease-in-out;
   padding: 8px 24px;
   height: 100%;
@@ -27,12 +27,6 @@ export const Title = styled.div`
   i {
     margin-left: 10px;
   }
-`;
-
-export const List = styled.div`
-  min-width: 100%;
-  box-shadow: 1px 1px 3px ${props => props.theme.shadow};
-  position: absolute;
 `;
 
 export const Item = styled.div`
@@ -73,27 +67,14 @@ export const Item = styled.div`
   }
 `;
 
-export const Context = styled.div<any>`
+export const PickerMainProjectList = styled.div<any>`
   height: 100%;
   position: relative;
   ${noSelect}
 
-  ${List} {
-    transform: scale(0.9);
-    transition: all 0.1s ease-in-out;
-    opacity: 0;
-    pointer-events: none;
-  }
-
   ${props => props.isOpen && `
-    ${Picker} {
+    ${Trigger} {
       background-color: ${props.theme.primary};
-    }
-
-    ${List} {
-      transform: none;
-      opacity: 1;
-      pointer-events: all;
     }
   `}
 `;
