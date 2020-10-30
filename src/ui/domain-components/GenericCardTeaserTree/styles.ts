@@ -3,6 +3,17 @@ import styled, { css } from 'styled-components';
 import { CardTeaser } from '@/ui/components/CardTeaser/styles';
 import { Button } from '@/ui/components/Button/styles';
 
+export const CardTeaserContext = styled.div`
+  position: relative;
+`;
+
+export const CardOptions = styled.div`
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 1000;
+`;
+
 export const LevelContext = styled.div`
   ${flex};
   align-items: flex-start;
@@ -78,7 +89,7 @@ export const ClickableArea = styled.div<any>`
   ${flex};
   height: 118px;
   position: relative;
-  width: 50px;
+  width: 30px;
   z-index: 1;
 
   &:after {
@@ -94,13 +105,14 @@ export const ClickableArea = styled.div<any>`
 
   ${Button} {
     opacity: 0.4;
+    outline: 0;
 
     &:before {
       bottom: -44px;
       content: '';
-      left: -44px;
+      left: 0;
       position: absolute;
-      right: -44px;
+      right: 0;
       top: -44px;
     }
 

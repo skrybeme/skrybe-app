@@ -1,20 +1,20 @@
-import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 export default function useMouseDown<T extends HTMLElement = HTMLElement>(
   ref: React.RefObject<T>
 ): boolean {
-  const isMouseDown = useRef(false);
+  const [isMouseDown, setIsMouseDown] = useState(false);
 
   const mouseDownCallback = useCallback((e: MouseEvent) => {
     if (e.button !== 0) {
       return;
     }
   
-    isMouseDown.current = true;
+    setIsMouseDown(true);
   }, []);
 
   const mouseUpCallback = useCallback(() => {
-    isMouseDown.current = false;
+    setIsMouseDown(false);
   }, []);
 
   useEffect(() => {
@@ -29,5 +29,5 @@ export default function useMouseDown<T extends HTMLElement = HTMLElement>(
     };
   }, []);
 
-  return isMouseDown.current;
+  return isMouseDown;
 }

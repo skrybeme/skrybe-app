@@ -43,7 +43,7 @@ export default function useDraggable<
   
     ref.current!.style.transform =
       `translateX(${translateX}px) translateY(${translateY}px)`;
-  }, [isMouseDown, position]);
+  }, [position]);
 
   return ref;
 }

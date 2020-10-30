@@ -34,12 +34,13 @@ export default function useTreeDetails(): TreeNodePresenter {
 
   const _ = useCallback(
     (parentNode: UIStoryTree, placeBefore?: UIStoryTree): void => {
-      const pn = tree.data!.findById(parentNode.id)!;
+      const pn = tree.data?.getRoot()?.id === parentNode.id
+        ? tree.data.getRoot()
+        : tree.data!.findById(parentNode.id)!;
+
       const pb = placeBefore
         ? tree.data!.findById(placeBefore!.id)!
         : null;
-
-      console.log(pb)
 
       insertTreeNode(tree.data!.makeNode(new StoryCard('', '')), pn, pb as ITreeNode | undefined)
         .then((tree) => {

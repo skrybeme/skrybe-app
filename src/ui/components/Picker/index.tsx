@@ -4,12 +4,13 @@ import { PickerContext, PickerProvider } from '@/ui/providers';
 import { Popover } from '@/ui/components/Popover';
 import * as S from './styles';
 
-export function Picker_VariantA({ children, isOpen, onClickOutside }: PickerProps): JSX.Element {
+export function Picker_VariantA({ children, isOpen, left, onClickOutside }: PickerProps): JSX.Element {
   return (
     <S.Picker_VariantA>
       <PickerProvider>
         <Popover
           isOpen={isOpen}
+          left={left}
           onClickOutside={onClickOutside}
         >
           {children}

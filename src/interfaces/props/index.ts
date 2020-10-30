@@ -1,4 +1,5 @@
 export { default as ButtonAddCardProps } from './ButtonAddCardProps';
+export { default as ButtonOptionsProps } from './ButtonOptionsProps';
 export { default as ButtonProps } from './ButtonProps';
 export { default as CardTeaserProps } from './CardTeaserProps';
 export { default as GenericCardTeaserTreeProps } from './GenericCardTeaserTreeProps';
