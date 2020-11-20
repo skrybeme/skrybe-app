@@ -19,8 +19,10 @@ export const Toolbar = styled.div<any>`
 `;
 
 export const Flex = styled.div`
-  display: flex;
   align-items: center;
+  display: flex;
+  position: relative;
+  z-index: 1;
 `;
 
 export const Hamburger = styled.div`
@@ -53,7 +55,7 @@ export const Hamburger = styled.div`
   }
 `;
 
-export const Logo = styled.div`
+export const HomeIcon = styled.div`
   padding: 8px 8px 8px 0;
   display: flex;
   justify-content: center;
@@ -62,6 +64,22 @@ export const Logo = styled.div`
   > span {
     height: auto;
     font-size: 28px;
+  }
+`;
+
+export const Logo = styled.div`
+  align-items: center;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 0;
+
+  img {
+    max-height: 38px;
   }
 `;
 
