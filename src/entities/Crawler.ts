@@ -1,21 +1,6 @@
 import { IIdentifiable } from '@/interfaces';
+import { Queue } from '@/common/data-structures';
 import Tree from './Tree';
-
-function bfs<T extends IIdentifiable, R>(
-  tree: Tree<T>,
-  node: T,
-  cb: (node: T) => R
-): Array<R> {
-  const children = tree.getChildrenOf(node.id);
-
-  if (!children || !children.length) {
-    return [];
-  }
-
-  return children.map((child: T) => cb(child)).concat(
-    ...children.map((child: T) => bfs<T, R>(tree, child, cb))
-  );
-}
 
 export function crawlBreadthFirst<T extends IIdentifiable, R>(
   tree: Tree<T>,
@@ -26,8 +11,27 @@ export function crawlBreadthFirst<T extends IIdentifiable, R>(
   if (!root) {
     return [];
   }
+
+  const out = [cb(root)];
+
+  const q = new Queue<T>();
+
+  q.enqueue(root)
+
+  while (!q.isEmpty()) {
+    const u = q.dequeue();
+
+    // isEmpty() returning false ensures that dequeue() returns a valid value.
+    const children = tree.getChildrenOf(u!.id);
+
+    children?.forEach((child: T) => {
+      q.enqueue(child);
+
+      out.push(cb(child));
+    });
+  }
   
-  return [cb(root)].concat(...bfs<T, R>(tree, root, cb));
+  return out;
 }
 
 function dfs<T extends IIdentifiable, R>(
