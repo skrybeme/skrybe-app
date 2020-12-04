@@ -2,19 +2,163 @@ import StoryCard from './StoryCard';
 import StoryTree from './StoryTree';
 
 describe(`StoryTree`, () => {
-  describe(`makeNode`, () => {
-    it(`makes StoryTreeNode from StoryCard and binds it to the tree`, () => {
-      const tree = new StoryTree();
-      const node = tree.makeNode(new StoryCard());
+  describe(`getAllNodes`, () => {
+    it(`returns empty map if none is passed to the tree`, () => {
+      const tree = StoryTree.create();
 
-      expect(node.getTree()).toEqual(tree);
+      expect(tree.getAllNodes()).toEqual(new Map());
     });
+
+    it(`returns a map of nodes`, () => {
+      const tree = StoryTree.create();
+      const root = StoryCard.create();
+      const rootChild = StoryCard.create();
+
+      tree.insert(root);
+      tree.insert(rootChild);
+
+      const entries = tree.getAllNodes().entries();
+      const entriesMappedtoArray = Array.from(entries);
+  
+      expect(entriesMappedtoArray).toEqual([
+        [
+          root.id,
+          root
+        ],
+        [
+          rootChild.id,
+          rootChild
+        ]
+      ]);
+    });
+  });
+
+  describe(`getChildrenOf`, () => {
+    it(`returns null if node with given id does not exist`, () => {
+      const tree = StoryTree.create();
+
+      tree.insert(StoryCard.create());
+
+      expect(tree.getChildrenOf('invalid-uuid')).toBeNull();
+    });
+
+    it(`returns an empty array if the given node has no children`, () => {
+      const tree = StoryTree.create();
+      const root = StoryCard.create();
+      const rootChild = StoryCard.create();
+
+      tree.insert(root);
+      tree.insert(rootChild);
+
+      expect(tree.getChildrenOf(rootChild.id)).toEqual([]);
+    });
+
+    it(`returns an array of children of the node`, () => {
+      const tree = StoryTree.create();
+      const root = StoryCard.create();
+      const rootChild = StoryCard.create();
+      const leftGrandRootChild = StoryCard.create();
+      const rightGrandRootChild = StoryCard.create();
+
+      tree.insert(root);
+      tree.insert(rootChild);
+      tree.insert(leftGrandRootChild, rootChild.id);
+      tree.insert(rightGrandRootChild, rootChild.id);
+
+      expect(tree.getChildrenOf(rootChild.id)).toEqual([
+        leftGrandRootChild,
+        rightGrandRootChild
+      ]);
+    });
+  });
+
+  describe(`getNodeById`, () => {
+    it(`returns null if the node with given id does not exists`, () => {
+      const tree = StoryTree.create();
+
+      tree.insert(StoryCard.create());
+
+      expect(tree.getNodeById('invalid-uuid')).toBeNull();
+    });
+
+    it(`returns node by given id`, () => {
+      const tree = StoryTree.create();
+      const root = StoryCard.create();
+      const rootChild = StoryCard.create();
+      const rootGrandChild = StoryCard.create();
+
+      tree.insert(root);
+      tree.insert(rootChild);
+      tree.insert(rootGrandChild, rootChild.id);
+
+      expect(tree.getNodeById(root.id)).toEqual(root);
+      expect(tree.getNodeById(rootChild.id)).toEqual(rootChild);
+      expect(tree.getNodeById(rootGrandChild.id)).toEqual(rootGrandChild);
+    });
+  });
+
+  describe(`getParentOf`, () => {
+    it(`returns null if given node is root`, () => {
+      const tree = StoryTree.create();
+      const root = StoryCard.create();
+
+      tree.insert(root);
+
+      expect(tree.getParentOf(root.id)).toBeNull();
+    });
+
+    it(`returns null if given node does not exist in the tree`, () => {
+      const tree = StoryTree.create();
+      const root = StoryCard.create();
+      const rootChild = StoryCard.create();
+
+      tree.insert(root);
+      tree.insert(rootChild);
+
+      expect(tree.getParentOf('invalid-uuid')).toBeNull();
+    });
+
+    it(`returns parent node object`, () => {
+      const tree = StoryTree.create();
+      const root = StoryCard.create();
+      const rootChild = StoryCard.create();
+
+      tree.insert(root);
+      tree.insert(rootChild);
+
+      expect(tree.getParentOf(rootChild.id)).toEqual(root);
+    });
+  });
+
+  describe(`getRoot`, () => {
+    it(`returns null if there are no nodes in the tree`, () => {
+      const tree = StoryTree.create();
+
+      expect(tree.getRoot()).toBeNull();
+    });
+
+    it(`returns root of the tree`, () => {
+      const tree = StoryTree.create();
+      const root = StoryCard.create();
+
+      tree.insert(root);
+      tree.insert(StoryCard.create());
+      tree.insert(StoryCard.create());
+
+      expect(tree.getRoot()).toEqual(root);
+    });
+  });
+
+  describe(`getSubtreeById`, () => {
+    xit(`returns null if the node with given id does not exist`, () => {});
+
+    xit(`returns tree with the node with given id as a root`, () => {});
   });
 
   describe(`insert`, () => {
     it(`adds root if the tree is empty`, () => {
-      const tree = new StoryTree();
-      const node = tree.makeNode(new StoryCard());
+      const tree = StoryTree.create();
+      const node = StoryCard.create();
 
       tree.insert(node);
 
@@ -24,85 +168,121 @@ describe(`StoryTree`, () => {
     });
 
     it(`adds node as a child of root if parent node is not given`, () => {
-      const tree = new StoryTree();
-      const root = tree.makeNode(new StoryCard());
-      const rootChild = tree.makeNode(new StoryCard());
+      const tree = StoryTree.create();
+      const root = StoryCard.create();
+      const rootChild = StoryCard.create();
 
       tree.insert(root);
       tree.insert(rootChild);
 
-      expect(root.getChildrenIds().length).toEqual(1);
-      expect(root.getChildrenIds()[0]).toEqual(rootChild.id);
+      expect(tree.getChildrenOf(root.id)?.length).toEqual(1);
+      expect(tree.getChildrenOf(root.id)?.[0]).toEqual(rootChild);
+      expect(tree.getParentOf(rootChild.id)).toEqual(root);
     });
 
     it(`adds node as a child of given parent`, () => {
-      const tree = new StoryTree();
-      const root = tree.makeNode(new StoryCard());
-      const rootChild = tree.makeNode(new StoryCard());
-      const rootGrandChild = tree.makeNode(new StoryCard());
+      const tree = StoryTree.create();
+      const root = StoryCard.create();
+      const leftRootChild = StoryCard.create();
+      const rightRootChild = StoryCard.create();
+      const leftGrandRootChild = StoryCard.create();
 
       tree.insert(root);
-      tree.insert(rootChild);
-      tree.insert(rootGrandChild, rootChild);
+      tree.insert(leftRootChild);
+      tree.insert(rightRootChild);
+      tree.insert(leftGrandRootChild, leftRootChild.id);
 
-      expect(root.getChildrenIds().length).toEqual(1);
-      expect(rootChild.getChildrenIds().length).toEqual(1);
-      expect(rootChild.getChildrenIds()[0]).toEqual(rootGrandChild.id);
+      expect(tree.getChildrenOf(leftRootChild.id)?.length).toEqual(1);
+      expect(tree.getChildrenOf(leftRootChild.id)?.[0]).toEqual(leftGrandRootChild);
+      expect(tree.getParentOf(leftGrandRootChild.id)).toEqual(leftRootChild);
+    });
+
+    it(`adds node as a child of given parent on desired position`, () => {
+      const tree = StoryTree.create();
+      const root = StoryCard.create();
+      const leftRootChild = StoryCard.create();
+      const rightRootChild = StoryCard.create();
+      const middleRootChild = StoryCard.create();
+
+      tree.insert(root);
+      tree.insert(leftRootChild);
+      tree.insert(rightRootChild, root.id);
+      tree.insert(middleRootChild, root.id, rightRootChild.id);
+
+      expect(tree.getChildrenOf(root.id)?.length).toEqual(3);
+      expect(tree.getChildrenOf(root.id)).toEqual([
+        leftRootChild,
+        middleRootChild,
+        rightRootChild
+      ]);
+    });
+
+    it(`throws error if the the tree is rootless, parent node is given and it is not the root`, () => {
+      const tree = StoryTree.create();
+      const root = StoryCard.create();
+      const node = StoryCard.create();
+
+      tree.insert(root);
+
+      expect(() => tree.insert(node, 'invalid-uuid')).toThrow();
     });
 
     it(`throws error if given parent does not exist`, () => {
-      const tree = new StoryTree();
-      const root = tree.makeNode(new StoryCard());
-      const child = tree.makeNode(new StoryCard());
+      const tree = StoryTree.create();
+      const root = StoryCard.create();
+      const rootChild = StoryCard.create();
+      const node = StoryCard.create();
+
+      tree.insert(root);
+      tree.insert(rootChild);
+
+      expect(() => tree.insert(node, 'invalid-uuid')).toThrow();
+    });
+
+    it(`throws error if given place-before-node does not exist`, () => {
+      const tree = StoryTree.create();
+      const root = StoryCard.create();
+      const node = StoryCard.create();
 
       tree.insert(root);
 
-      expect(() => tree.insert(child, tree.makeNode(new StoryCard()))).toThrow();
+      expect(() => tree.insert(node, root.id, 'invalid-uuid')).toThrow();
     });
   });
 
-  describe(`getRoot`, () => {
-    it(`returns null if there is nodes in the tree`, () => {
-      const tree = new StoryTree();
-
-      expect(tree.getRoot()).toBeNull();
-    });
-  });
-
-  describe(`findById`, () => {
-    it(`returns bound the tree node with given id`, () => {
-      const tree = new StoryTree();
-      const root = tree.makeNode(new StoryCard());
-      const node = tree.makeNode(new StoryCard());
+  describe(`removeById`, () => {
+    it(`throws error if given node does not exist`, () => {
+      const tree = StoryTree.create();
+      const root = StoryCard.create();
+      const node = StoryCard.create();
 
       tree.insert(root);
       tree.insert(node);
 
-      expect(tree.findById(node.id)).toEqual(node);
-    });
-  });
-
-  describe(`remove`, () => {
-    it(`throws error if given node does not exist`, () => {
-      const tree = new StoryTree();
-      const node = tree.makeNode(new StoryCard());
-
-      expect(() => tree.remove(node)).toThrow();
+      expect(() => tree.removeById('invalid-uuid')).toThrow();
     });
 
-    it(`removes node with all its children from the tree`, () => {
-      const tree = new StoryTree();
-      const root = tree.makeNode(new StoryCard());
-      const rootChild = tree.makeNode(new StoryCard());
-      const rootGrandChild = tree.makeNode(new StoryCard());
+    xit(`removes node with all its children from the tree`, () => {
+      const tree = StoryTree.create();
+      const root = StoryCard.create();
+      const leftRootChild = StoryCard.create();
+      const rightRootChild = StoryCard.create();
+      const leftGrandRootChild = StoryCard.create();
 
       tree.insert(root);
-      tree.insert(rootChild);
-      tree.insert(rootGrandChild, rootChild);
+      tree.insert(leftRootChild);
+      tree.insert(rightRootChild);
+      tree.insert(leftGrandRootChild, leftRootChild.id);
 
-      tree.remove(rootChild);
+      tree.removeById(leftRootChild.id);
 
-      expect(tree.getAllNodes().size).toEqual(1);
+      const entries = tree.getAllNodes().entries();
+      const entriesMappedtoArray = Array.from(entries);
+
+      expect(entriesMappedtoArray).toEqual([
+        root,
+        rightRootChild
+      ]);
     });
   });
 });

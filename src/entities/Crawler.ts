@@ -1,24 +1,62 @@
-import { ITreeNode } from '@/interfaces';
+import { IIdentifiable } from '@/interfaces';
+import Tree from './Tree';
 
-export function crawlBreadthFirst<T>(root: ITreeNode, cb: (node: ITreeNode) => T): Array<T> {
-  function bfs(treeNode: ITreeNode, cb: (node: ITreeNode) => T): any {
-    const children = treeNode.getTree().getChildrenOf(treeNode);
+function bfs<T extends IIdentifiable, R>(
+  tree: Tree<T>,
+  node: T,
+  cb: (node: T) => R
+): Array<R> {
+  const children = tree.getChildrenOf(node.id);
 
-    return []
-      // @ts-ignore
-      .concat(...children.map(child => cb(child as ITreeNode)))
-      .concat(...children.map(child => bfs(child as ITreeNode, cb)));
+  if (!children || !children.length) {
+    return [];
   }
-  
-  return [cb(root)].concat(...bfs(root, cb));
+
+  return children.map((child: T) => cb(child)).concat(
+    ...children.map((child: T) => bfs<T, R>(tree, child, cb))
+  );
 }
 
-export function crawlDeepFirst<T>(root: ITreeNode, cb: (node: ITreeNode) => T): Array<T> {
-  const children = root.getTree().getChildrenOf(root);
+export function crawlBreadthFirst<T extends IIdentifiable, R>(
+  tree: Tree<T>,
+  cb: (node: T) => R
+): Array<R> {
+  const root = tree.getRoot();
 
-  return [cb(root)].concat(
-    ...children.map(child => crawl(child as ITreeNode, cb))
+  if (!root) {
+    return [];
+  }
+  
+  return [cb(root)].concat(...bfs<T, R>(tree, root, cb));
+}
+
+function dfs<T extends IIdentifiable, R>(
+  tree: Tree<T>,
+  node: T,
+  cb: (node: T) => R
+): Array<R> {
+  const children = tree.getChildrenOf(node.id);
+
+  if (!children || !children.length) {
+    return [cb(node)];
+  }
+
+  return [cb(node)].concat(
+    ...children.map(child => dfs<T, R>(tree, child, cb))
   );
+}
+
+export function crawlDeepFirst<T extends IIdentifiable, R>(
+  tree: Tree<T>,
+  cb: (node: T) => R
+): Array<R> {
+  const root = tree.getRoot();
+
+  if (!root) {
+    return [];
+  }
+
+  return dfs<T, R>(tree, root, cb);
 }
 
 export const crawl = crawlDeepFirst;

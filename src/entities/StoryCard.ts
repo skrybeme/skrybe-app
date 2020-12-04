@@ -1,45 +1,56 @@
-import { IStoryCard, ITag } from '@/interfaces';
+import { IIdentifiable, IStoryCard, IStoryCardProps, ITag } from '@/interfaces';
 import { UuidType } from '@/common/types';
+import { generateUuid } from '@/utils';
 
-class StoryCard implements IStoryCard {
-  constructor(
-    public header: string = '',
-    public body: string = '',
-    public tags: Array<ITag> = []) {
+class StoryCard implements IStoryCard, IIdentifiable {
+  private constructor(
+    private _props: IStoryCardProps,
+    private _id: UuidType
+  ) {}
+
+  static create(props?: IStoryCardProps, id: UuidType = generateUuid()): StoryCard {
+    return new StoryCard({
+      ...props,
+      tags: props?.tags || []
+    }, id);
   }
 
-  public addTag(tag: ITag): IStoryCard {
-    if (this.tags.find(t => t.id === tag.id)) {
+  get id(): UuidType {
+    return this._id;
+  }
+
+  addTag(tag: ITag): IStoryCard {
+    if (this._props.tags!.find(t => t.id === tag.id)) {
       throw Error(`Tree node cannot have the same tag added twice.`);
     }
 
-    this.tags.push(tag);
+    this._props.tags!.push(tag);
 
     return this;
   }
 
-  public removeTag(tag: ITag | UuidType): IStoryCard {
-    this.tags = this.tags.filter(t => t != tag && t.id !== tag);
+  removeTag(tag: ITag | UuidType): IStoryCard {
+    this._props.tags = this._props.tags!.filter(t => t != tag && t.id !== tag);
 
     return this;
   }
 
-  public replaceTag(oldTag: ITag, newTag: ITag): IStoryCard {
-    const index = this.tags.indexOf(oldTag);
+  replaceTag(oldTag: ITag, newTag: ITag): IStoryCard {
+    const index = this._props.tags!.indexOf(oldTag);
 
-    this.tags.splice(index, 1, newTag);
-
-    return this;
-  }
-
-  public setBody(body: string): IStoryCard {
-    this.body = body;
+    this._props.tags!.splice(index, 1, newTag);
 
     return this;
   }
 
-  public setHeader(header: string): IStoryCard {
-    this.header = header;
+  setBody(body: string): IStoryCard {
+    this._props.body = body;
+
+    return this;
+  }
+
+  setHeader(header: string): IStoryCard {
+    this._props.header = header;
 
     return this;
   }

@@ -6,3 +6,9 @@ dist
 
 # vendors
 node_modules
+
+# bin
+deploy
+
+# notes
+TODO

@@ -1,17 +1,19 @@
-import ITreeNode from './ITreeNode';
+import IIdentifiable from './IIdentifiable';
 import { Maybe, UuidType } from '@/common/types';
 
-interface ITree {
-  findById(id: UuidType): ITreeNode | null;
-  getAllNodes(): Map<UuidType, ITreeNode>;
-  getChildrenOf(node: ITreeNode): Array<ITreeNode>;
-  getRoot(): ITreeNode | null;
+interface ITree<T extends IIdentifiable> {
+  getAllNodes(): Map<UuidType, T>;
+  getChildrenOf(id: UuidType): Maybe<Array<T>>;
+  getNodeById(id: UuidType): Maybe<T>;
+  getParentOf(id: UuidType): Maybe<T>;
+  getRoot(): Maybe<T>;
+  getSubtreeById(id: UuidType): Maybe<ITree<T>>;
   insert(
-    node: ITreeNode,
-    parentNode?: ITreeNode,
-    placeBefore?: ITreeNode
-  ): Maybe<ITreeNode>;
-  remove(node: ITreeNode | UuidType): ITreeNode;
+    node: T,
+    parentNodeId?: UuidType,
+    placeBeforeNodeId?: UuidType
+  ): void;
+  removeById(id: UuidType): void;
 };
 
 export default ITree;
