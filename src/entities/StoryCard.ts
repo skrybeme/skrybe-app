@@ -15,11 +15,31 @@ class StoryCard implements IStoryCard, IIdentifiable {
     }, id);
   }
 
+  get body(): string {
+    return this._props.body || "";
+  }
+
+  get header(): string {
+    return this._props.header || "";
+  }
+
   get id(): UuidType {
     return this._id;
   }
 
-  addTag(tag: ITag): IStoryCard {
+  get tags(): Array<ITag> {
+    return this._props.tags || [];
+  }
+
+  set body(value: string) {
+    this._props.body = value;
+  }
+
+  set header(value: string) {
+    this._props.header = value;
+  }
+
+  addTag(tag: ITag): StoryCard {
     if (this._props.tags!.find(t => t.id === tag.id)) {
       throw Error(`Tree node cannot have the same tag added twice.`);
     }
@@ -29,28 +49,24 @@ class StoryCard implements IStoryCard, IIdentifiable {
     return this;
   }
 
-  removeTag(tag: ITag | UuidType): IStoryCard {
-    this._props.tags = this._props.tags!.filter(t => t != tag && t.id !== tag);
+  removeTagById(id: UuidType): StoryCard {
+    const index = this._props.tags!.findIndex((tag: ITag) => tag.id === id);
+
+    if (index < 0) {
+      throw new Error(
+        `A tag with id "${id}" does not exist in card with id "${this.id}"`
+      );
+    }
+
+    this._props.tags!.splice(index, 1);
 
     return this;
   }
 
-  replaceTag(oldTag: ITag, newTag: ITag): IStoryCard {
-    const index = this._props.tags!.indexOf(oldTag);
+  replaceTag(oldTagId: UuidType, newTag: ITag): StoryCard {
+    const index = this._props.tags!.findIndex((tag: ITag) => tag.id === oldTagId);
 
     this._props.tags!.splice(index, 1, newTag);
-
-    return this;
-  }
-
-  setBody(body: string): IStoryCard {
-    this._props.body = body;
-
-    return this;
-  }
-
-  setHeader(header: string): IStoryCard {
-    this._props.header = header;
 
     return this;
   }

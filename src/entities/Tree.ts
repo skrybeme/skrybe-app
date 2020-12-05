@@ -1,5 +1,7 @@
 import { IIdentifiable, ITree, ITreeNodeProps, ITreeProps } from '@/interfaces';
 import { Maybe, UuidType } from '@/common/types';
+import { crawl } from './Crawler';
+import isEqual from 'lodash/isEqual';
 
 class TreeMap<T> extends Map<UuidType, ITreeNodeProps<T>> {
   static toNativeMap<T>(map: TreeMap<T>): Map<UuidType, T> {
@@ -13,13 +15,17 @@ class TreeMap<T> extends Map<UuidType, ITreeNodeProps<T>> {
   }
 }
 
-class Tree<T extends IIdentifiable> implements ITree<T> {
+class Tree<T extends IIdentifiable> implements ITree<T, TreeMap<T>> {
   protected constructor(
     protected _tree: TreeMap<T> = new TreeMap<T>()
   ) {}
 
   static create<T extends IIdentifiable>(props?: ITreeProps): Tree<T> {
     return new Tree<T>();
+  }
+
+  equals(tree: Tree<T>): boolean {
+    return isEqual(this._tree, tree.getRawTreeMap());
   }
 
   getAllNodes(): Map<UuidType, T> {
@@ -61,6 +67,10 @@ class Tree<T extends IIdentifiable> implements ITree<T> {
     return this._tree.get(id) || null;
   }
 
+  getRawTreeMap(): TreeMap<T> {
+    return this._tree;
+  }
+
   getRoot(): Maybe<T> {
     const rootTreeNode = this.getRootTreeNode()
 
@@ -86,7 +96,7 @@ class Tree<T extends IIdentifiable> implements ITree<T> {
 
     let out: Maybe<ITreeNodeProps<T>> = null;
 
-    this._tree.forEach((value: ITreeNodeProps<T>, key: UuidType) => {
+    this._tree.forEach((value: ITreeNodeProps<T>) => {
       if (value.isRoot) {
         out = value;
 
@@ -97,8 +107,27 @@ class Tree<T extends IIdentifiable> implements ITree<T> {
     return out;
   }
 
-  getSubtreeById(id: UuidType): Maybe<ITree<T>> {
-    return null;
+  getSubtreeById(id: UuidType): Maybe<Tree<T>> {
+    const nodeIds = crawl(this, (node: T): UuidType => node.id, id);
+
+    if (nodeIds && !nodeIds.length) {
+      return null;
+    }
+
+    const map = new TreeMap<T>();
+
+    nodeIds.forEach((nodeId: UuidType): void => {
+      const treeNode = this._tree.get(nodeId)!;
+
+      if (nodeId === id) {
+        treeNode.isRoot = true;
+        treeNode.parentId = 0;
+      }
+
+      map.set(nodeId, treeNode);
+    });
+
+    return new Tree<T>(map);
   }
 
   insert(
@@ -166,6 +195,10 @@ class Tree<T extends IIdentifiable> implements ITree<T> {
     if (!this._tree.has(id)) {
       throw new Error(`Node with given ID does not exist in the story tree.`);
     }
+
+    crawl(this, (node: T): void => {
+      this._tree.delete(node.id);
+    }, id);
   }
 }
 

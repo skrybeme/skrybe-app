@@ -1,12 +1,14 @@
 import { IIdentifiable } from '@/interfaces';
 import { Queue } from '@/common/data-structures';
+import { UuidType } from '@/common/types';
 import Tree from './Tree';
 
 export function crawlBreadthFirst<T extends IIdentifiable, R>(
   tree: Tree<T>,
-  cb: (node: T) => R
+  cb: (node: T) => R,
+  startNodeId?: UuidType
 ): Array<R> {
-  const root = tree.getRoot();
+  const root = startNodeId ? tree.getNodeById(startNodeId) : tree.getRoot();
 
   if (!root) {
     return [];
@@ -34,6 +36,20 @@ export function crawlBreadthFirst<T extends IIdentifiable, R>(
   return out;
 }
 
+export function crawlDeepFirst<T extends IIdentifiable, R>(
+  tree: Tree<T>,
+  cb: (node: T) => R,
+  startNodeId?: UuidType
+): Array<R> {
+  const root = startNodeId ? tree.getNodeById(startNodeId) : tree.getRoot();
+
+  if (!root) {
+    return [];
+  }
+
+  return dfs<T, R>(tree, root, cb);
+}
+
 function dfs<T extends IIdentifiable, R>(
   tree: Tree<T>,
   node: T,
@@ -48,19 +64,6 @@ function dfs<T extends IIdentifiable, R>(
   return [cb(node)].concat(
     ...children.map(child => dfs<T, R>(tree, child, cb))
   );
-}
-
-export function crawlDeepFirst<T extends IIdentifiable, R>(
-  tree: Tree<T>,
-  cb: (node: T) => R
-): Array<R> {
-  const root = tree.getRoot();
-
-  if (!root) {
-    return [];
-  }
-
-  return dfs<T, R>(tree, root, cb);
 }
 
 export const crawl = crawlDeepFirst;

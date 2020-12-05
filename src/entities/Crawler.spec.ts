@@ -1,12 +1,37 @@
 import StoryCard from './StoryCard';
-import StoryTree from './StoryTree';
+import Tree from './Tree';
 import { crawl, crawlBreadthFirst, crawlDeepFirst } from './Crawler';
 import { UuidType } from '../common/types';
 
 describe(`Crawler`, () => {
+  //       A
+  //    B     C
+  //  D   E F   G
+  // H I
+  const tree = Tree.create<StoryCard>();
+  const A = StoryCard.create();
+  const B = StoryCard.create();
+  const C = StoryCard.create();
+  const D = StoryCard.create();
+  const E = StoryCard.create();
+  const F = StoryCard.create();
+  const G = StoryCard.create();
+  const H = StoryCard.create();
+  const I = StoryCard.create();
+      
+  tree.insert(A);
+  tree.insert(B);
+  tree.insert(C);
+  tree.insert(D, B.id);
+  tree.insert(E, B.id);
+  tree.insert(F, C.id);
+  tree.insert(G, C.id);
+  tree.insert(H, D.id);
+  tree.insert(I, D.id);
+
   describe(`crawlBreadthFirst`, () => {
     it(`returns an empty array if given tree does not have a root node`, () => {
-      const tree = StoryTree.create<StoryCard>();
+      const tree = Tree.create<StoryCard>();
 
       const result = crawlBreadthFirst<StoryCard, UuidType>(
         tree,
@@ -21,27 +46,6 @@ describe(`Crawler`, () => {
       //    B     C
       //  D   E F   G
       // H I
-      const tree = StoryTree.create<StoryCard>();
-      const A = StoryCard.create();
-      const B = StoryCard.create();
-      const C = StoryCard.create();
-      const D = StoryCard.create();
-      const E = StoryCard.create();
-      const F = StoryCard.create();
-      const G = StoryCard.create();
-      const H = StoryCard.create();
-      const I = StoryCard.create();
-      
-      tree.insert(A);
-      tree.insert(B);
-      tree.insert(C);
-      tree.insert(D, B.id);
-      tree.insert(E, B.id);
-      tree.insert(F, C.id);
-      tree.insert(G, C.id);
-      tree.insert(H, D.id);
-      tree.insert(I, D.id);
-
       const result = crawlBreadthFirst<StoryCard, UuidType>(
         tree,
         (item: StoryCard) => item.id
@@ -59,11 +63,45 @@ describe(`Crawler`, () => {
         I.id
       ]);
     });
+
+    it(`can start the crawl from specified node`, () => {
+      //       A
+      //    B     C
+      //  D   E F   G
+      // H I
+      const result = crawlBreadthFirst<StoryCard, UuidType>(
+        tree,
+        (item: StoryCard) => item.id,
+        B.id
+      );
+
+      expect(result).toEqual([
+        B.id,
+        D.id,
+        E.id,
+        H.id,
+        I.id
+      ]);
+    });
+
+    it(`returns an empty array if specified starting node does not exist in the tree`, () => {
+      //       A
+      //    B     C
+      //  D   E F   G
+      // H I
+      const result = crawlBreadthFirst<StoryCard, UuidType>(
+        tree,
+        (item: StoryCard) => item.id,
+        'invalid-uuid'
+      );
+
+      expect(result).toEqual([]);
+    });
   });
 
   describe(`crawlDeepFirst`, () => {
     it(`returns an empty array if given tree does not have a root node`, () => {
-      const tree = StoryTree.create<StoryCard>();
+      const tree = Tree.create<StoryCard>();
 
       const result = crawlDeepFirst<StoryCard, UuidType>(
         tree,
@@ -78,27 +116,6 @@ describe(`Crawler`, () => {
       //    B     C
       //  D   E F   G
       // H I
-      const tree = StoryTree.create<StoryCard>();
-      const A = StoryCard.create();
-      const B = StoryCard.create();
-      const C = StoryCard.create();
-      const D = StoryCard.create();
-      const E = StoryCard.create();
-      const F = StoryCard.create();
-      const G = StoryCard.create();
-      const H = StoryCard.create();
-      const I = StoryCard.create();
-      
-      tree.insert(A);
-      tree.insert(B);
-      tree.insert(C);
-      tree.insert(D, B.id);
-      tree.insert(E, B.id);
-      tree.insert(F, C.id);
-      tree.insert(G, C.id);
-      tree.insert(H, D.id);
-      tree.insert(I, D.id);
-
       const result = crawlDeepFirst<StoryCard, UuidType>(
         tree,
         (item: StoryCard) => item.id
@@ -115,6 +132,40 @@ describe(`Crawler`, () => {
         F.id,
         G.id
       ]);
+    });
+
+    it(`can start the crawl from specified node`, () => {
+      //       A
+      //    B     C
+      //  D   E F   G
+      // H I
+      const result = crawlDeepFirst<StoryCard, UuidType>(
+        tree,
+        (item: StoryCard) => item.id,
+        B.id
+      );
+
+      expect(result).toEqual([
+        B.id,
+        D.id,
+        H.id,
+        I.id,
+        E.id
+      ]);
+    });
+
+    it(`returns an empty array if specified starting node does not exist in the tree`, () => {
+      //       A
+      //    B     C
+      //  D   E F   G
+      // H I
+      const result = crawlDeepFirst<StoryCard, UuidType>(
+        tree,
+        (item: StoryCard) => item.id,
+        'invalid-uuid'
+      );
+
+      expect(result).toEqual([]);
     });
   });
 

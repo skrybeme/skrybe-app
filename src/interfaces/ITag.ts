@@ -1,10 +1,10 @@
 import { UuidType } from '@/common/types';
-import { ColorType } from '@/entities/types';
+import { TagColor } from '@/entities/enums';
 
 interface ITag {
   id: UuidType;
-  color: ColorType;
-  label: String;
+  color: TagColor;
+  label: string;
 };
 
 export default ITag;
