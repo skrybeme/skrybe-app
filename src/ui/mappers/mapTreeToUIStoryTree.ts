@@ -1,17 +1,19 @@
 import { Maybe } from '@/common/types';
 import { crawlBreadthFirst } from '@/entities/Crawler';
-import { ITree, ITreeNode, UIStoryTree } from '@/interfaces';
+import StoryCard from '@/entities/StoryCard';
+import Tree from '@/entities/Tree';
+import { ITreeNode, UIStoryTree } from '@/interfaces';
 
 // @TODO
 // Implement this in a way that reduces memory complexity.
-export default function mapTreeToUIStoryTree(tree: ITree): Maybe<UIStoryTree> {
+export default function mapTreeToUIStoryTree(tree: Tree<StoryCard>): Maybe<UIStoryTree> {
   const root = tree.getRoot();
 
   if (!root) {
     return null;
   }
 
-  const rootStoryCard = root.getStoryCard();
+  const rootStoryCard = root;
 
   let out: UIStoryTree = {
     id: root.id,
@@ -25,12 +27,13 @@ export default function mapTreeToUIStoryTree(tree: ITree): Maybe<UIStoryTree> {
     [root.id]: out.children
   }
 
-  crawlBreadthFirst<void>(tree.getRoot()!, (node: ITreeNode) => {
+  // @ts-ignore
+  crawlBreadthFirst<any, any>(tree.getRoot()!, (node: StoryCard) => {
     if (node.id === root.id) {
       return;
     }
   
-    const storyCard = node.getStoryCard();
+    const storyCard = node;
 
     const entry = {
       id: node.id,

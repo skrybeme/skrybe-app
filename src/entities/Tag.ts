@@ -7,15 +7,15 @@ import ITagProps from '@/interfaces/ITagProps';
 class Tag implements ITag {
   private constructor(
     public _props: ITagProps,
-    private _id: UuidType = generateUuid()
+    private _id: UuidType
   ) {}
 
-  static create(props?: ITagProps) {
+  static create(props?: ITagProps, id: UuidType = generateUuid()) {
     return new Tag({
       color: TagColor.WHITE,
       label: "",
       ...props
-    });
+    }, id);
   }
 
   get color(): TagColor {

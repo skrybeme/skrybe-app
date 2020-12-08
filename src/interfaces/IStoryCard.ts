@@ -1,7 +1,8 @@
 import ITag from './ITag';
 import { UuidType } from '@/common/types';
+import IIdentifiable from './IIdentifiable';
 
-interface IStoryCard {
+interface IStoryCard extends IIdentifiable {
   body: string;
   header: string;
   tags: Array<ITag>;

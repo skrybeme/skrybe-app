@@ -1,4 +1,4 @@
-import { UuidType } from "@/common/types";
+import { UuidType } from '@/common/types';
 
 interface IIdentifiable {
   id: UuidType;

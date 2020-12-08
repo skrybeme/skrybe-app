@@ -1,7 +1,7 @@
-import createMockTreeDataSource from '@/data-sources/mock/MockTreeDataSource';
+import createMockTreeDataSource from '@/data-sources/mock/MockStoryTreeDataSource';
 import { ITreeDataSource, ITreeRepo, ITreeUseCases } from '@/interfaces';
-import createTreeRepo from '@/repository/TreeRepo';
-import createTreeUseCases from '@/use-cases/tree-use-cases';
+import createTreeRepo from '@/repository/StoryTreeRepo';
+import createTreeUseCases from '@/use-cases/story-tree-use-cases';
 import { Container, ContainerModule } from 'inversify';
 import * as SYMBOL from './symbols';
 

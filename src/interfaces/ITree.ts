@@ -1,7 +1,7 @@
 import IIdentifiable from './IIdentifiable';
 import { Maybe, UuidType } from '@/common/types';
 
-interface ITree<T extends IIdentifiable, M> {
+interface ITree<T extends IIdentifiable, M> extends IIdentifiable {
   equals(tree: ITree<T, M>): boolean;
   getAllNodes(): Map<UuidType, T>;
   getChildrenOf(id: UuidType): Maybe<Array<T>>;

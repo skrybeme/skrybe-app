@@ -1,8 +1,8 @@
-import { IIdentifiable, IStoryCard, IStoryCardProps, ITag } from '@/interfaces';
+import { IStoryCard, IStoryCardProps, ITag } from '@/interfaces';
 import { UuidType } from '@/common/types';
 import { generateUuid } from '@/utils';
 
-class StoryCard implements IStoryCard, IIdentifiable {
+class StoryCard implements IStoryCard {
   private constructor(
     private _props: IStoryCardProps,
     private _id: UuidType

@@ -1,8 +1,7 @@
-import { UuidType } from '@/common/types';
 import { TagColor } from '@/entities/enums';
+import IIdentifiable from './IIdentifiable';
 
-interface ITag {
-  id: UuidType;
+interface ITag extends IIdentifiable {
   color: TagColor;
   label: string;
 };

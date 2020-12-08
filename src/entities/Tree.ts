@@ -2,6 +2,7 @@ import { IIdentifiable, ITree, ITreeNodeProps, ITreeProps } from '@/interfaces';
 import { Maybe, UuidType } from '@/common/types';
 import { crawl } from './Crawler';
 import isEqual from 'lodash/isEqual';
+import { generateUuid } from '@/utils';
 
 class TreeMap<T> extends Map<UuidType, ITreeNodeProps<T>> {
   static toNativeMap<T>(map: TreeMap<T>): Map<UuidType, T> {
@@ -17,11 +18,15 @@ class TreeMap<T> extends Map<UuidType, ITreeNodeProps<T>> {
 
 class Tree<T extends IIdentifiable> implements ITree<T, TreeMap<T>> {
   protected constructor(
-    protected _tree: TreeMap<T> = new TreeMap<T>()
+    protected _tree: TreeMap<T> = new TreeMap<T>(),
+    protected _id: UuidType
   ) {}
 
-  static create<T extends IIdentifiable>(props?: ITreeProps): Tree<T> {
-    return new Tree<T>();
+  static create<T extends IIdentifiable>(
+    props?: ITreeProps,
+    id: UuidType = generateUuid()
+  ): Tree<T> {
+    return new Tree<T>(undefined, id);
   }
 
   equals(tree: Tree<T>): boolean {
@@ -121,13 +126,17 @@ class Tree<T extends IIdentifiable> implements ITree<T, TreeMap<T>> {
 
       if (nodeId === id) {
         treeNode.isRoot = true;
-        treeNode.parentId = 0;
+        treeNode.parentId = "";
       }
 
       map.set(nodeId, treeNode);
     });
 
-    return new Tree<T>(map);
+    return new Tree<T>(map, generateUuid());
+  }
+
+  get id() {
+    return this._id;
   }
 
   insert(
@@ -140,7 +149,7 @@ class Tree<T extends IIdentifiable> implements ITree<T, TreeMap<T>> {
         childrenIds: [],
         isRoot: true,
         node,
-        parentId: 0,
+        parentId: "",
       });
 
       return;
