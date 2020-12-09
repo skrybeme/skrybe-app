@@ -16,7 +16,7 @@ export { default as IStoryTreeUseCases } from './IStoryTreeUseCases';
 export { default as ITag } from './ITag';
 export { default as ITree } from './ITree';
 export { default as ITreeNode } from './ITreeNode';
-export { default as ITreeNodeProps } from './ITreeNodeProps';
+export { default as ITreeNodeContext } from './ITreeNodeContext';
 export { default as ITreeProps } from './ITreeProps';
 export { default as UIStoryTree } from './UIStoryTree';
 export { default as UITag } from './UITag';

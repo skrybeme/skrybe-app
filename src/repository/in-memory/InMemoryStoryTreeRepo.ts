@@ -13,10 +13,18 @@ export default class InMemoryStoryTreeRepo implements IStoryTreeRepo {
   }
 
   getCollection(): Promise<Tree<StoryCard>[]> {
-    return Promise.resolve([]);
+    return Promise.resolve(this._treeCollection);
   }
 
   save(tree: Tree<StoryCard>): Promise<Tree<StoryCard>> {
+    const index = this._treeCollection.findIndex((t) => t.equals(tree));
+
+    if (index < 0) {
+      this._treeCollection.push(tree);
+    } else {
+      this._treeCollection.splice(index, 1, tree);
+    }
+
     return Promise.resolve(tree);
   }
 }

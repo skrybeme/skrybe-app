@@ -1,9 +1,8 @@
-import { applyMiddleware, combineReducers, createStore } from 'redux';
-import { cards, settings, view } from '@/ui/store/reducers';
-import { useLocalStorageMiddleware } from '@/ui/store/middleware';
+import { combineReducers, createStore } from 'redux';
+import { settings } from '@/ui/store/reducers';
 
 export default function() {
-  const rootReducer = combineReducers({ cards, settings, view });
+  const rootReducer = combineReducers({ settings });
   
-  return createStore(rootReducer, applyMiddleware(useLocalStorageMiddleware()));
+  return createStore(rootReducer);
 };

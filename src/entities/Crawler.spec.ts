@@ -1,6 +1,7 @@
 import StoryCard from './StoryCard';
 import Tree from './Tree';
 import { crawl, crawlBreadthFirst, crawlDeepFirst } from './Crawler';
+import { ITreeNodeContext } from '../interfaces';
 import { UuidType } from '../common/types';
 
 describe(`Crawler`, () => {
@@ -35,7 +36,7 @@ describe(`Crawler`, () => {
 
       const result = crawlBreadthFirst<StoryCard, UuidType>(
         tree,
-        (item: StoryCard) => item.id
+        (item: ITreeNodeContext<StoryCard>) => item.node.id
       );
 
       expect(result).toEqual([]);
@@ -48,7 +49,7 @@ describe(`Crawler`, () => {
       // H I
       const result = crawlBreadthFirst<StoryCard, UuidType>(
         tree,
-        (item: StoryCard) => item.id
+        (item: ITreeNodeContext<StoryCard>) => item.node.id
       );
 
       expect(result).toEqual([
@@ -71,7 +72,7 @@ describe(`Crawler`, () => {
       // H I
       const result = crawlBreadthFirst<StoryCard, UuidType>(
         tree,
-        (item: StoryCard) => item.id,
+        (item: ITreeNodeContext<StoryCard>) => item.node.id,
         B.id
       );
 
@@ -91,7 +92,7 @@ describe(`Crawler`, () => {
       // H I
       const result = crawlBreadthFirst<StoryCard, UuidType>(
         tree,
-        (item: StoryCard) => item.id,
+        (item: ITreeNodeContext<StoryCard>) => item.node.id,
         'invalid-uuid'
       );
 
@@ -105,7 +106,7 @@ describe(`Crawler`, () => {
 
       const result = crawlDeepFirst<StoryCard, UuidType>(
         tree,
-        (item: StoryCard) => item.id
+        (item: ITreeNodeContext<StoryCard>) => item.node.id
       );
 
       expect(result).toEqual([]);
@@ -118,7 +119,7 @@ describe(`Crawler`, () => {
       // H I
       const result = crawlDeepFirst<StoryCard, UuidType>(
         tree,
-        (item: StoryCard) => item.id
+        (item: ITreeNodeContext<StoryCard>) => item.node.id
       );
 
       expect(result).toEqual([
@@ -141,7 +142,7 @@ describe(`Crawler`, () => {
       // H I
       const result = crawlDeepFirst<StoryCard, UuidType>(
         tree,
-        (item: StoryCard) => item.id,
+        (item: ITreeNodeContext<StoryCard>) => item.node.id,
         B.id
       );
 
@@ -161,7 +162,7 @@ describe(`Crawler`, () => {
       // H I
       const result = crawlDeepFirst<StoryCard, UuidType>(
         tree,
-        (item: StoryCard) => item.id,
+        (item: ITreeNodeContext<StoryCard>) => item.node.id,
         'invalid-uuid'
       );
 

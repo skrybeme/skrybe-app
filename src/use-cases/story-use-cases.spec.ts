@@ -2,28 +2,28 @@ import { LOGICAL_OPERATOR } from '../common/enums';
 import { UuidType } from '../common/types';
 import { crawlBreadthFirst, crawlDeepFirst } from '../entities/Crawler';
 import StoryCard from '../entities/StoryCard';
-import StoryTree from '../entities/StoryTree';
 import Tag from '../entities/Tag';
 import { createStoryUseCases } from './story-use-cases';
 import { ITag } from './../interfaces';
+import Tree from '../entities/Tree';
 
 describe(`StoryUseCases`, () => {
   const storyUseCases = createStoryUseCases();
 
-  const tree = new StoryTree();
-  const root = tree.makeNode(new StoryCard('', '', [new Tag(), new Tag()]));
-  const rootLeftChild = tree.makeNode(new StoryCard('', '', [new Tag(), new Tag()]));
-  const rootRightChild = tree.makeNode(new StoryCard('', '', [new Tag(), new Tag()]));
-  const rootGrandLeftChild = tree.makeNode(new StoryCard('', '', [new Tag(), new Tag()]));
-  const rootGrandRightChild = tree.makeNode(new StoryCard('', '', [new Tag(), new Tag()]));
-  const rootGrandGrandRightChild = tree.makeNode(new StoryCard('', '', [new Tag(), new Tag()]));
+  const tree = Tree.create<StoryCard>();
+  const root = StoryCard.create({ tags: [Tag.create(), Tag.create()] });
+  const rootLeftChild = StoryCard.create({ tags: [Tag.create(), Tag.create()] });
+  const rootRightChild = StoryCard.create({ tags: [Tag.create(), Tag.create()] });
+  const rootGrandLeftChild = StoryCard.create({ tags: [Tag.create(), Tag.create()] });
+  const rootGrandRightChild = StoryCard.create({ tags: [Tag.create(), Tag.create()] });
+  const rootGrandGrandRightChild = StoryCard.create({ tags: [Tag.create(), Tag.create()] });
 
   tree.insert(root);
   tree.insert(rootLeftChild);
   tree.insert(rootRightChild);
-  tree.insert(rootGrandLeftChild, rootLeftChild);
-  tree.insert(rootGrandRightChild, rootRightChild);
-  tree.insert(rootGrandGrandRightChild, rootGrandRightChild);
+  tree.insert(rootGrandLeftChild, rootLeftChild.id);
+  tree.insert(rootGrandRightChild, rootRightChild.id);
+  tree.insert(rootGrandGrandRightChild, rootGrandRightChild.id);
 
   describe(`buildStory`, () => {
     const { bfs, buildStory, dfs } = storyUseCases;
@@ -98,8 +98,8 @@ describe(`StoryUseCases`, () => {
       const { byTags } = storyUseCases;
 
       const hasDesiredTagIds = byTags([
-        root.getStoryCard().tags[0].id as UuidType,
-        rootGrandLeftChild.getStoryCard().tags[0].id as UuidType
+        root.tags[0].id as UuidType,
+        rootGrandLeftChild.tags[0].id as UuidType
       ]);
 
       expect(hasDesiredTagIds(root)).toEqual(root);
@@ -112,8 +112,8 @@ describe(`StoryUseCases`, () => {
 
       const hasDesiredTagIds = byTags(
         [
-          root.getStoryCard().tags[0].id as UuidType,
-          rootGrandLeftChild.getStoryCard().tags[0].id as UuidType
+          root.tags[0].id as UuidType,
+          rootGrandLeftChild.tags[0].id as UuidType
         ],
         LOGICAL_OPERATOR.AND
       );
@@ -123,7 +123,7 @@ describe(`StoryUseCases`, () => {
       expect(hasDesiredTagIds(rootLeftChild)).toBeNull();
 
       const hasAllRootTagIds = byTags(
-        root.getStoryCard().tags.map(
+        root.tags.map(
           (tag: ITag) => tag.id as UuidType
         ),
         LOGICAL_OPERATOR.AND

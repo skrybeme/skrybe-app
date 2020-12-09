@@ -1,14 +1,14 @@
-import { IIdentifiable, ITree, ITreeNodeProps, ITreeProps } from '@/interfaces';
+import { IIdentifiable, ITree, ITreeNodeContext, ITreeProps } from '@/interfaces';
 import { Maybe, UuidType } from '@/common/types';
 import { crawl } from './Crawler';
 import isEqual from 'lodash/isEqual';
 import { generateUuid } from '@/utils';
 
-class TreeMap<T> extends Map<UuidType, ITreeNodeProps<T>> {
+class TreeMap<T> extends Map<UuidType, ITreeNodeContext<T>> {
   static toNativeMap<T>(map: TreeMap<T>): Map<UuidType, T> {
     const out = new Map<UuidType, T>();
 
-    map.forEach((value: ITreeNodeProps<T>, key: UuidType) => {
+    map.forEach((value: ITreeNodeContext<T>, key: UuidType) => {
       out.set(key, value.node);
     });
 
@@ -64,11 +64,37 @@ class Tree<T extends IIdentifiable> implements ITree<T, TreeMap<T>> {
     return out;
   }
 
-  getNodeById(id: UuidType): Maybe<T> {
-    return this.getTreeNodeById(id)?.node || null;
+  getNodeContextChildrenOf(id: UuidType): Maybe<Array<ITreeNodeContext<T>>> {
+    const node = this._tree.get(id);
+
+    if (!node) {
+      return null;
+    }
+
+    const childrenIds = node.childrenIds;
+
+    if (!childrenIds.length) {
+      return [];
+    }
+
+    const out: Array<ITreeNodeContext<T>> = [];
+
+    childrenIds.map((childId: UuidType) => {
+      const childNode = this.getNodeContextById(childId);
+
+      if (childNode) {
+        out.push(childNode);
+      }
+    });
+
+    return out;
   }
 
-  protected getTreeNodeById(id: UuidType): Maybe<ITreeNodeProps<T>> {
+  getNodeById(id: UuidType): Maybe<T> {
+    return this.getNodeContextById(id)?.node || null;
+  }
+
+  getNodeContextById(id: UuidType): Maybe<ITreeNodeContext<T>> {
     return this._tree.get(id) || null;
   }
 
@@ -77,31 +103,31 @@ class Tree<T extends IIdentifiable> implements ITree<T, TreeMap<T>> {
   }
 
   getRoot(): Maybe<T> {
-    const rootTreeNode = this.getRootTreeNode()
+    const rootTreeNode = this.getRootContext()
 
     return rootTreeNode ? rootTreeNode.node : null;
   }
 
   getParentOf(id: UuidType): Maybe<T> {
-    const node = this.getTreeNodeById(id);
+    const node = this.getNodeContextById(id);
 
     if (!node?.parentId) {
       return null;
     }
 
-    const parentNode = this.getTreeNodeById(node?.parentId);
+    const parentNode = this.getNodeContextById(node?.parentId);
 
     return parentNode?.node || null;
   }
 
-  protected getRootTreeNode(): Maybe<ITreeNodeProps<T>> {
+  getRootContext(): Maybe<ITreeNodeContext<T>> {
     if (!this._tree.size) {
       return null;
     }
 
-    let out: Maybe<ITreeNodeProps<T>> = null;
+    let out: Maybe<ITreeNodeContext<T>> = null;
 
-    this._tree.forEach((value: ITreeNodeProps<T>) => {
+    this._tree.forEach((value: ITreeNodeContext<T>) => {
       if (value.isRoot) {
         out = value;
 
@@ -113,7 +139,11 @@ class Tree<T extends IIdentifiable> implements ITree<T, TreeMap<T>> {
   }
 
   getSubtreeById(id: UuidType): Maybe<Tree<T>> {
-    const nodeIds = crawl(this, (node: T): UuidType => node.id, id);
+    const nodeIds = crawl(
+      this,
+      (nodeContext: ITreeNodeContext<T>): UuidType => nodeContext.node.id,
+      id
+    );
 
     if (nodeIds && !nodeIds.length) {
       return null;
@@ -156,7 +186,7 @@ class Tree<T extends IIdentifiable> implements ITree<T, TreeMap<T>> {
     }
 
     if (!parentNodeId) {
-      const root = this.getRootTreeNode();
+      const root = this.getRootContext();
 
       root?.childrenIds.push(node.id);
 
@@ -170,7 +200,7 @@ class Tree<T extends IIdentifiable> implements ITree<T, TreeMap<T>> {
       return;
     }
 
-    const parentNode = this.getTreeNodeById(parentNodeId);
+    const parentNode = this.getNodeContextById(parentNodeId);
 
     if (!parentNode) {
       throw new Error(
@@ -205,8 +235,8 @@ class Tree<T extends IIdentifiable> implements ITree<T, TreeMap<T>> {
       throw new Error(`Node with given ID does not exist in the story tree.`);
     }
 
-    crawl(this, (node: T): void => {
-      this._tree.delete(node.id);
+    crawl(this, (nodeContext: ITreeNodeContext<T>): void => {
+      this._tree.delete(nodeContext.node.id);
     }, id);
   }
 }

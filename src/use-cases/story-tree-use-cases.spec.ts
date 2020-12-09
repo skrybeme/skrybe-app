@@ -14,13 +14,13 @@ describe(`StoryTreeUseCases`, () => {
     const { getTreeById } = storyTreeUseCases;
 
     it(`resolves with null if the tree with given id does not exist in the repo`, async () => {
-      const entry = await getTreeById('invalid-uuid');
+      const entry = await getTreeById({ id: 'invalid-uuid' });
 
       expect(entry).toBeNull();
     });
 
     it(`resolves with story tree domain model if it exists in the repo`, async () => {
-      const entry = await getTreeById(tree.id);
+      const entry = await getTreeById({ id: tree.id });
 
       expect(entry).toEqual(tree);
     });

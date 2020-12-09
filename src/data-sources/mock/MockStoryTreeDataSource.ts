@@ -7,7 +7,7 @@ import { lorem } from 'faker';
 import createInMemoryStoryTreeDataSource from '../InMemoryStoryTreeDataSource';
 
 export default function createMockTreeDataSource(): IStoryTreeDataSource {
-  const tree = Tree.create<StoryCard>();
+  const tree = Tree.create<StoryCard>(undefined, "c0773e64-3a3a-11eb-adc1-0242ac120002");
   const nodes: Array<StoryCard> = [];
 
   for (let i = 0; i <= randomInt(10, 20); i++) {

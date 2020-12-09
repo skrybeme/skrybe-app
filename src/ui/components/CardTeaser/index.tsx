@@ -2,6 +2,7 @@ import React, { useCallback } from 'react';
 import { CardTeaserProps } from '@/interfaces/props';
 import { UITag } from '@/interfaces';
 import * as S from './styles';
+import { TagViewModel } from '@/interfaces/view-models';
 
 export function CardTeaser({
   handleClick,
@@ -19,7 +20,7 @@ export function CardTeaser({
         {header}
       </S.Header>
       <S.TagLine>
-        {tags?.map((tag: UITag) => (
+        {tags?.map((tag: TagViewModel) => (
           <S.Tag
             color={tag.color}
             key={tag.id}
