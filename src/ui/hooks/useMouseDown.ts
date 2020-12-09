@@ -6,7 +6,7 @@ export default function useMouseDown<T extends HTMLElement = HTMLElement>(
   const [isMouseDown, setIsMouseDown] = useState(false);
 
   const mouseDownCallback = useCallback((e: MouseEvent) => {
-    if (e.button !== 0) {
+    if (e.button !== 1) {
       return;
     }
   

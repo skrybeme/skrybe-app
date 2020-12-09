@@ -8,8 +8,9 @@ import * as S from './styles';
 import * as GS from '@/ui/styles/global';
 
 export function TreeDetails(): JSX.Element {
-  const { insertTreeNode, nodes } = useTreeDetails();
   const dragHandleRef = useDraggable<HTMLDivElement>();
+
+  const { insertTreeNode, nodes } = useTreeDetails();
 
   return (
     <GS.Unscrollable>

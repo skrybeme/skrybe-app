@@ -14,7 +14,10 @@ export default function useTreeDetails(): TreeNodePresenter {
   const { getTreeById } = useContainer<IStoryTreeUseCases<Tree<StoryCard>, StoryCard>>(
     SYMBOL.TreeUseCases
   );
-  const { insertTreeNode } = useContainer<ITreeNodeUseCases>(SYMBOL.TreeNodeUseCases);
+  const {
+    insertTreeNode,
+    removeTreeNode
+  } = useContainer<ITreeNodeUseCases>(SYMBOL.TreeNodeUseCases);
 
   useEffect(() => {
     getTreeById?.({ id: "c0773e64-3a3a-11eb-adc1-0242ac120002" })
@@ -61,6 +64,7 @@ export default function useTreeDetails(): TreeNodePresenter {
         isLoading: true
       }
     }
+  
     return {
       data: mapTreeToUIStoryTree(tree.data),
       isError: false,
@@ -68,5 +72,13 @@ export default function useTreeDetails(): TreeNodePresenter {
     }
   }, [tree]);
 
-  return { insertTreeNode: _, nodes };
+  const removeTreeNodeHandler = useCallback(() => {
+
+  }, [removeTreeNode]);
+
+  return {
+    insertTreeNode: _,
+    nodes,
+    removeTreeNode: removeTreeNodeHandler
+  };
 }

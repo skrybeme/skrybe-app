@@ -10,7 +10,7 @@ export const CardTeaserContext = styled.div`
 export const CardOptions = styled.div`
   position: absolute;
   right: 0;
-  top: 0;
+  top: -5px;
   z-index: 1000;
 `;
 

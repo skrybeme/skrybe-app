@@ -18,7 +18,10 @@ export function PickerCardTeaserOptions_VariantA(): JSX.Element {
         onClickOutside={close}
       >
         <PickerTab name="default">
-          <PickerItem hoverable>
+          <PickerItem
+            hoverable
+            onClick={() => {}}
+          >
             Generate subcards
           </PickerItem>
           <PickerItem
@@ -34,7 +37,7 @@ export function PickerCardTeaserOptions_VariantA(): JSX.Element {
           </PickerItem>
           <PickerItem
             hoverable
-            onClick={alert}
+            onClick={() => {}}
           >
             Yes
           </PickerItem>
