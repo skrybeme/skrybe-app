@@ -1,1 +1,1 @@
-export { default as InMemoryStoryTreeRepo } from './in-memory/InMemoryStoryTreeRepo';
+export { default as createInMemoryStoryTreeRepo } from './in-memory/InMemoryStoryTreeRepo';

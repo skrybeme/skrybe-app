@@ -1,12 +1,12 @@
 import createStoryTreeUseCases from './story-tree-use-cases';
 import StoryCard from '../entities/StoryCard';
 import Tree from '../entities/Tree';
-import { InMemoryStoryTreeRepo } from '../repository';
+import { createInMemoryStoryTreeRepo } from '../repository';
 
 describe(`StoryTreeUseCases`, () => {
   const tree = Tree.create<StoryCard>();
 
-  const inMemoryStoryTreeRepo = new InMemoryStoryTreeRepo([tree]);
+  const inMemoryStoryTreeRepo = createInMemoryStoryTreeRepo([tree]);
 
   const storyTreeUseCases = createStoryTreeUseCases(inMemoryStoryTreeRepo);
 
