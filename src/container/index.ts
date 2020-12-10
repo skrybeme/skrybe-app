@@ -1,6 +1,4 @@
 import createMockTreeDataSource from '@/data-sources/mock/MockStoryTreeDataSource';
-import StoryCard from '@/entities/StoryCard';
-import Tree from '@/entities/Tree';
 import { IStoryTreeDataSource, IStoryTreeRepo, IStoryTreeUseCases } from '@/interfaces';
 import createStoryTreeRepo from '@/repository/StoryTreeRepo';
 import createStoryTreeUseCases from '@/use-cases/story-tree-use-cases';
@@ -10,7 +8,7 @@ import * as SYMBOL from './symbols';
 const container = new Container();
 
 container.load(new ContainerModule(bind => {
-  bind<IStoryTreeUseCases<Tree<StoryCard>, StoryCard>>(SYMBOL.TreeUseCases).toDynamicValue(({ container }) =>
+  bind<IStoryTreeUseCases>(SYMBOL.TreeUseCases).toDynamicValue(({ container }) =>
     createStoryTreeUseCases(container.get<IStoryTreeRepo>(SYMBOL.TreeRepo)))
 }));
 

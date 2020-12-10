@@ -12,9 +12,9 @@ export function GenericCardTeaserTree_VariantA({
   insertTreeNode,
   nodes
 }: GenericCardTeaserTreeProps): JSX.Element {
-  const insertCard = useCallback((parentNode, placeBefore?) => {
-    return (e: MouseEvent): void => {
-      insertTreeNode(parentNode, placeBefore);
+  const insertCard = useCallback((parentNodeId: string, placeBeforeNodeId?: string) => {
+    return (): void => {
+      insertTreeNode(parentNodeId, placeBeforeNodeId);
     }
   }, [insertTreeNode]);
 
@@ -29,22 +29,24 @@ export function GenericCardTeaserTree_VariantA({
           <PickerCardTeaserOptions_VariantA />
         </S.CardOptions>
       </S.CardTeaserContext>
-      <S.LevelContext>
-        {nodes?.children.map((child: StoryTreeViewModel) => (
-          <React.Fragment key={child.id}>
-            <S.ClickableArea>
-              <ButtonAddCard_VariantA onClick={insertCard(nodes, child)} />
-            </S.ClickableArea>
-            <GenericCardTeaserTree_VariantA
-              insertTreeNode={insertTreeNode}
-              nodes={child}
-            />
-          </React.Fragment>
-        ))}
-        <S.ClickableArea isOnly={!nodes?.children?.length}>
-          <ButtonAddCard_VariantA onClick={insertCard(nodes)} />
-        </S.ClickableArea>
-      </S.LevelContext>
+      {nodes && (
+        <S.LevelContext>
+          {nodes.children.map((child: StoryTreeViewModel) => (
+            <React.Fragment key={child.id}>
+              <S.ClickableArea>
+                <ButtonAddCard_VariantA onClick={insertCard(nodes.id, child.id)} />
+              </S.ClickableArea>
+              <GenericCardTeaserTree_VariantA
+                insertTreeNode={insertTreeNode}
+                nodes={child}
+              />
+            </React.Fragment>
+          ))}
+          <S.ClickableArea isOnly={!nodes?.children?.length}>
+            <ButtonAddCard_VariantA onClick={insertCard(nodes.id)} />
+          </S.ClickableArea>
+        </S.LevelContext>
+      )}
     </S.GenericCardTeaserTree_VariantA>
   );
 }

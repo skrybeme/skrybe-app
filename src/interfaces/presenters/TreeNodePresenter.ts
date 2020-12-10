@@ -1,8 +1,9 @@
+import { UuidType } from "@/common/types";
 import ILoadable from "../ILoadable";
-import UIStoryTree from "../UIStoryTree";
+import { StoryTreeViewModel } from "../view-models";
 
 export default interface TreeNodePresenter {
-  insertTreeNode: (parentNode: UIStoryTree, placeBefore?: UIStoryTree) => void;
-  removeTreeNode: (node: UIStoryTree) => void;
-  nodes: ILoadable<UIStoryTree>;
+  insertTreeNode: (parentNodeId: UuidType, placeBeforeNodeId?: UuidType) => void;
+  removeTreeNode: (id: UuidType) => void;
+  nodes: ILoadable<StoryTreeViewModel>;
 }
