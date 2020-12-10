@@ -1,31 +1,20 @@
 import Tag from '@/entities/Tag';
-import { ColorType } from '@/entities/types';
+import { TagColor } from '@/entities/enums';
 import { randomOf } from '@/utils';
 import { lorem } from 'faker';
 
 export default function generateRandomTags(amount: number): Array<Tag> {
-  // @FIXME
-  // This should not be declared here.
-  // We need a single source of truth (values of ColorType).
-  const labels: Array<ColorType> = [
-    'green',
-    'yellow',
-    'orange',
-    'red',
-    'purple',
-    'magenta',
-    'blue',
-    'lightblue',
-    'lightgreen',
-    'pink',
-    'darkblue',
-    'grey'
-  ];
+  const colors = Object.keys(TagColor)
+
+  const labels: Array<TagColor> = colors.map(color => TagColor[color]);
 
   let out: any = [];
 
   for (let i = 0; i < amount; i++) {
-    out.push(new Tag(randomOf<ColorType>(labels), lorem.word()));
+    out.push(Tag.create({
+      color: randomOf<TagColor>(labels),
+      label: lorem.word()
+    }));
   }
 
   return out;

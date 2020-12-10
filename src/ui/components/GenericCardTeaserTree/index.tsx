@@ -1,7 +1,7 @@
 import React from 'react';
 import { CardTeaser } from '../CardTeaser';
 import { GenericCardTeaserTreeProps } from '@/interfaces/props';
-import { UIStoryTree } from '@/interfaces';
+import { StoryTreeViewModel } from '@/interfaces/view-models';
 import * as S from './styles';
 
 export function GenericCardTeaserTree_VariantA({
@@ -14,7 +14,7 @@ export function GenericCardTeaserTree_VariantA({
         tags={nodes?.tags || []}
       />
       <S.LevelContext>
-        {nodes?.children.map((child: UIStoryTree) => (
+        {nodes?.children.map((child: StoryTreeViewModel) => (
           <GenericCardTeaserTree_VariantA
             key={child.id}
             nodes={child}

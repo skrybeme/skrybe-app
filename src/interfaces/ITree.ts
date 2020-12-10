@@ -1,17 +1,25 @@
-import ITreeNode from './ITreeNode';
+import IIdentifiable from './IIdentifiable';
+import ITreeNodeContext from './ITreeNodeContext';
 import { Maybe, UuidType } from '@/common/types';
 
-interface ITree {
-  findById(id: UuidType): ITreeNode | null;
-  getAllNodes(): Map<UuidType, ITreeNode>;
-  getChildrenOf(node: ITreeNode): Array<ITreeNode>;
-  getRoot(): ITreeNode | null;
+interface ITree<T extends IIdentifiable, M> extends IIdentifiable {
+  equals(tree: ITree<T, M>): boolean;
+  getAllNodes(): Map<UuidType, T>;
+  getChildrenOf(id: UuidType): Maybe<Array<T>>;
+  getNodeContextChildrenOf(id: UuidType): Maybe<Array<ITreeNodeContext<T>>>;
+  getNodeById(id: UuidType): Maybe<T>;
+  getNodeContextById(id: UuidType): Maybe<ITreeNodeContext<T>>;
+  getParentOf(id: UuidType): Maybe<T>;
+  getRawTreeMap(): M;
+  getRoot(): Maybe<T>;
+  getRootContext(): Maybe<ITreeNodeContext<T>>;
+  getSubtreeById(id: UuidType): Maybe<ITree<T, M>>;
   insert(
-    node: ITreeNode,
-    parentNode?: ITreeNode,
-    placeBefore?: ITreeNode
-  ): Maybe<ITreeNode>;
-  remove(node: ITreeNode | UuidType): ITreeNode;
+    node: T,
+    parentNodeId?: UuidType,
+    placeBeforeNodeId?: UuidType
+  ): void;
+  removeById(id: UuidType): void;
 };
 
 export default ITree;

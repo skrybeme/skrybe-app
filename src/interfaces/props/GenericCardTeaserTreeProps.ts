@@ -1,6 +1,6 @@
 import { Maybe } from '@/common/types';
-import UIStoryTree from '../UIStoryTree';
+import StoryTreeViewModel from '../view-models/StoryTreeViewModel';
 
 export default interface GenericCardTeaserTreeProps {
-  nodes: Maybe<UIStoryTree>;
+  nodes: Maybe<StoryTreeViewModel>;
 }

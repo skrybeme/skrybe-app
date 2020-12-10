@@ -7,6 +7,7 @@
     "build": "webpack --mode production",
     "dev": "webpack-dev-server --mode development --hot --port 3000",
     "test": "jest --passWithNoTests",
+    "test:clear": "jest --clearCache",
     "test:cov": "jest --passWithNoTests --coverage",
     "test:verbose": "jest --passWithNoTests --verbose"
   },
@@ -31,6 +32,7 @@
   "dependencies": {
     "faker": "^5.1.0",
     "inversify": "^5.0.1",
+    "lodash": "^4.17.20",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-redux": "^7.2.0",

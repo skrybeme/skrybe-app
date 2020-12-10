@@ -1,19 +1,24 @@
 import { useEffect } from 'react';
-import { ILoadable, ITreeUseCases, UIStoryTree } from '@/interfaces';
+import { ILoadable, IStoryTreeUseCases } from '@/interfaces';
+import { StoryTreeViewModel } from '@/interfaces/view-models';
 import { useContainer, useLoadable } from '@/ui/hooks';
-import { mapTreeToUIStoryTree } from '@/ui/mappers';
 import * as SYMBOL from '@/container/symbols';
+import { StoryTreeMap } from '@/mappers';
+import StoryCard from '@/entities/StoryCard';
+import Tree from '@/entities/Tree';
 
-export default function useTreeDetails(): { nodes: ILoadable<UIStoryTree> } {
-  const [nodes, setNodes] = useLoadable<UIStoryTree>({ isLoading: true });
+export default function useTreeDetails(): { nodes: ILoadable<StoryTreeViewModel> } {
+  const [nodes, setNodes] = useLoadable<StoryTreeViewModel>({ isLoading: true });
 
-  const { getTreeById } = useContainer<ITreeUseCases>(SYMBOL.TreeUseCases);
+  const { getTreeById } = useContainer<IStoryTreeUseCases<Tree<StoryCard>, StoryCard>>(
+    SYMBOL.TreeUseCases
+  );
 
   useEffect(() => {
-    getTreeById?.(1)
+    getTreeById?.({ id: "c0773e64-3a3a-11eb-adc1-0242ac120002" })
     .then(result => {
       setNodes({
-        data: result ? mapTreeToUIStoryTree(result) : null,
+        data: result ? StoryTreeMap.toViewModel(result) : null,
         isLoading: false
       })
     })

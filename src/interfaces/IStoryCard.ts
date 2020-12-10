@@ -1,16 +1,15 @@
 import ITag from './ITag';
 import { UuidType } from '@/common/types';
+import IIdentifiable from './IIdentifiable';
 
-interface IStoryCard {
-  header: string;
+interface IStoryCard extends IIdentifiable {
   body: string;
+  header: string;
   tags: Array<ITag>;
 
   addTag(tag: ITag): IStoryCard;
-  removeTag(tag: ITag | UuidType): IStoryCard;
-  replaceTag(oldTag: ITag, newTag: ITag): IStoryCard;
-  setBody(body: string): IStoryCard;
-  setHeader(header: string): IStoryCard;
+  removeTagById(id: UuidType): IStoryCard;
+  replaceTag(oldTagId: UuidType, newTag: ITag): IStoryCard;
 };
 
 export default IStoryCard;
