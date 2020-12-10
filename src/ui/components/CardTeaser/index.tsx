@@ -1,6 +1,5 @@
 import React, { useCallback } from 'react';
 import { CardTeaserProps } from '@/interfaces/props';
-import { UITag } from '@/interfaces';
 import * as S from './styles';
 import { TagViewModel } from '@/interfaces/view-models';
 
