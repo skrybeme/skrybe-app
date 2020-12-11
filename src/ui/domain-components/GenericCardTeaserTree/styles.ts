@@ -51,7 +51,7 @@ export const LevelContext = styled.div`
   }
 `;
 
-export const GenericCardTeaserTree_VariantA = styled.div`
+export const GenericCardTeaserTree_VariantA = styled.div<any>`
   ${flex};
   flex-direction: column;
   justify-content: baseline;
@@ -70,6 +70,10 @@ export const GenericCardTeaserTree_VariantA = styled.div`
   ${LevelContext} & {
     padding-top: 0;
   }
+
+  ${props => props.hoisted && css`
+    z-index: 2;
+  `};
 
   &:not(:first-child) {
     &:after {

@@ -3,7 +3,8 @@ import ILoadable from "../ILoadable";
 import { StoryTreeViewModel } from "../view-models";
 
 export default interface TreeNodePresenter {
+  generateChildrenTreeNodes: (nodeId: UuidType, placeBeforeNodeId?: UuidType) => void;
   insertTreeNode: (parentNodeId: UuidType, placeBeforeNodeId?: UuidType) => void;
-  removeTreeNode: (id: UuidType) => void;
-  nodes: ILoadable<StoryTreeViewModel>;
+  removeTreeNode: (nodeId: UuidType) => void;
+  root: ILoadable<StoryTreeViewModel>;
 }

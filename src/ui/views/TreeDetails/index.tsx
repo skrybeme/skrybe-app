@@ -10,14 +10,21 @@ import * as GS from '@/ui/styles/global';
 export function TreeDetails(): JSX.Element {
   const dragHandleRef = useDraggable<HTMLDivElement>();
 
-  const { insertTreeNode, nodes } = useTreeDetails();
+  const {
+    generateChildrenTreeNodes,
+    insertTreeNode,
+    removeTreeNode,
+    root
+  } = useTreeDetails();
 
   return (
     <GS.Unscrollable>
       <S.TreeDetails ref={dragHandleRef}>
         <GenericCardTeaserTree_VariantA
+          generateChildrenTreeNodes={generateChildrenTreeNodes}
           insertTreeNode={insertTreeNode}
-          nodes={nodes.data}
+          removeTreeNode={removeTreeNode}
+          root={root.data}
         />
       </S.TreeDetails>
     </GS.Unscrollable>

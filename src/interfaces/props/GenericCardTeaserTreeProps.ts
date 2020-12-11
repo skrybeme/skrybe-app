@@ -2,6 +2,8 @@ import { Maybe, UuidType } from '@/common/types';
 import StoryTreeViewModel from '../view-models/StoryTreeViewModel';
 
 export default interface GenericCardTeaserTreeProps {
+  generateChildrenTreeNodes(nodeId: UuidType, placeBeforeNodeId?: UuidType): void;
   insertTreeNode(parentNodeId: UuidType, placeBeforeNodeId?: UuidType): void;
-  nodes: Maybe<StoryTreeViewModel>;
+  removeTreeNode(nodeId: UuidType): void;
+  root: Maybe<StoryTreeViewModel>;
 }

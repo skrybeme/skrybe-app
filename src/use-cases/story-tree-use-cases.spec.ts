@@ -36,7 +36,7 @@ describe(`StoryTreeUseCases`, () => {
 
     describe(`for childless parent`, () => {
       it(`inserts child for every sentence in parent's body with sentence as the header`, async () => {
-        const body = `First sentence. Second sentence. Third sentence`;
+        const body = `First sentence. Second sentence. Third sentence.`;
 
         const tree = Tree.create<StoryCard>();
 
@@ -67,7 +67,7 @@ describe(`StoryTreeUseCases`, () => {
 
     describe(`for parent with children`, () => {
       test(`as default it places inserted children after the existing ones in parent's children level`, async () => {
-        const body = `First sentence. Second sentence`;
+        const body = `First sentence. Second sentence.`;
 
         const tree = Tree.create<StoryCard>();
 
@@ -108,7 +108,7 @@ describe(`StoryTreeUseCases`, () => {
       });
 
       test(`it is possible to place generated children before specified tree node in parent's children level`, async () => {
-        const body = `First sentence. Second sentence`;
+        const body = `First sentence. Second sentence.`;
 
         const tree = Tree.create<StoryCard>();
 
@@ -152,7 +152,7 @@ describe(`StoryTreeUseCases`, () => {
 
     describe(`persistance`, () => {
       xit(`persist updated tree with repo's save method`, async () => {
-        const body = `First sentence. Second sentence. Third sentence`;
+        const body = `First sentence. Second sentence. Third sentence.`;
 
         const tree = Tree.create<StoryCard>();
 
@@ -177,6 +177,36 @@ describe(`StoryTreeUseCases`, () => {
         expect(inMemoryStoryTreeRepo.save).toBeCalledTimes(1);
         expect(inMemoryStoryTreeRepo.save).toBeCalledWith(newTree);
       });
+    });
+
+    it(`ignores redundant whitespaces and punctuation marks`, async () => {
+      const body = `.. # %%$  .. First sentence.    S   econd sentence,  or another   . ... Third  $.sentence. ..    , ;  `;
+
+        const tree = Tree.create<StoryCard>();
+
+        const root = StoryCard.create({
+          body,
+          header: '',
+          tags: [
+            Tag.create(),
+            Tag.create()
+          ]
+        });
+        
+        tree.insert(root);
+
+        await inMemoryStoryTreeRepo.save(tree);
+
+        const generatedChildren = await generateChildrenTreeNodes({
+          parentNodeId: root.id,
+          treeId: tree.id
+        });
+
+        expect(generatedChildren).toHaveLength(4);
+        expect(generatedChildren![0].header).toEqual(`First sentence`);
+        expect(generatedChildren![1].header).toEqual(`S econd sentence, or another`);
+        expect(generatedChildren![2].header).toEqual(`Third $`);
+        expect(generatedChildren![3].header).toEqual(`sentence`)
     });
   });
 

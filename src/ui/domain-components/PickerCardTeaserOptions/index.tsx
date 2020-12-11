@@ -1,11 +1,30 @@
-import React from 'react';
+import React, { useCallback, useEffect } from 'react';
+import { PickerCardTeaserOptionsProps } from '@/interfaces/props';
 import { ButtonOptions_VariantA } from '@/ui/domain-components/ButtonOptions';
 import { PickerItem, PickerTab, Picker_VariantA } from '@/ui/components/Picker';
 import { useToggle } from '@/ui/hooks';
 import * as S from './styles';
 
-export function PickerCardTeaserOptions_VariantA(): JSX.Element {
+export function PickerCardTeaserOptions_VariantA({
+  onGenerateChildren,
+  onRemoveNode,
+  onToggle
+}: PickerCardTeaserOptionsProps): JSX.Element {
   const { close, isOpen, toggle } = useToggle();
+
+  const emitGenerateChildren = useCallback(() => {
+    onGenerateChildren?.();
+    close();
+  }, [close, onGenerateChildren]);
+
+  const emitRemoveNode = useCallback(() => {
+    onRemoveNode?.();
+    close();
+  }, [close, onRemoveNode]);
+
+  useEffect(() => {
+    onToggle?.(isOpen);
+  }, [isOpen]);
 
   return (
     <S.PickerCardTeaserOptions_VariantA>
@@ -20,7 +39,7 @@ export function PickerCardTeaserOptions_VariantA(): JSX.Element {
         <PickerTab name="default">
           <PickerItem
             hoverable
-            onClick={() => {}}
+            onClick={emitGenerateChildren}
           >
             Generate subcards
           </PickerItem>
@@ -37,7 +56,7 @@ export function PickerCardTeaserOptions_VariantA(): JSX.Element {
           </PickerItem>
           <PickerItem
             hoverable
-            onClick={() => {}}
+            onClick={emitRemoveNode}
           >
             Yes
           </PickerItem>

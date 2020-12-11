@@ -29,15 +29,14 @@ export default function createStoryTreeUseCases(
       if (!parent) {
         return Promise.resolve(null);
       }
-  
-      const sentences = parent.body
-        .trim()
-        .replace(/[\s+]/, ' ')
-        .split(/\s?\.\s?/);
+      
+      const sentences = parent.body.match(/\b((?!=|\?|\.).)+(.)\b/g);
 
       let cards: Array<StoryCard> = [];
 
-      sentences.forEach((sentence: string) => {
+      sentences?.forEach((sentence: string) => {
+        sentence = sentence.replace(/\s{2,}/g, ' ').replace(/\.$/, '')
+
         const card = StoryCard.create({ header: sentence });
 
         tree!.insert(card, parent?.id, request.placeBeforeNodeId);

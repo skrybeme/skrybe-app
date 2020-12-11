@@ -14,7 +14,7 @@ function WideView() {
   const nestedCardTree = useSelector(selectNestedCardTree());
   const windowSize = useWindowSize();
 
-  const { nodes } = useTreeDetails();
+  const { root } = useTreeDetails();
 
   function onClickCard(e) {
     if (!cardOverlayRef) {          
@@ -103,7 +103,7 @@ function WideView() {
 
   return (
     <S.Context>
-      {!nodes.isLoading && <CardContext rootTreeNode={nodes.data} className="root" key={nodes.data!.id} />}
+      {!root.isLoading && <CardContext rootTreeNode={root.data} className="root" key={root.data!.id} />}
       <S.DynamicOverlay ref={cardOverlayRef} />
     </S.Context>
   );
