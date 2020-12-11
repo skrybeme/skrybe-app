@@ -5,7 +5,6 @@ export default function PickerProvider({ children }): JSX.Element {
   const [openItemName, setOpenItemName] = useState<string>('default');
 
   const open = useCallback((itemName: string) => {
-    console.log(itemName)
     setOpenItemName(itemName);
   }, [openItemName]);
 

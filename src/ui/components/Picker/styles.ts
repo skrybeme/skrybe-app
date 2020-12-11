@@ -5,8 +5,6 @@ export const Picker_VariantA = styled.div`
 `;
 
 export const PickerItem = styled.div<any>`
-  white-space: nowrap;
-
   ${props => !props.styleless && css`
     color: #111;
     font-size: 1.5rem;
@@ -37,7 +35,7 @@ export const PickerTab = styled.div<any>`
 
   ${props => props.isActive && css`
     opacity: 1;
-    pointer-events: all;
+    pointer-events: inherit;
     position: static;
     transform: none;
   `}

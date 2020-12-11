@@ -19,7 +19,7 @@ class Tag implements ITag {
   }
 
   get color(): TagColor {
-    return this._props.color;
+    return this._props.color || TagColor.WHITE;
   }
 
   get id(): UuidType {
@@ -27,7 +27,7 @@ class Tag implements ITag {
   }
 
   get label(): string {
-    return this._props.label;
+    return this._props.label || "";
   }
 
   set color(value: TagColor) {

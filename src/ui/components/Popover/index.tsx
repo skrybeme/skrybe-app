@@ -3,7 +3,7 @@ import { useClickOutside } from '@/ui/hooks';
 import React, { useRef } from 'react';
 import * as S from './styles';
 
-export function Popover({ children, isOpen, onClickOutside }: PopoverProps): JSX.Element {
+export function Popover({ children, isOpen, left, onClickOutside }: PopoverProps): JSX.Element {
   const self = useRef<HTMLDivElement>(null);
 
   useClickOutside(self, () => {
@@ -17,7 +17,7 @@ export function Popover({ children, isOpen, onClickOutside }: PopoverProps): JSX
       isOpen={isOpen}
       ref={self}
     >
-      <S.Body>
+      <S.Body left={left}>
         {children}
       </S.Body>
     </S.Popover>

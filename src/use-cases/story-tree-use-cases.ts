@@ -2,14 +2,78 @@ import StoryCard from '@/entities/StoryCard';
 import Tree from '@/entities/Tree';
 import { AsyncMaybe } from '@/common/types';
 import { IStoryTreeRepo, IStoryTreeUseCases } from '@/interfaces';
-import { GetTreeByIdRequest, RebindTreeNodeRequest } from '@/interfaces/requests';
+import {
+  GenerateChildrenTreeNodesRequest,
+  GetTreeByIdRequest,
+  InsertTreeNodeRequest,
+  RebindTreeNodeRequest,
+  RemoveTreeNodeRequest,
+} from '@/interfaces/requests';
+import Tag from '@/entities/Tag';
 
 export default function createStoryTreeUseCases(
   treeRepo: IStoryTreeRepo
-): IStoryTreeUseCases<Tree<StoryCard>, StoryCard> {
+): IStoryTreeUseCases {
   return {
+    async generateChildrenTreeNodes(
+      request: GenerateChildrenTreeNodesRequest
+    ): AsyncMaybe<Array<StoryCard>> {
+      const tree = await treeRepo.getById(request.treeId);
+
+      if (!tree) {
+        return Promise.resolve(null);
+      }
+
+      const parent = await tree.getNodeById(request.parentNodeId);
+
+      if (!parent) {
+        return Promise.resolve(null);
+      }
+      
+      const sentences = parent.body.match(/\b((?!=|\?|\.).)+(.)\b/g);
+
+      let cards: Array<StoryCard> = [];
+
+      sentences?.forEach((sentence: string) => {
+        sentence = sentence.replace(/\s{2,}/g, ' ').replace(/\.$/, '')
+
+        const card = StoryCard.create({ header: sentence });
+
+        tree!.insert(card, parent?.id, request.placeBeforeNodeId);
+
+        cards.push(card);
+      });
+
+      await treeRepo.save(tree);
+
+      return Promise.resolve(cards);
+    },
     getTreeById({ id }: GetTreeByIdRequest): AsyncMaybe<Tree<StoryCard>> {
       return treeRepo.getById(id);
+    },
+    async insertTreeNode(request: InsertTreeNodeRequest): AsyncMaybe<StoryCard> {
+      const tree = await treeRepo.getById(request.treeId);
+
+      if (!tree) {
+        return Promise.resolve(null);
+      }
+
+      const card = StoryCard.create({
+        body: request.body,
+        header: request.header,
+        tags: request.tags.map((tag) => Tag.create({
+          color: tag.color,
+          label: tag.label
+        })),
+      });
+
+      // @TODO
+      // insert should return inserted object.
+      await tree.insert(card, request.parentNodeId, request.placeBeforeNodeId);
+
+      await treeRepo.save(tree);
+
+      return Promise.resolve(card);
     },
     async rebindTreeNode({
       treeId,
@@ -36,6 +100,26 @@ export default function createStoryTreeUseCases(
 
       await treeRepo.save(tree);
       
+      return Promise.resolve(node);
+    },
+    async removeTreeNode(request: RemoveTreeNodeRequest): AsyncMaybe<StoryCard> {
+      const tree = await treeRepo.getById(request.treeId);
+
+      if (!tree) {
+        return Promise.resolve(null);
+      }
+
+      const node = tree.getNodeById(request.id);;
+      
+      if (!node) {
+        return Promise.resolve(null);
+      }
+
+      // The insert method needs to return inserted node object.
+      await tree.removeById(node.id);
+
+      await treeRepo.save(tree);
+
       return Promise.resolve(node);
     }
   }

@@ -7,14 +7,19 @@ export function Toolbar(): JSX.Element {
   return (
     <S.Toolbar flex>
       <S.Flex>
-        <S.Logo>
+        <S.HomeIcon>
           <span>
-            <i className="fab fa-scribd"></i>
-            &nbsp;&nbsp;Skrybe
+            <i className="fas fa-home"></i>
           </span>
-        </S.Logo>
+        </S.HomeIcon>
         <PickerMainProjectList />
       </S.Flex>
+      <S.Logo>
+        <img
+          src="/logo_v21.png"
+          alt=""
+        />
+      </S.Logo>
       <S.Flex>
         <S.Bullet title="My generated stories">
           <i className="fas fa-plus"></i>

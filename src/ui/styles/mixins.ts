@@ -1,5 +1,9 @@
 import { css } from "styled-components";
 
+export const borderCircle = () => css`
+  border-radius: 50%;
+`;
+
 export const flex = () => css`
   align-items: center;
   display: flex;
