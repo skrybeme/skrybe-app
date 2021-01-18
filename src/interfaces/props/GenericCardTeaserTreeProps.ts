@@ -6,4 +6,5 @@ export default interface GenericCardTeaserTreeProps {
   insertTreeNode(parentNodeId: UuidType, placeBeforeNodeId?: UuidType): void;
   removeTreeNode(nodeId: UuidType): void;
   root: Maybe<StoryTreeViewModel>;
+  updateTreeNode(nodeId: UuidType, props: { header?: string }): void;
 }

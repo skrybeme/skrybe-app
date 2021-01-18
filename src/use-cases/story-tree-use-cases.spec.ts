@@ -364,4 +364,35 @@ describe(`StoryTreeUseCases`, () => {
       expect(inMemoryStoryTreeRepo.save).toBeCalledWith(tree);
     });
   });
+
+  describe(`updateTreeNode`, () => {
+    const { updateTreeNode } = storyTreeUseCases;
+
+    it(`updates tree node with given props`, async () => {
+      const tree = Tree.create<StoryCard>();
+  
+      const root = StoryCard.create({
+        body: '',
+        header: 'Header text',
+        tags: [
+          Tag.create(),
+          Tag.create()
+        ]
+      });
+
+      tree.insert(root);
+
+      await inMemoryStoryTreeRepo.save(tree);
+
+      await updateTreeNode({
+        header: "Updated header text",
+        id: root.id,
+        treeId: tree.id
+      });
+
+      expect(tree.getRoot()!.header).toEqual("Updated header text");
+    });
+
+    it.todo("persists updated tree with reso's save method");
+  });
 });

@@ -3,6 +3,8 @@ export { default as ButtonOptionsProps } from './ButtonOptionsProps';
 export { default as ButtonProps } from './ButtonProps';
 export { default as CardTeaserProps } from './CardTeaserProps';
 export { default as GenericCardTeaserTreeProps } from './GenericCardTeaserTreeProps';
+export { default as EditableProps } from './EditableProps';
+export { default as ICommonInputProps } from './ICommonInputProps';
 export { default as PickerCardTeaserOptionsProps } from './PickerCardTeaserOptionsProps';
 export { default as PickerTabProps } from './PickerTabProps';
 export { default as PickerItemProps } from './PickerItemProps';

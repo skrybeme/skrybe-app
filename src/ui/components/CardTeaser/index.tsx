@@ -2,9 +2,11 @@ import React, { useCallback } from 'react';
 import { CardTeaserProps } from '@/interfaces/props';
 import * as S from './styles';
 import { TagViewModel } from '@/interfaces/view-models';
+import { Editable } from '../Editable';
 
 export function CardTeaser({
   handleClick,
+  handleHeaderChange,
   header,
   tags
 }: CardTeaserProps): JSX.Element {
@@ -16,7 +18,11 @@ export function CardTeaser({
       title="Edit this card"
     >
       <S.Header>
-        {header}
+        <Editable
+          blurOnEnter
+          handleBlur={handleHeaderChange}
+          value={header}
+        />
       </S.Header>
       <S.TagLine>
         {tags?.map((tag: TagViewModel) => (

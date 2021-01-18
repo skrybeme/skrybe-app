@@ -6,7 +6,8 @@ import {
   GetTreeByIdRequest,
   InsertTreeNodeRequest,
   RebindTreeNodeRequest,
-  RemoveTreeNodeRequest
+  RemoveTreeNodeRequest,
+  UpdateTreeNodeRequest
 } from './requests';
 
 export default interface IStoryTreeUseCases {
@@ -17,4 +18,5 @@ export default interface IStoryTreeUseCases {
   insertTreeNode(request: InsertTreeNodeRequest): AsyncMaybe<StoryCard>;
   rebindTreeNode(request: RebindTreeNodeRequest): AsyncMaybe<StoryCard>;
   removeTreeNode(request: RemoveTreeNodeRequest): AsyncMaybe<StoryCard>;
+  updateTreeNode(request: UpdateTreeNodeRequest): AsyncMaybe<StoryCard>;
 }
