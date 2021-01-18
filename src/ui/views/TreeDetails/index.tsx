@@ -14,7 +14,8 @@ export function TreeDetails(): JSX.Element {
     generateChildrenTreeNodes,
     insertTreeNode,
     removeTreeNode,
-    root
+    root,
+    updateTreeNode
   } = useTreeDetails();
 
   return (
@@ -25,6 +26,7 @@ export function TreeDetails(): JSX.Element {
           insertTreeNode={insertTreeNode}
           removeTreeNode={removeTreeNode}
           root={root.data}
+          updateTreeNode={updateTreeNode}
         />
       </S.TreeDetails>
     </GS.Unscrollable>

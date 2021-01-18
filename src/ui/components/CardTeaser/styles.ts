@@ -1,6 +1,7 @@
 import { MouseEventHandler } from '@/common/types';
 import { flex } from '@/ui/styles/mixins';
 import styled, { css } from 'styled-components';
+import { Editable } from '../Editable/styles';
 
 // @TODO
 // Handle scaling the better way.
@@ -11,7 +12,7 @@ export const CardTeaser = styled.div<{ onClick: MouseEventHandler }>`${({ theme 
   border-radius: ${SCALE * 2}px;
   box-shadow: 0px 0px ${SCALE * 10}px rgba(0, 0, 0, 0.05);
   cursor: pointer;
-  height: ${SCALE * 120}px;
+  min-height: ${SCALE * 120}px;
   position: relative;
   width: ${SCALE * 200}px;
 
@@ -22,15 +23,20 @@ export const CardTeaser = styled.div<{ onClick: MouseEventHandler }>`${({ theme 
 
 export const Header = styled.div`
   font-size: ${SCALE * 1.6}rem;
-  padding: ${SCALE * 12}px ${SCALE * 16}px;
+  line-height: 1.8rem;
+  padding: ${SCALE * 12}px ${SCALE * 16}px 42px;
   user-select: none;
+
+  ${Editable} {
+    min-height: 64px;
+  }
 `;
 
 export const TagLine = styled.div`
   ${flex};
   bottom: 0;
   left: 0;
-  padding: 0 ${SCALE * 13}px;
+  padding: 0 ${SCALE * 16}px;
   position: absolute;
   right: 0;
 `;

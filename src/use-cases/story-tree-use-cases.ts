@@ -8,6 +8,7 @@ import {
   InsertTreeNodeRequest,
   RebindTreeNodeRequest,
   RemoveTreeNodeRequest,
+  UpdateTreeNodeRequest,
 } from '@/interfaces/requests';
 import Tag from '@/entities/Tag';
 
@@ -109,7 +110,7 @@ export default function createStoryTreeUseCases(
         return Promise.resolve(null);
       }
 
-      const node = tree.getNodeById(request.id);;
+      const node = tree.getNodeById(request.id);
       
       if (!node) {
         return Promise.resolve(null);
@@ -117,6 +118,28 @@ export default function createStoryTreeUseCases(
 
       // The insert method needs to return inserted node object.
       await tree.removeById(node.id);
+
+      await treeRepo.save(tree);
+
+      return Promise.resolve(node);
+    },
+    async updateTreeNode(request: UpdateTreeNodeRequest): AsyncMaybe<StoryCard> {
+      // @TODO
+      // Operations on tree nodes should be handled by TreeNodeRepo.
+      // Additionaly, a TreeNode object should have access to the tree.
+      const tree = await treeRepo.getById(request.treeId);
+
+      if (!tree) {
+        return Promise.resolve(null);
+      }
+
+      const node = tree.getNodeById(request.id);
+      
+      if (!node) {
+        return Promise.resolve(null);
+      }
+
+      node.header = request.header !== undefined ? request.header : node.header;
 
       await treeRepo.save(tree);
 

@@ -12,7 +12,8 @@ export function GenericCardTeaserTree_VariantA({
   generateChildrenTreeNodes,
   insertTreeNode,
   removeTreeNode,
-  root
+  root,
+  updateTreeNode
 }: GenericCardTeaserTreeProps): JSX.Element {
   const generateSubcards = useCallback((nodeId: string) => {
     return (): void => {
@@ -32,6 +33,13 @@ export function GenericCardTeaserTree_VariantA({
     }
   }, []);
 
+  const updateCard = useCallback((nodeId: string) => {
+    return (header: string): void => {
+      console.log(nodeId, header);
+      updateTreeNode(nodeId, { header });
+    }
+  }, []);
+
   const [isOptionsPickerOpen, setIsOptionsPickerOpen] = useState(false);
 
   const onOptionsPickerToggle = useCallback((isOpen: boolean) => {
@@ -44,6 +52,7 @@ export function GenericCardTeaserTree_VariantA({
         <React.Fragment>
           <S.CardTeaserContext>
             <CardTeaser
+              handleHeaderChange={updateCard(root.id)}
               header={root?.header || ''}
               tags={root?.tags || []}
             />
@@ -66,6 +75,7 @@ export function GenericCardTeaserTree_VariantA({
                   insertTreeNode={insertTreeNode}
                   removeTreeNode={removeTreeNode}
                   root={child}
+                  updateTreeNode={updateTreeNode}
                 />
               </React.Fragment>
             ))}

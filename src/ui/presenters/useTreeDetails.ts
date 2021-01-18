@@ -31,7 +31,8 @@ export default function useTreeDetails(): TreeNodePresenter {
     generateChildrenTreeNodes,
     getTreeById,
     insertTreeNode,
-    removeTreeNode
+    removeTreeNode,
+    updateTreeNode
   } = useContainer<IStoryTreeUseCases>(SYMBOL.TreeUseCases);
 
   useEffect(() => {
@@ -85,6 +86,14 @@ export default function useTreeDetails(): TreeNodePresenter {
         treeId: 'c0773e64-3a3a-11eb-adc1-0242ac120002'
       })
         .then(fetch(getTreeById, setTree));
-    }, [removeTreeNode])
+    }, [removeTreeNode]),
+    updateTreeNode: useCallback((nodeId: string, { header }: any) => {
+      updateTreeNode({
+        header,
+        id: nodeId,
+        treeId: 'c0773e64-3a3a-11eb-adc1-0242ac120002',
+      })
+        .then(fetch(getTreeById, setTree));
+    }, [updateTreeNode])
   };
 }

@@ -7,4 +7,5 @@ export default interface TreeNodePresenter {
   insertTreeNode: (parentNodeId: UuidType, placeBeforeNodeId?: UuidType) => void;
   removeTreeNode: (nodeId: UuidType) => void;
   root: ILoadable<StoryTreeViewModel>;
+  updateTreeNode: (nodeId: UuidType, props: { header?: string }) => void;
 }
