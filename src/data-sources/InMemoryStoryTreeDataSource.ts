@@ -9,6 +9,7 @@ export default function createInMemoryStoryTreeDataSource(
   const _collection = collection;
 
   return {
+    boot(): void {},
     getById(id: UuidType): AsyncMaybe<Tree<StoryCard>> {
       const result = _collection.find((tree) => tree.id === id);
 

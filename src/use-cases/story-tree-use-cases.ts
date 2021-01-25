@@ -52,6 +52,9 @@ export default function createStoryTreeUseCases(
     getTreeById({ id }: GetTreeByIdRequest): AsyncMaybe<Tree<StoryCard>> {
       return treeRepo.getById(id);
     },
+    // @TODO
+    // This should be tested for a case when parentNodeId is not provided. It means that
+    // we want to create the root node and it needs to be validated properly.
     async insertTreeNode(request: InsertTreeNodeRequest): AsyncMaybe<StoryCard> {
       const tree = await treeRepo.getById(request.treeId);
 
@@ -69,7 +72,7 @@ export default function createStoryTreeUseCases(
       });
 
       // @TODO
-      // insert should return inserted object.
+      // Insert should return inserted object.
       await tree.insert(card, request.parentNodeId, request.placeBeforeNodeId);
 
       await treeRepo.save(tree);
