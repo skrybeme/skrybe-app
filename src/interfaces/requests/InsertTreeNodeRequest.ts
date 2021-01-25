@@ -4,7 +4,7 @@ import { TagColor } from '@/entities/enums';
 export default interface InsertTreeNodeRequest {
   body: string;
   header: string;
-  parentNodeId: UuidType;
+  parentNodeId?: UuidType;
   placeBeforeNodeId?: UuidType;
   tags: Array<{
     color?: TagColor;

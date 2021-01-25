@@ -1,3 +1,4 @@
+export { default as IBootable } from './IBootable';
 export { default as IContainerContext } from './IContainerContetxt';
 export { default as IDataSource } from './IDataSource';
 export { default as ILoadable } from './ILoadable';

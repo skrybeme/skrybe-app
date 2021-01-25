@@ -24,11 +24,11 @@ export const CardTeaser = styled.div<{ onClick: MouseEventHandler }>`${({ theme 
 export const Header = styled.div`
   font-size: ${SCALE * 1.6}rem;
   line-height: 1.8rem;
-  padding: ${SCALE * 12}px ${SCALE * 16}px 42px;
+  padding: ${SCALE * 12}px ${SCALE * 16}px ${SCALE * 12}px; // Was 42px for bottom.
   user-select: none;
 
   ${Editable} {
-    min-height: 64px;
+    min-height: 86px;
   }
 `;
 

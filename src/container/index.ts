@@ -1,4 +1,4 @@
-import createMockTreeDataSource from '@/data-sources/mock/MockStoryTreeDataSource';
+import { createLocalStorageStoryTreeDataSource } from '@/data-sources/localstorage/LocalStorageStoryTreeDataSource';
 import { IStoryTreeDataSource, IStoryTreeRepo, IStoryTreeUseCases } from '@/interfaces';
 import createStoryTreeRepo from '@/repository/StoryTreeRepo';
 import createStoryTreeUseCases from '@/use-cases/story-tree-use-cases';
@@ -18,8 +18,12 @@ container.load(new ContainerModule(bind => {
 )}));
 
 container.load(new ContainerModule(bind => {
+  const mockTreeDataSource: IStoryTreeDataSource = createLocalStorageStoryTreeDataSource();
+
+  mockTreeDataSource.boot();
+
   bind<IStoryTreeDataSource>(SYMBOL.TreeDataSource)
-    .toConstantValue(createMockTreeDataSource());
+    .toConstantValue(mockTreeDataSource);
 }));
 
 export { container }

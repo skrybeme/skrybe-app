@@ -34,7 +34,8 @@ export function PickerMainProjectList(): JSX.Element {
           Current project
         </S.Caption>
         <S.Title>
-          The Curious Case of Benjamin Button <i className="fas fa-caret-down" />
+          New Untitled Project <i className="fas fa-caret-down" />
+          {/* It Ain't An Another Yo Momma Joke <i className="fas fa-caret-down" /> */}
         </S.Title>
       </S.Trigger>
       <Picker_VariantA
@@ -42,9 +43,9 @@ export function PickerMainProjectList(): JSX.Element {
         onClickOutside={close}
       >
         <PickerTab name="default">
-          <PickerItem styleless>
+          {/* <PickerItem styleless>
             <Item
-              title="Blitzkrieg, Inc."
+              title="Gulp Fiction"
               wordsCount="4 321"
               modifiedDate="12 Sep 2019"
             />
@@ -58,11 +59,11 @@ export function PickerMainProjectList(): JSX.Element {
           </PickerItem>
           <PickerItem styleless>
             <Item
-              title="Never Don't Gave Up"
+              title="Never Gonna Give You Up"
               wordsCount="950"
               modifiedDate="3 May 2019"
             />
-          </PickerItem>
+          </PickerItem> */}
           <PickerItem styleless>
             <S.Item>
               <div className="head center">

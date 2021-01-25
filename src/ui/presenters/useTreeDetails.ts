@@ -75,7 +75,9 @@ export default function useTreeDetails(): TreeNodePresenter {
           tags: [],
           treeId: 'c0773e64-3a3a-11eb-adc1-0242ac120002'
         })
-          .then(fetch(getTreeById, setTree));
+          .then(() => {
+            fetch(getTreeById, setTree);
+          });
       },
       [insertTreeNode, tree]
     ),
@@ -85,7 +87,9 @@ export default function useTreeDetails(): TreeNodePresenter {
         id: nodeId,
         treeId: 'c0773e64-3a3a-11eb-adc1-0242ac120002'
       })
-        .then(fetch(getTreeById, setTree));
+        .then(() => {
+          fetch(getTreeById, setTree);
+        });
     }, [removeTreeNode]),
     updateTreeNode: useCallback((nodeId: string, { header }: any) => {
       updateTreeNode({
@@ -93,7 +97,9 @@ export default function useTreeDetails(): TreeNodePresenter {
         id: nodeId,
         treeId: 'c0773e64-3a3a-11eb-adc1-0242ac120002',
       })
-        .then(fetch(getTreeById, setTree));
+        .then(() => {
+          fetch(getTreeById, setTree)
+        });
     }, [updateTreeNode])
   };
 }

@@ -21,9 +21,9 @@ export function GenericCardTeaserTree_VariantA({
     }
   }, []);
 
-  const insertCard = useCallback((parentNodeId: string, placeBeforeNodeId?: string) => {
+  const insertCard = useCallback((parentNodeId?: string, placeBeforeNodeId?: string) => {
     return (): void => {
-      insertTreeNode(parentNodeId, placeBeforeNodeId);
+      insertTreeNode(parentNodeId, placeBeforeNodeId)
     }
   }, [insertTreeNode]);
 
@@ -35,7 +35,6 @@ export function GenericCardTeaserTree_VariantA({
 
   const updateCard = useCallback((nodeId: string) => {
     return (header: string): void => {
-      console.log(nodeId, header);
       updateTreeNode(nodeId, { header });
     }
   }, []);
@@ -84,6 +83,11 @@ export function GenericCardTeaserTree_VariantA({
             </S.ClickableArea>
           </S.LevelContext>
         </React.Fragment>
+      )}
+      {!root && (
+        <S.ClickableArea isOnly>
+          <ButtonAddCard_VariantA onClick={insertCard()} />
+        </S.ClickableArea>
       )}
     </S.GenericCardTeaserTree_VariantA>
   );

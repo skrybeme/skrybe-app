@@ -1,3 +1,4 @@
-import IPersistable from "./IPersistable";
+import IBootable from './IBootable';
+import IPersistable from './IPersistable';
 
-export default interface IDataSource<T> extends IPersistable<T> {}
+export default interface IDataSource<T> extends IBootable, IPersistable<T> {}
