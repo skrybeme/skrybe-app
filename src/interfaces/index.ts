@@ -4,6 +4,7 @@ export { default as IDataSource } from './IDataSource';
 export { default as ILoadable } from './ILoadable';
 export { default as IGeneratedStory } from './IGeneratedStory';
 export { default as IIdentifiable } from './IIdentifiable';
+export { default as IModalContext } from './IModalContext';
 export { default as IPersistable } from './IPersistable';
 export { default as IPickerContext } from './IPickerContext';
 export { default as IPoint } from './IPoint';

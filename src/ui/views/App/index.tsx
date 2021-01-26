@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { ThemeProvider } from 'styled-components';
 import theme from '@/ui/styles/theme';
 import * as S from './styles';
+import { ModalProvider } from '@/ui/providers';
 
 export function App() {
   const currentTheme = useSelector(state => state.settings.theme);
@@ -12,12 +13,14 @@ export function App() {
 
   return (
     <ThemeProvider theme={currentThemeObject}>
-      <S.App>
-        <Toolbar />
-        <S.Workspace>
-          <TreeDetails />
-        </S.Workspace>
-      </S.App>
+      <ModalProvider>
+        <S.App>
+          <Toolbar />
+          <S.Workspace>
+            <TreeDetails />
+          </S.Workspace>
+        </S.App>
+      </ModalProvider>
     </ThemeProvider>
   );
 }
