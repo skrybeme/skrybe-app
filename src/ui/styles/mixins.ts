@@ -22,3 +22,16 @@ export const positionCover = () => css`
   right: 0;
   top: 0;
 `;
+
+export const positionCoverBefore = () => css`
+  position: relative;
+
+  &:before {
+    bottom: 0;
+    content: '';
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+`;
