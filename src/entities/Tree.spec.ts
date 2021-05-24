@@ -4,11 +4,7 @@ import { UuidType } from '../common/types';
 import { generateUuid } from '../utils';
 
 class Identifiable implements IIdentifiable {
-  private constructor(private _id: UuidType) {}
-
-  static create(): Identifiable {
-    return new Identifiable(generateUuid());
-  }
+  constructor(private _id: UuidType = generateUuid()) {}
 
   get id() {
     return this._id;
@@ -26,13 +22,13 @@ class Identifiable implements IIdentifiable {
 describe(`StoryTree`, () => {
   describe(`equals`, () => {
     it(`returns true if given trees have the same nodes and the same structure`, () => {
-      const treeA = Tree.create<Identifiable>();
-      const treeB = Tree.create<Identifiable>();
+      const treeA = new Tree<Identifiable>();
+      const treeB = new Tree<Identifiable>();
 
-      const nodeA = Identifiable.create();
-      const nodeB = Identifiable.create();
-      const nodeC = Identifiable.create();
-      const nodeD = Identifiable.create();
+      const nodeA = new Identifiable();
+      const nodeB = new Identifiable();
+      const nodeC = new Identifiable();
+      const nodeD = new Identifiable();
 
       treeA.insert(nodeA);
       treeA.insert(nodeB);
@@ -49,14 +45,14 @@ describe(`StoryTree`, () => {
     });
 
     it(`returns false if given trees have not the same nodes or the same structure`, () => {
-      const treeA = Tree.create<Identifiable>();
-      const treeB = Tree.create<Identifiable>();
-      const treeC = Tree.create<Identifiable>();
+      const treeA = new Tree<Identifiable>();
+      const treeB = new Tree<Identifiable>();
+      const treeC = new Tree<Identifiable>();
 
-      const nodeA = Identifiable.create();
-      const nodeB = Identifiable.create();
-      const nodeC = Identifiable.create();
-      const nodeD = Identifiable.create();
+      const nodeA = new Identifiable();
+      const nodeB = new Identifiable();
+      const nodeC = new Identifiable();
+      const nodeD = new Identifiable();
 
       treeA.insert(nodeA);
       treeA.insert(nodeB);
@@ -68,7 +64,7 @@ describe(`StoryTree`, () => {
       treeB.insert(nodeC);
       treeB.insert(nodeD);
 
-      treeC.insert(Identifiable.create());
+      treeC.insert(new Identifiable());
       treeC.insert(nodeB);
       treeC.insert(nodeC);
       treeC.insert(nodeD, nodeC.id);
@@ -80,15 +76,15 @@ describe(`StoryTree`, () => {
 
   describe(`getAllNodes`, () => {
     it(`returns empty map if none is passed to the tree`, () => {
-      const tree = Tree.create<Identifiable>();
+      const tree = new Tree<Identifiable>();
 
       expect(tree.getAllNodes()).toEqual(new Map());
     });
 
     it(`returns a map of nodes`, () => {
-      const tree = Tree.create<Identifiable>();
-      const root = Identifiable.create();
-      const rootChild = Identifiable.create();
+      const tree = new Tree<Identifiable>();
+      const root = new Identifiable();
+      const rootChild = new Identifiable();
 
       tree.insert(root);
       tree.insert(rootChild);
@@ -111,17 +107,17 @@ describe(`StoryTree`, () => {
 
   describe(`getChildrenOf`, () => {
     it(`returns null if node with given id does not exist`, () => {
-      const tree = Tree.create<Identifiable>();
+      const tree = new Tree<Identifiable>();
 
-      tree.insert(Identifiable.create());
+      tree.insert(new Identifiable());
 
       expect(tree.getChildrenOf('invalid-uuid')).toBeNull();
     });
 
     it(`returns an empty array if the given node has no children`, () => {
-      const tree = Tree.create<Identifiable>();
-      const root = Identifiable.create();
-      const rootChild = Identifiable.create();
+      const tree = new Tree<Identifiable>();
+      const root = new Identifiable();
+      const rootChild = new Identifiable();
 
       tree.insert(root);
       tree.insert(rootChild);
@@ -130,11 +126,11 @@ describe(`StoryTree`, () => {
     });
 
     it(`returns an array of children of the node`, () => {
-      const tree = Tree.create<Identifiable>();
-      const root = Identifiable.create();
-      const rootChild = Identifiable.create();
-      const leftGrandRootChild = Identifiable.create();
-      const rightGrandRootChild = Identifiable.create();
+      const tree = new Tree<Identifiable>();
+      const root = new Identifiable();
+      const rootChild = new Identifiable();
+      const leftGrandRootChild = new Identifiable();
+      const rightGrandRootChild = new Identifiable();
 
       tree.insert(root);
       tree.insert(rootChild);
@@ -150,18 +146,18 @@ describe(`StoryTree`, () => {
 
   describe(`getNodeById`, () => {
     it(`returns null if the node with given id does not exists`, () => {
-      const tree = Tree.create<Identifiable>();
+      const tree = new Tree<Identifiable>();
 
-      tree.insert(Identifiable.create());
+      tree.insert(new Identifiable());
 
       expect(tree.getNodeById('invalid-uuid')).toBeNull();
     });
 
     it(`returns node by given id`, () => {
-      const tree = Tree.create<Identifiable>();
-      const root = Identifiable.create();
-      const rootChild = Identifiable.create();
-      const rootGrandChild = Identifiable.create();
+      const tree = new Tree<Identifiable>();
+      const root = new Identifiable();
+      const rootChild = new Identifiable();
+      const rootGrandChild = new Identifiable();
 
       tree.insert(root);
       tree.insert(rootChild);
@@ -175,8 +171,8 @@ describe(`StoryTree`, () => {
 
   describe(`getParentOf`, () => {
     it(`returns null if given node is root`, () => {
-      const tree = Tree.create<Identifiable>();
-      const root = Identifiable.create();
+      const tree = new Tree<Identifiable>();
+      const root = new Identifiable();
 
       tree.insert(root);
 
@@ -184,9 +180,9 @@ describe(`StoryTree`, () => {
     });
 
     it(`returns null if given node does not exist in the tree`, () => {
-      const tree = Tree.create<Identifiable>();
-      const root = Identifiable.create();
-      const rootChild = Identifiable.create();
+      const tree = new Tree<Identifiable>();
+      const root = new Identifiable();
+      const rootChild = new Identifiable();
 
       tree.insert(root);
       tree.insert(rootChild);
@@ -195,9 +191,9 @@ describe(`StoryTree`, () => {
     });
 
     it(`returns parent node object`, () => {
-      const tree = Tree.create<Identifiable>();
-      const root = Identifiable.create();
-      const rootChild = Identifiable.create();
+      const tree = new Tree<Identifiable>();
+      const root = new Identifiable();
+      const rootChild = new Identifiable();
 
       tree.insert(root);
       tree.insert(rootChild);
@@ -208,18 +204,18 @@ describe(`StoryTree`, () => {
 
   describe(`getRoot`, () => {
     it(`returns null if there are no nodes in the tree`, () => {
-      const tree = Tree.create<Identifiable>();
+      const tree = new Tree<Identifiable>();
 
       expect(tree.getRoot()).toBeNull();
     });
 
     it(`returns root of the tree`, () => {
-      const tree = Tree.create<Identifiable>();
-      const root = Identifiable.create();
+      const tree = new Tree<Identifiable>();
+      const root = new Identifiable();
 
       tree.insert(root);
-      tree.insert(Identifiable.create());
-      tree.insert(Identifiable.create());
+      tree.insert(new Identifiable());
+      tree.insert(new Identifiable());
 
       expect(tree.getRoot()).toEqual(root);
     });
@@ -227,8 +223,8 @@ describe(`StoryTree`, () => {
 
   describe(`getSubtreeById`, () => {
     it(`returns null if the node with given id does not exist`, () => {
-      const tree = Tree.create<Identifiable>();
-      const root = Identifiable.create();
+      const tree = new Tree<Identifiable>();
+      const root = new Identifiable();
 
       tree.insert(root);
 
@@ -238,18 +234,18 @@ describe(`StoryTree`, () => {
     });
 
     it(`returns tree with the node with given id as a root`, () => {
-      const tree = Tree.create<Identifiable>();
-      const root = Identifiable.create();
-      const leftRootChild = Identifiable.create();
-      const rightRootChild = Identifiable.create();
-      const leftGrandRootChild = Identifiable.create();
+      const tree = new Tree<Identifiable>();
+      const root = new Identifiable();
+      const leftRootChild = new Identifiable();
+      const rightRootChild = new Identifiable();
+      const leftGrandRootChild = new Identifiable();
 
       tree.insert(root);
       tree.insert(leftRootChild);
       tree.insert(rightRootChild);
       tree.insert(leftGrandRootChild, leftRootChild.id);
 
-      const subtree = Tree.create<Identifiable>();
+      const subtree = new Tree<Identifiable>();
 
       subtree.insert(leftRootChild);
       subtree.insert(leftGrandRootChild);
@@ -263,8 +259,8 @@ describe(`StoryTree`, () => {
 
   describe(`insert`, () => {
     it(`adds root if the tree is empty`, () => {
-      const tree = Tree.create<Identifiable>();
-      const node = Identifiable.create();
+      const tree = new Tree<Identifiable>();
+      const node = new Identifiable();
 
       tree.insert(node);
 
@@ -274,9 +270,9 @@ describe(`StoryTree`, () => {
     });
 
     it(`adds node as a child of root if parent node is not given`, () => {
-      const tree = Tree.create<Identifiable>();
-      const root = Identifiable.create();
-      const rootChild = Identifiable.create();
+      const tree = new Tree<Identifiable>();
+      const root = new Identifiable();
+      const rootChild = new Identifiable();
 
       tree.insert(root);
       tree.insert(rootChild);
@@ -287,11 +283,11 @@ describe(`StoryTree`, () => {
     });
 
     it(`adds node as a child of given parent`, () => {
-      const tree = Tree.create<Identifiable>();
-      const root = Identifiable.create();
-      const leftRootChild = Identifiable.create();
-      const rightRootChild = Identifiable.create();
-      const leftGrandRootChild = Identifiable.create();
+      const tree = new Tree<Identifiable>();
+      const root = new Identifiable();
+      const leftRootChild = new Identifiable();
+      const rightRootChild = new Identifiable();
+      const leftGrandRootChild = new Identifiable();
 
       tree.insert(root);
       tree.insert(leftRootChild);
@@ -304,11 +300,11 @@ describe(`StoryTree`, () => {
     });
 
     it(`adds node as a child of given parent on desired position`, () => {
-      const tree = Tree.create<Identifiable>();
-      const root = Identifiable.create();
-      const leftRootChild = Identifiable.create();
-      const rightRootChild = Identifiable.create();
-      const middleRootChild = Identifiable.create();
+      const tree = new Tree<Identifiable>();
+      const root = new Identifiable();
+      const leftRootChild = new Identifiable();
+      const rightRootChild = new Identifiable();
+      const middleRootChild = new Identifiable();
 
       tree.insert(root);
       tree.insert(leftRootChild);
@@ -324,9 +320,9 @@ describe(`StoryTree`, () => {
     });
 
     it(`throws error if the the tree is rootless, parent node is given and it is not the root`, () => {
-      const tree = Tree.create<Identifiable>();
-      const root = Identifiable.create();
-      const node = Identifiable.create();
+      const tree = new Tree<Identifiable>();
+      const root = new Identifiable();
+      const node = new Identifiable();
 
       tree.insert(root);
 
@@ -334,10 +330,10 @@ describe(`StoryTree`, () => {
     });
 
     it(`throws error if given parent does not exist`, () => {
-      const tree = Tree.create<Identifiable>();
-      const root = Identifiable.create();
-      const rootChild = Identifiable.create();
-      const node = Identifiable.create();
+      const tree = new Tree<Identifiable>();
+      const root = new Identifiable();
+      const rootChild = new Identifiable();
+      const node = new Identifiable();
 
       tree.insert(root);
       tree.insert(rootChild);
@@ -346,9 +342,9 @@ describe(`StoryTree`, () => {
     });
 
     it(`throws error if given place-before-node does not exist`, () => {
-      const tree = Tree.create<Identifiable>();
-      const root = Identifiable.create();
-      const node = Identifiable.create();
+      const tree = new Tree<Identifiable>();
+      const root = new Identifiable();
+      const node = new Identifiable();
 
       tree.insert(root);
 
@@ -358,9 +354,9 @@ describe(`StoryTree`, () => {
 
   describe(`removeById`, () => {
     it(`throws error if given node does not exist`, () => {
-      const tree = Tree.create<Identifiable>();
-      const root = Identifiable.create();
-      const node = Identifiable.create();
+      const tree = new Tree<Identifiable>();
+      const root = new Identifiable();
+      const node = new Identifiable();
 
       tree.insert(root);
       tree.insert(node);
@@ -369,11 +365,11 @@ describe(`StoryTree`, () => {
     });
 
     it(`removes node with all its children from the tree`, () => {
-      const tree = Tree.create<Identifiable>();
-      const root = Identifiable.create();
-      const leftRootChild = Identifiable.create();
-      const rightRootChild = Identifiable.create();
-      const leftGrandRootChild = Identifiable.create();
+      const tree = new Tree<Identifiable>();
+      const root = new Identifiable();
+      const leftRootChild = new Identifiable();
+      const rightRootChild = new Identifiable();
+      const leftGrandRootChild = new Identifiable();
 
       tree.insert(root);
       tree.insert(leftRootChild);

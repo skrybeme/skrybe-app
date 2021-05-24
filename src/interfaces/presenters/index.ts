@@ -1,1 +1,1 @@
-export { default as TreeNodePresenter } from './TreeNodePresenter';
+export { default as TreeDetailsPresenter } from './TreeNodePresenter';

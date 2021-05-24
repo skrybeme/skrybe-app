@@ -6,13 +6,13 @@ import StoryTreeMap from './StoryTreeMap';
 describe(`StoryTreeMap`, () => {
   describe(`toViewModel`, () => {
     it(`maps story tree domain object to the view model`, () => {
-      const tree = Tree.create<StoryCard>();
-      const root = StoryCard.create({ tags: [Tag.create(), Tag.create()] });
-      const rootLeftChild = StoryCard.create({ tags: [Tag.create(), Tag.create()] });
-      const rootRightChild = StoryCard.create({ tags: [Tag.create(), Tag.create()] });
-      const rootGrandLeftChild = StoryCard.create({ tags: [Tag.create(), Tag.create()] });
-      const rootGrandRightChild = StoryCard.create({ tags: [Tag.create(), Tag.create()] });
-      const rootGrandGrandRightChild = StoryCard.create({ tags: [Tag.create(), Tag.create()] });
+      const tree = new Tree<StoryCard>();
+      const root = new StoryCard({ tags: [new Tag(), new Tag()] });
+      const rootLeftChild = new StoryCard({ tags: [new Tag(), new Tag()] });
+      const rootRightChild = new StoryCard({ tags: [new Tag(), new Tag()] });
+      const rootGrandLeftChild = new StoryCard({ tags: [new Tag(), new Tag()] });
+      const rootGrandRightChild = new StoryCard({ tags: [new Tag(), new Tag()] });
+      const rootGrandGrandRightChild = new StoryCard({ tags: [new Tag(), new Tag()] });
   
       tree.insert(root);
       tree.insert(rootLeftChild);
@@ -96,7 +96,7 @@ describe(`StoryTreeMap`, () => {
     });
   
     it(`returns null if given tree has no root`, () => {
-      const result = StoryTreeMap.toViewModel(Tree.create<StoryCard>());
+      const result = StoryTreeMap.toViewModel(new Tree<StoryCard>());
   
       expect(result).toBeNull();
     });

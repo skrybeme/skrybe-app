@@ -3,18 +3,17 @@ import { UuidType } from '@/common/types';
 import { generateUuid } from '@/utils';
 
 class StoryCard implements IStoryCard {
-  private constructor(
-    private _props: IStoryCardProps,
-    private _id: UuidType
-  ) {}
+  private _id: UuidType;
+  private _props: IStoryCardProps;
 
-  static create(props?: IStoryCardProps, id: UuidType = generateUuid()): StoryCard {
-    return new StoryCard({
+  constructor(props?: IStoryCardProps, id: UuidType = generateUuid()) {
+    this._id = id;
+    this._props = {
       body: '',
       header: '',
       ...props,
       tags: props?.tags || []
-    }, id);
+    };
   }
 
   get body(): string {

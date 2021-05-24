@@ -8,7 +8,7 @@ import ITagProps from '@/interfaces/ITagProps';
 
 export class StoryTreeLocalStorageMap {
   static toDomainModel(localStorageModel: StoryTreeLocalStorageModel): Tree<StoryCard> {
-    const storyTreeDomainModel = Tree.create<StoryCard>(
+    const storyTreeDomainModel = new Tree<StoryCard>(
       undefined,
       localStorageModel.id
     );
@@ -28,11 +28,11 @@ export class StoryTreeLocalStorageMap {
       id: UuidType,
       parentId: Maybe<UuidType>
     ): any {
-      storyTreeDomainModel.insert(StoryCard.create({
+      storyTreeDomainModel.insert(new StoryCard({
         header: nodeContext.node.header,
         body: nodeContext.node.body,
         tags: nodeContext.node.tags.map(
-          (tagProps) => Tag.create(tagProps as ITagProps, tagProps.id)
+          (tagProps) => new Tag(tagProps as ITagProps, tagProps.id)
         )
       }, id), parentId || undefined);
   

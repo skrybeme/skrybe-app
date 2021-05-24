@@ -9,16 +9,16 @@ describe(`Crawler`, () => {
   //    B     C
   //  D   E F   G
   // H I
-  const tree = Tree.create<StoryCard>();
-  const A = StoryCard.create();
-  const B = StoryCard.create();
-  const C = StoryCard.create();
-  const D = StoryCard.create();
-  const E = StoryCard.create();
-  const F = StoryCard.create();
-  const G = StoryCard.create();
-  const H = StoryCard.create();
-  const I = StoryCard.create();
+  const tree = new Tree<StoryCard>();
+  const A = new StoryCard();
+  const B = new StoryCard();
+  const C = new StoryCard();
+  const D = new StoryCard();
+  const E = new StoryCard();
+  const F = new StoryCard();
+  const G = new StoryCard();
+  const H = new StoryCard();
+  const I = new StoryCard();
       
   tree.insert(A);
   tree.insert(B);
@@ -32,7 +32,7 @@ describe(`Crawler`, () => {
 
   describe(`crawlBreadthFirst`, () => {
     it(`returns an empty array if given tree does not have a root node`, () => {
-      const tree = Tree.create<StoryCard>();
+      const tree = new Tree<StoryCard>();
 
       const result = crawlBreadthFirst<StoryCard, UuidType>(
         tree,
@@ -102,7 +102,7 @@ describe(`Crawler`, () => {
 
   describe(`crawlDeepFirst`, () => {
     it(`returns an empty array if given tree does not have a root node`, () => {
-      const tree = Tree.create<StoryCard>();
+      const tree = new Tree<StoryCard>();
 
       const result = crawlDeepFirst<StoryCard, UuidType>(
         tree,
