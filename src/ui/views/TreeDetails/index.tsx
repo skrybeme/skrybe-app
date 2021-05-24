@@ -3,7 +3,7 @@ import {
   GenericCardTeaserTree_VariantA
 } from '@/ui/domain-components/GenericCardTeaserTree';
 import { useDraggable } from '@/ui/hooks';
-import { useTreeDetails } from '@/ui/presenters';
+import { useTreeDetailsPresenter } from '@/ui/presenters';
 import * as S from './styles';
 import * as GS from '@/ui/styles/global';
 
@@ -16,7 +16,7 @@ export function TreeDetails(): JSX.Element {
     removeTreeNode,
     root,
     updateTreeNode
-  } = useTreeDetails();
+  } = useTreeDetailsPresenter();
 
   return (
     <GS.Unscrollable>

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useWindowSize } from '@/ui/hooks';
 import { selectNestedCardTree } from '@/ui/store/selectors';
 import * as S from './styles';
-import { useTreeDetails } from '@/ui/presenters';
+import { useTreeDetailsPresenter } from '@/ui/presenters';
 import { CardTeaser } from '../CardTeaser';
 
 const Card = CardTeaser;
@@ -14,7 +14,7 @@ function WideView() {
   const nestedCardTree = useSelector(selectNestedCardTree());
   const windowSize = useWindowSize();
 
-  const { root } = useTreeDetails();
+  const { root } = useTreeDetailsPresenter();
 
   function onClickCard(e) {
     if (!cardOverlayRef) {          

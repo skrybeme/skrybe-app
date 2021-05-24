@@ -4,8 +4,8 @@ import { StoryTreeLocalStorageMap } from './StoryTreeLocalStorageMap';
 import Tree from '@/entities/Tree';
 import StoryCard from '@/entities/StoryCard';
 
-it(`LocalStorageStoryTreeDataSource`, () => {
-  it(`creation`, () => {
+describe(`LocalStorageStoryTreeDataSource`, () => {
+  describe(`creation`, () => {
     it(`does not affect stored data on creation if data is corrupted`, () => {
       localStorage.setItem('example-tree', 'corrupted!##data');
   
@@ -23,7 +23,7 @@ it(`LocalStorageStoryTreeDataSource`, () => {
     });
   })
 
-  it(`populating with initial data`, () => {
+  describe(`populating with initial data`, () => {
     it(`does not overwrite stored data if such exists and is valid`, async () => {
       const mockedStoryTree = Tree.create<StoryCard>();
       mockedStoryTree.insert(StoryCard.create());
@@ -77,7 +77,7 @@ it(`LocalStorageStoryTreeDataSource`, () => {
     });
   })
 
-  it(`accessing specific tree`, () => {
+  describe(`accessing specific tree`, () => {
     it(`returns null if stored data is corrupted and does not affect it`, async () => {
       localStorage.setItem('example-tree', 'corrupted!##data');
   

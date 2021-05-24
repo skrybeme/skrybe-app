@@ -1,15 +1,17 @@
 import { useCallback, useEffect } from 'react';
-import { IStoryTreeUseCases } from '@/interfaces';
+import { IUseCases } from '@/interfaces';
 import { useContainer, useLoadable } from '@/ui/hooks';
-import * as SYMBOL from '@/container/symbols';
 import { StoryTreeMap } from '@/mappers';
-import { TreeNodePresenter } from '@/interfaces/presenters';
+import { TreeDetailsPresenter } from '@/interfaces/presenters';
 import { StoryTreeViewModel } from '@/interfaces/view-models';
+import { GetTreeByIdUseCase } from '@/use-cases/GetTreeByIdUseCase';
+import * as SYMBOL from '@/container/symbols';
 
+// @FIXME
 // This is temporary.
 // It is going to change along with listenForTreeDetails use case implementation.
-const fetch = (get, set) => {
-  return get({ id: 'c0773e64-3a3a-11eb-adc1-0242ac120002' })
+const fetch = (get: GetTreeByIdUseCase, set) => {
+  return get.execute({ id: 'c0773e64-3a3a-11eb-adc1-0242ac120002' })
     .then(result => {
       set({
         data: result ? StoryTreeMap.toViewModel(result) : null,
@@ -24,7 +26,7 @@ const fetch = (get, set) => {
     });
 }
 
-export default function useTreeDetails(): TreeNodePresenter {
+export default function useTreeDetailsPresenter(): TreeDetailsPresenter {
   const [tree, setTree] = useLoadable<StoryTreeViewModel>({ isLoading: true });
 
   const {
@@ -33,7 +35,7 @@ export default function useTreeDetails(): TreeNodePresenter {
     insertTreeNode,
     removeTreeNode,
     updateTreeNode
-  } = useContainer<IStoryTreeUseCases>(SYMBOL.TreeUseCases);
+  } = useContainer<IUseCases>(SYMBOL.UseCases);
 
   useEffect(() => {
     fetch(getTreeById, setTree);
@@ -42,13 +44,13 @@ export default function useTreeDetails(): TreeNodePresenter {
   return {
     generateChildrenTreeNodes: useCallback(
       (nodeId: string, placeBeforeNodeId?: string) => {
-        generateChildrenTreeNodes({
+        generateChildrenTreeNodes.execute({
           parentNodeId: nodeId,
           placeBeforeNodeId,
           treeId: 'c0773e64-3a3a-11eb-adc1-0242ac120002'
         })
           .then(() => {
-            getTreeById?.({ id: 'c0773e64-3a3a-11eb-adc1-0242ac120002' })
+            getTreeById.execute?.({ id: 'c0773e64-3a3a-11eb-adc1-0242ac120002' })
             .then(result => {
               setTree({
                 data: result ? StoryTreeMap.toViewModel(result) : null,
@@ -67,7 +69,7 @@ export default function useTreeDetails(): TreeNodePresenter {
     ),
     insertTreeNode: useCallback(
       (parentNodeId: string, placeBeforeNodeId?: string): void => {
-        insertTreeNode({
+        insertTreeNode.execute({
           body: '',
           header: '',
           parentNodeId,
@@ -83,7 +85,7 @@ export default function useTreeDetails(): TreeNodePresenter {
     ),
     root: tree,
     removeTreeNode: useCallback((nodeId: string) => {
-      removeTreeNode({
+      removeTreeNode.execute({
         id: nodeId,
         treeId: 'c0773e64-3a3a-11eb-adc1-0242ac120002'
       })
@@ -92,7 +94,7 @@ export default function useTreeDetails(): TreeNodePresenter {
         });
     }, [removeTreeNode]),
     updateTreeNode: useCallback((nodeId: string, { header }: any) => {
-      updateTreeNode({
+      updateTreeNode.execute({
         header,
         id: nodeId,
         treeId: 'c0773e64-3a3a-11eb-adc1-0242ac120002',
