@@ -11,7 +11,7 @@ export default function generateRandomTags(amount: number): Array<Tag> {
   let out: any = [];
 
   for (let i = 0; i < amount; i++) {
-    out.push(Tag.create({
+    out.push(new Tag({
       color: randomOf<TagColor>(labels),
       label: lorem.word()
     }));

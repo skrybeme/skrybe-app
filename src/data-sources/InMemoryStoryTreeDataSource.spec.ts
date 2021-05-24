@@ -7,9 +7,9 @@ import createInMemoryStoryTreeDataSource from './InMemoryStoryTreeDataSource';
 describe(`InMemoryStoryTreeRepo`, () => {
   createCommonPersistableSpec<IStoryTreeRepo, Tree<StoryCard>>(
     (collection: Tree<StoryCard>[]) => createInMemoryStoryTreeDataSource(collection),
-    () => Tree.create<StoryCard>(),
+    () => new Tree<StoryCard>(),
     (entity: Tree<StoryCard>) => {
-      entity.insert(StoryCard.create());
+      entity.insert(new StoryCard());
       
       return entity;
     }

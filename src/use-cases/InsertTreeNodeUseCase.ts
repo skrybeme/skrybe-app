@@ -17,10 +17,10 @@ export class InsertTreeNodeUseCase implements IExecutable<
       return Promise.resolve(null);
     }
 
-    const card = StoryCard.create({
+    const card = new StoryCard({
       body: request.body,
       header: request.header,
-      tags: request.tags.map((tag) => Tag.create({
+      tags: request.tags.map((tag) => new Tag({
         color: tag.color,
         label: tag.label
       })),

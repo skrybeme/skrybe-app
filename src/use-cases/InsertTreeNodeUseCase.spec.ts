@@ -5,36 +5,36 @@ import { InMemoryRepo } from "@/repository";
 import { InsertTreeNodeUseCase } from "./InsertTreeNodeUseCase";
 
 describe(`InsertTreeNodeUseCase`, () => {
-  const tree = Tree.create<StoryCard>();
+  const tree = new Tree<StoryCard>();
 
   const inMemoryStoryTreeRepo = new InMemoryRepo([tree]);
 
   const insertTreeNode = new InsertTreeNodeUseCase(inMemoryStoryTreeRepo);
 
-  const root = StoryCard.create({
+  const root = new StoryCard({
     body: '',
     header: '',
     tags: [
-      Tag.create(),
-      Tag.create()
+      new Tag(),
+      new Tag()
     ]
   });
 
-  const rootLeftChild = StoryCard.create({
+  const rootLeftChild = new StoryCard({
     body: '',
     header: '',
     tags: [
-      Tag.create(),
-      Tag.create()
+      new Tag(),
+      new Tag()
     ]
   });
 
-  const rootRightChild = StoryCard.create({
+  const rootRightChild = new StoryCard({
     body: '',
     header: '',
     tags: [
-      Tag.create(),
-      Tag.create()
+      new Tag(),
+      new Tag()
     ]
   });
 

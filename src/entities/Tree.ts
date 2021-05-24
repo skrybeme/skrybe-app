@@ -4,11 +4,11 @@ import { crawl } from './Crawler';
 import isEqual from 'lodash/isEqual';
 import { generateUuid } from '@/utils';
 
-class TreeMap<T> extends Map<UuidType, ITreeNodeContext<T>> {
-  static toNativeMap<T>(map: TreeMap<T>): Map<UuidType, T> {
-    const out = new Map<UuidType, T>();
+class TreeMap<TNode> extends Map<UuidType, ITreeNodeContext<TNode>> {
+  static toNativeMap<TNode>(map: TreeMap<TNode>): Map<UuidType, TNode> {
+    const out = new Map<UuidType, TNode>();
 
-    map.forEach((value: ITreeNodeContext<T>, key: UuidType) => {
+    map.forEach((value: ITreeNodeContext<TNode>, key: UuidType) => {
       out.set(key, value.node);
     });
 
@@ -16,28 +16,27 @@ class TreeMap<T> extends Map<UuidType, ITreeNodeContext<T>> {
   }
 }
 
-class Tree<T extends IIdentifiable> implements ITree<T, TreeMap<T>> {
-  protected constructor(
-    protected _tree: TreeMap<T> = new TreeMap<T>(),
-    protected _id: UuidType
-  ) {}
+class Tree<TNode extends IIdentifiable> implements ITree<TNode, TreeMap<TNode>> {
+  protected _id: UuidType;
+  protected _tree: TreeMap<TNode> = new TreeMap<TNode>();
 
-  static create<T extends IIdentifiable>(
-    _?: ITreeProps,
+  constructor(
+    tree: TreeMap<TNode> = new TreeMap<TNode>(),
     id: UuidType = generateUuid()
-  ): Tree<T> {
-    return new Tree<T>(undefined, id);
+  ) {
+    this._id = id;
+    this._tree = tree;
   }
 
-  equals(tree: Tree<T>): boolean {
+  equals(tree: Tree<TNode>): boolean {
     return isEqual(this._tree, tree.getRawTreeMap());
   }
 
-  getAllNodes(): Map<UuidType, T> {
+  getAllNodes(): Map<UuidType, TNode> {
     return TreeMap.toNativeMap(this._tree);
   }
 
-  getChildrenOf(id: UuidType): Maybe<Array<T>> {
+  getChildrenOf(id: UuidType): Maybe<Array<TNode>> {
     const node = this._tree.get(id);
 
     if (!node) {
@@ -51,7 +50,7 @@ class Tree<T extends IIdentifiable> implements ITree<T, TreeMap<T>> {
     }
 
     const nativeTree = TreeMap.toNativeMap(this._tree);
-    const out: Array<T> = [];
+    const out: Array<TNode> = [];
 
     childrenIds.map((childId: UuidType) => {
       const childNode = nativeTree.get(childId);
@@ -64,7 +63,7 @@ class Tree<T extends IIdentifiable> implements ITree<T, TreeMap<T>> {
     return out;
   }
 
-  getNodeContextChildrenOf(id: UuidType): Maybe<Array<ITreeNodeContext<T>>> {
+  getNodeContextChildrenOf(id: UuidType): Maybe<Array<ITreeNodeContext<TNode>>> {
     const node = this._tree.get(id);
 
     if (!node) {
@@ -77,7 +76,7 @@ class Tree<T extends IIdentifiable> implements ITree<T, TreeMap<T>> {
       return [];
     }
 
-    const out: Array<ITreeNodeContext<T>> = [];
+    const out: Array<ITreeNodeContext<TNode>> = [];
 
     childrenIds.map((childId: UuidType) => {
       const childNode = this.getNodeContextById(childId);
@@ -90,25 +89,25 @@ class Tree<T extends IIdentifiable> implements ITree<T, TreeMap<T>> {
     return out;
   }
 
-  getNodeById(id: UuidType): Maybe<T> {
+  getNodeById(id: UuidType): Maybe<TNode> {
     return this.getNodeContextById(id)?.node || null;
   }
 
-  getNodeContextById(id: UuidType): Maybe<ITreeNodeContext<T>> {
+  getNodeContextById(id: UuidType): Maybe<ITreeNodeContext<TNode>> {
     return this._tree.get(id) || null;
   }
 
-  getRawTreeMap(): TreeMap<T> {
+  getRawTreeMap(): TreeMap<TNode> {
     return this._tree;
   }
 
-  getRoot(): Maybe<T> {
+  getRoot(): Maybe<TNode> {
     const rootTreeNode = this.getRootContext()
 
     return rootTreeNode ? rootTreeNode.node : null;
   }
 
-  getParentOf(id: UuidType): Maybe<T> {
+  getParentOf(id: UuidType): Maybe<TNode> {
     const node = this.getNodeContextById(id);
 
     if (!node?.parentId) {
@@ -120,14 +119,14 @@ class Tree<T extends IIdentifiable> implements ITree<T, TreeMap<T>> {
     return parentNode?.node || null;
   }
 
-  getRootContext(): Maybe<ITreeNodeContext<T>> {
+  getRootContext(): Maybe<ITreeNodeContext<TNode>> {
     if (!this._tree.size) {
       return null;
     }
 
-    let out: Maybe<ITreeNodeContext<T>> = null;
+    let out: Maybe<ITreeNodeContext<TNode>> = null;
 
-    this._tree.forEach((value: ITreeNodeContext<T>) => {
+    this._tree.forEach((value: ITreeNodeContext<TNode>) => {
       if (value.isRoot) {
         out = value;
 
@@ -138,10 +137,10 @@ class Tree<T extends IIdentifiable> implements ITree<T, TreeMap<T>> {
     return out;
   }
 
-  getSubtreeById(id: UuidType): Maybe<Tree<T>> {
+  getSubtreeById(id: UuidType): Maybe<Tree<TNode>> {
     const nodeIds = crawl(
       this,
-      (nodeContext: ITreeNodeContext<T>): UuidType => nodeContext.node.id,
+      (nodeContext: ITreeNodeContext<TNode>): UuidType => nodeContext.node.id,
       id
     );
 
@@ -149,7 +148,7 @@ class Tree<T extends IIdentifiable> implements ITree<T, TreeMap<T>> {
       return null;
     }
 
-    const map = new TreeMap<T>();
+    const map = new TreeMap<TNode>();
 
     nodeIds.forEach((nodeId: UuidType): void => {
       const treeNode = this._tree.get(nodeId)!;
@@ -162,7 +161,7 @@ class Tree<T extends IIdentifiable> implements ITree<T, TreeMap<T>> {
       map.set(nodeId, treeNode);
     });
 
-    return new Tree<T>(map, generateUuid());
+    return new Tree<TNode>(map, generateUuid());
   }
 
   get id() {
@@ -170,7 +169,7 @@ class Tree<T extends IIdentifiable> implements ITree<T, TreeMap<T>> {
   }
 
   insert(
-    node: T,
+    node: TNode,
     parentNodeId?: UuidType,
     placeBeforeNodeId?: UuidType
   ): void {
@@ -235,7 +234,7 @@ class Tree<T extends IIdentifiable> implements ITree<T, TreeMap<T>> {
       throw new Error(`Node with given ID does not exist in the story tree.`);
     }
 
-    crawl(this, (nodeContext: ITreeNodeContext<T>): void => {
+    crawl(this, (nodeContext: ITreeNodeContext<TNode>): void => {
       this._tree.delete(nodeContext.node.id);
     }, id);
   }

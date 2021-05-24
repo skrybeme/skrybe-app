@@ -5,14 +5,14 @@ import { InMemoryRepo } from "@/repository";
 import { UpdateTreeNodeUseCase } from "./UpdateTreeNodeUseCase";
 
 describe(`UpdateTreeNodeUseCase`, () => {
-  const tree = Tree.create<StoryCard>();
+  const tree = new Tree<StoryCard>();
 
-  const root = StoryCard.create({
+  const root = new StoryCard({
     body: '',
     header: 'Header text',
     tags: [
-      Tag.create(),
-      Tag.create()
+      new Tag(),
+      new Tag()
     ]
   });
 

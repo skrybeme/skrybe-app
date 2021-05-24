@@ -153,52 +153,52 @@ describe(`StoryTreeLocalStorageMap`, () => {
 
   describe(`toLocalStorageModel`, () => {
     it(`maps domain model to localStorage model with respect to parent's children array order`, () => {
-      const tree = Tree.create<StoryCard>();
+      const tree = new Tree<StoryCard>();
 
       const tags = [
-        Tag.create({
+        new Tag({
           color: TagColor.RED,
           label: 't1'
         }),
-        Tag.create({
+        new Tag({
           color: TagColor.WHITE,
           label: 't2'
         }),
-        Tag.create({
+        new Tag({
           color: TagColor.RED,
           label: 't3'
         }),
-        Tag.create({
+        new Tag({
           color: TagColor.WHITE,
           label: 't4'
         }),
-        Tag.create({
+        new Tag({
           color: TagColor.RED,
           label: 't5'
         }),
-        Tag.create({
+        new Tag({
           color: TagColor.RED,
           label: 't6'
         })
       ]
 
-      const root = StoryCard.create({
+      const root = new StoryCard({
         body: 'b1',
         header: 'h1',
         tags: tags.slice(0, 3)
       });
 
       const children = [
-        StoryCard.create({
+        new StoryCard({
           body: 'b11',
           header: 'h11'
         }),
-        StoryCard.create({
+        new StoryCard({
           body: 'b12',
           header: 'h12',
           tags: tags.slice(3, 5)
         }),
-        StoryCard.create({
+        new StoryCard({
           body: 'b13',
           header: 'h13',
           tags: [tags[5]]
@@ -206,11 +206,11 @@ describe(`StoryTreeLocalStorageMap`, () => {
       ];
 
       const grandChildren = [
-        StoryCard.create({
+        new StoryCard({
           body: 'b131',
           header: 'h131'
         }),
-        StoryCard.create({
+        new StoryCard({
           body: 'b132',
           header: 'h132'
         })

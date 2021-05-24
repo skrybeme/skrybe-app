@@ -5,17 +5,16 @@ import { TagColor } from './enums';
 import ITagProps from '@/interfaces/ITagProps';
 
 class Tag implements ITag {
-  private constructor(
-    public _props: ITagProps,
-    private _id: UuidType
-  ) {}
+  private _id: UuidType;
+  private _props: ITagProps;
 
-  static create(props?: ITagProps, id: UuidType = generateUuid()) {
-    return new Tag({
+  constructor(props?: ITagProps, id: UuidType = generateUuid()) {
+    this._id = id;
+    this._props = {
       color: TagColor.WHITE,
       label: "",
       ...props
-    }, id);
+    };
   }
 
   get color(): TagColor {

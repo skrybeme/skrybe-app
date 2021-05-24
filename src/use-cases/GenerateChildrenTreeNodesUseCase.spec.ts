@@ -5,7 +5,7 @@ import { InMemoryRepo } from "../repository";
 import { GenerateChildrenTreeNodesUseCase } from "./GenerateChildrenTreeNodesUseCase";
 
 describe(`GenerateChildrenTreeNodesUseCase`, () => {
-  const inMemoryStoryTreeRepo = new InMemoryRepo([Tree.create<StoryCard>()]);
+  const inMemoryStoryTreeRepo = new InMemoryRepo([new Tree<StoryCard>()]);
 
   const generateChildrenTreeNodes =
     new GenerateChildrenTreeNodesUseCase(inMemoryStoryTreeRepo);
@@ -20,14 +20,14 @@ describe(`GenerateChildrenTreeNodesUseCase`, () => {
       async () => {
         const body = `First sentence. Second sentence. Third sentence.`;
 
-        const tree = Tree.create<StoryCard>();
+        const tree = new Tree<StoryCard>();
 
-        const root = StoryCard.create({
+        const root = new StoryCard({
           body,
           header: '',
           tags: [
-            Tag.create(),
-            Tag.create()
+            new Tag(),
+            new Tag()
           ]
         });
         
@@ -54,23 +54,23 @@ describe(`GenerateChildrenTreeNodesUseCase`, () => {
       async () => {
         const body = `First sentence. Second sentence.`;
 
-        const tree = Tree.create<StoryCard>();
+        const tree = new Tree<StoryCard>();
 
-        const root = StoryCard.create({
+        const root = new StoryCard({
           body,
           header: '',
           tags: [
-            Tag.create(),
-            Tag.create()
+            new Tag(),
+            new Tag()
           ]
         });
 
-        const rootChild = StoryCard.create({
+        const rootChild = new StoryCard({
           body: '',
           header: 'Root child header',
           tags: [
-            Tag.create(),
-            Tag.create()
+            new Tag(),
+            new Tag()
           ]
         });
         
@@ -98,23 +98,23 @@ describe(`GenerateChildrenTreeNodesUseCase`, () => {
       async () => {
         const body = `First sentence. Second sentence.`;
 
-        const tree = Tree.create<StoryCard>();
+        const tree = new Tree<StoryCard>();
 
-        const root = StoryCard.create({
+        const root = new StoryCard({
           body,
           header: '',
           tags: [
-            Tag.create(),
-            Tag.create()
+            new Tag(),
+            new Tag()
           ]
         });
 
-        const rootChild = StoryCard.create({
+        const rootChild = new StoryCard({
           body: '',
           header: 'Third sentence',
           tags: [
-            Tag.create(),
-            Tag.create()
+            new Tag(),
+            new Tag()
           ]
         });
         
@@ -142,14 +142,14 @@ describe(`GenerateChildrenTreeNodesUseCase`, () => {
   it(`ignores redundant whitespaces and punctuation marks in parent's body`, async () => {
     const body = `.. # %%$  .. First sentence.    S   econd sentence,  or another   . ... Third  $.sentence. ..    , ;  `;
 
-    const tree = Tree.create<StoryCard>();
+    const tree = new Tree<StoryCard>();
 
-    const root = StoryCard.create({
+    const root = new StoryCard({
       body,
       header: '',
       tags: [
-        Tag.create(),
-        Tag.create()
+        new Tag(),
+        new Tag()
       ]
     });
       

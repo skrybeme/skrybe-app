@@ -5,7 +5,7 @@ import TagMap from './TagMap';
 describe(`TagMap`, () => {
   describe(`toViewModel`, () => {
     it(`maps tag domain object to the view model`, () => {
-      const tag = Tag.create(
+      const tag = new Tag(
         {
           color: TagColor.RED,
           label: "Tag label"

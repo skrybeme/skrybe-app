@@ -5,7 +5,7 @@ import { InMemoryRepo } from "@/repository";
 import { GetTreeByIdUseCase } from "./GetTreeByIdUseCase";
 
 describe(`GetTreeByIdUseCase`, () => {
-  const tree = Tree.create<StoryCard>();
+  const tree = new Tree<StoryCard>();
 
   const inMemoryStoryTreeRepo = new InMemoryRepo([tree]);
 

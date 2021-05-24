@@ -8,9 +8,9 @@ import { IStoryTreeRepo } from '../interfaces';
 describe(`StoryTreeRepo`, () => {
   createCommonPersistableSpec<IStoryTreeRepo, Tree<StoryCard>>(
     (collection: Tree<StoryCard>[]) => createStoryTreeRepo(createInMemoryStoryTreeDataSource(collection)),
-    () => Tree.create<StoryCard>(),
+    () => new Tree<StoryCard>(),
     (entity: Tree<StoryCard>) => {
-      entity.insert(StoryCard.create());
+      entity.insert(new StoryCard());
       
       return entity;
     }

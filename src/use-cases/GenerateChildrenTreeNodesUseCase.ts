@@ -32,7 +32,7 @@ export class GenerateChildrenTreeNodesUseCase implements IExecutable<
     sentences?.forEach((sentence: string) => {
       sentence = sentence.replace(/\s{2,}/g, ' ').replace(/\.$/, '')
 
-      const card = StoryCard.create({ header: sentence });
+      const card = new StoryCard({ header: sentence });
 
       tree!.insert(card, parent?.id, request.placeBeforeNodeId);
 

@@ -25,8 +25,8 @@ describe(`LocalStorageStoryTreeDataSource`, () => {
 
   describe(`populating with initial data`, () => {
     it(`does not overwrite stored data if such exists and is valid`, async () => {
-      const mockedStoryTree = Tree.create<StoryCard>();
-      mockedStoryTree.insert(StoryCard.create());
+      const mockedStoryTree = new Tree<StoryCard>();
+      mockedStoryTree.insert(new StoryCard());
 
       const treeLocalStorageModel =
         StoryTreeLocalStorageMap.toLocalStorageModel(mockedStoryTree);

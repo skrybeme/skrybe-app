@@ -5,41 +5,41 @@ import { InMemoryRepo } from "@/repository";
 import { RemoveTreeNodeUseCase } from "./RemoveTreeNodeUseCase";
 
 describe(`RemoveTreeNodeUseCase`, () => {
-  const tree = Tree.create<StoryCard>();
+  const tree = new Tree<StoryCard>();
 
-  const root = StoryCard.create({
+  const root = new StoryCard({
     body: '',
     header: '',
     tags: [
-      Tag.create(),
-      Tag.create()
+      new Tag(),
+      new Tag()
     ]
   });
 
-  const rootLeftChild = StoryCard.create({
+  const rootLeftChild = new StoryCard({
     body: '',
     header: '',
     tags: [
-      Tag.create(),
-      Tag.create()
+      new Tag(),
+      new Tag()
     ]
   });
 
-  const rootRightChild = StoryCard.create({
+  const rootRightChild = new StoryCard({
     body: '',
     header: '',
     tags: [
-      Tag.create(),
-      Tag.create()
+      new Tag(),
+      new Tag()
     ]
   });
 
-  const rootLeftGrandChild = StoryCard.create({
+  const rootLeftGrandChild = new StoryCard({
     body: '',
     header: '',
     tags: [
-      Tag.create(),
-      Tag.create()
+      new Tag(),
+      new Tag()
     ]
   });
 
