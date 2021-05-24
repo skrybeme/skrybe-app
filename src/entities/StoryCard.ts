@@ -10,6 +10,8 @@ class StoryCard implements IStoryCard {
 
   static create(props?: IStoryCardProps, id: UuidType = generateUuid()): StoryCard {
     return new StoryCard({
+      body: '',
+      header: '',
       ...props,
       tags: props?.tags || []
     }, id);

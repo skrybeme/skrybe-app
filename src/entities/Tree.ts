@@ -23,7 +23,7 @@ class Tree<T extends IIdentifiable> implements ITree<T, TreeMap<T>> {
   ) {}
 
   static create<T extends IIdentifiable>(
-    props?: ITreeProps,
+    _?: ITreeProps,
     id: UuidType = generateUuid()
   ): Tree<T> {
     return new Tree<T>(undefined, id);
