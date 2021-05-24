@@ -1,7 +1,7 @@
 import StoryCard from '@/entities/StoryCard';
 import Tree from '@/entities/Tree';
 
-const tree = Tree.create<StoryCard>();
+const tree = Tree.create<StoryCard>(undefined, 'ba5ff9b6-c93c-4af9-b6d2-8e73168db61c');
 
 tree.insert(StoryCard.create({
   header: 'Your story begins here.',

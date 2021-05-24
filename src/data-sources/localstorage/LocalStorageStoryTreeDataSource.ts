@@ -4,36 +4,50 @@ import Tree from '@/entities/Tree';
 import { IStoryTreeDataSource } from '@/interfaces';
 import { StoryTreeLocalStorageMap } from './StoryTreeLocalStorageMap';
 import { StoryTreeLocalStorageModel } from './models/StoryTreeLocalStorageModel';
-import tree from './data/defaultStoryTree';
+import defaultTree from './data/defaultStoryTree';
 
-export function createLocalStorageStoryTreeDataSource(): IStoryTreeDataSource {
-  return {
-    boot(): void {
-      if (localStorage.getItem('example-tree')) {
-        return;
-      }
-      
-      const treeLocalStorageModel = StoryTreeLocalStorageMap.toLocalStorageModel(tree);
-
-      localStorage.setItem('example-tree', JSON.stringify(treeLocalStorageModel));
-    },
-    getById(_: UuidType): AsyncMaybe<Tree<StoryCard>> {
+export class LocalStorageStoryTreeDataSource implements IStoryTreeDataSource {
+  boot(): void {
+    let tree: Tree<StoryCard>;
+  
+    try {
       const rawTree =
         JSON.parse(localStorage.getItem('example-tree')!) as StoryTreeLocalStorageModel;
 
-      const tree = StoryTreeLocalStorageMap.toDomainModel(rawTree);
+      tree = StoryTreeLocalStorageMap.toDomainModel(rawTree);
+    } catch (e) {
+      localStorage.removeItem('example-tree');
 
-      return Promise.resolve(tree);
-    },
-    getCollection(): Promise<Tree<StoryCard>[]> {
-      return Promise.resolve([]);
-    },
-    save(tree: Tree<StoryCard>): Promise<Tree<StoryCard>> {
-      const treeLocalStorageModel = StoryTreeLocalStorageMap.toLocalStorageModel(tree);
+      const treeLocalStorageModel = StoryTreeLocalStorageMap.toLocalStorageModel(defaultTree);
 
       localStorage.setItem('example-tree', JSON.stringify(treeLocalStorageModel));
-
-      return Promise.resolve(tree);
     }
-  };
+  }
+
+  getById(_: UuidType): AsyncMaybe<Tree<StoryCard>> {
+    let tree: Tree<StoryCard>;
+  
+    try {
+      const rawTree =
+        JSON.parse(localStorage.getItem('example-tree')!) as StoryTreeLocalStorageModel;
+
+      tree = StoryTreeLocalStorageMap.toDomainModel(rawTree);
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+
+    return Promise.resolve(tree);
+  }
+
+  getCollection(): Promise<Tree<StoryCard>[]> {
+    return Promise.resolve([]);
+  }
+
+  save(tree: Tree<StoryCard>): Promise<Tree<StoryCard>> {
+    const treeLocalStorageModel = StoryTreeLocalStorageMap.toLocalStorageModel(tree);
+
+    localStorage.setItem('example-tree', JSON.stringify(treeLocalStorageModel));
+
+    return Promise.resolve(tree);
+  }
 }
