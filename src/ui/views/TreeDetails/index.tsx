@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   GenericCardTeaserTree_VariantA
 } from '@/ui/domain-components/GenericCardTeaserTree';
@@ -15,8 +15,13 @@ export function TreeDetails(): JSX.Element {
     insertTreeNode,
     removeTreeNode,
     root,
+    triggerGetTreeById,
     updateTreeNode
   } = useTreeDetailsPresenter();
+
+  useEffect(() => {
+    triggerGetTreeById('');
+  }, []);
 
   return (
     <GS.Unscrollable>

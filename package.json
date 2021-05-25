@@ -30,6 +30,7 @@
     "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
+    "@testing-library/react-hooks": "^6.0.0",
     "faker": "^5.1.0",
     "inversify": "^5.0.1",
     "lodash": "^4.17.21",

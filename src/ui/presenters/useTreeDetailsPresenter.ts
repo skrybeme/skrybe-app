@@ -1,33 +1,17 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 import { IUseCases } from '@/interfaces';
 import { useContainer, useLoadable } from '@/ui/hooks';
 import { StoryTreeMap } from '@/mappers';
 import { TreeDetailsPresenter } from '@/interfaces/presenters';
 import { StoryTreeViewModel } from '@/interfaces/view-models';
-import { GetTreeByIdUseCase } from '@/use-cases/GetTreeByIdUseCase';
 import * as SYMBOL from '@/container/symbols';
+import { noop } from '@/utils';
 
-// @FIXME
 // This is temporary.
 // It is going to change along with listenForTreeDetails use case implementation.
-const fetch = (get: GetTreeByIdUseCase, set) => {
-  return get.execute({ id: 'c0773e64-3a3a-11eb-adc1-0242ac120002' })
-    .then(result => {
-      set({
-        data: result ? StoryTreeMap.toViewModel(result) : null,
-        isLoading: false
-      });
-    })
-    .catch(() => {
-      set({
-        isError: true,
-        isLoading: false
-      });
-    });
-}
 
 export default function useTreeDetailsPresenter(): TreeDetailsPresenter {
-  const [tree, setTree] = useLoadable<StoryTreeViewModel>({ isLoading: true });
+  const [tree, setTree] = useLoadable<StoryTreeViewModel>({ isLoading: false });
 
   const {
     generateChildrenTreeNodes,
@@ -36,72 +20,81 @@ export default function useTreeDetailsPresenter(): TreeDetailsPresenter {
     removeTreeNode,
     updateTreeNode
   } = useContainer<IUseCases>(SYMBOL.UseCases);
-
-  useEffect(() => {
-    fetch(getTreeById, setTree);
+  
+  const handleUseCase = useCallback(async (cb: () => void) => {
+    setTree((state) => ({
+      ...state,
+      isLoading: true
+    }));
+    
+    cb();
+    
+    try {
+      const result = await getTreeById.execute({
+        id: 'c0773e64-3a3a-11eb-adc1-0242ac120002'
+      });
+    
+      setTree({
+        data: result ? StoryTreeMap.toViewModel(result) : null,
+        isError: false,
+        isLoading: false
+      });
+    } catch {
+      setTree({
+        isError: true,
+        isLoading: false
+      });
+    }
   }, []);
 
   return {
     generateChildrenTreeNodes: useCallback(
-      (nodeId: string, placeBeforeNodeId?: string) => {
-        generateChildrenTreeNodes.execute({
-          parentNodeId: nodeId,
-          placeBeforeNodeId,
-          treeId: 'c0773e64-3a3a-11eb-adc1-0242ac120002'
-        })
-          .then(() => {
-            getTreeById.execute?.({ id: 'c0773e64-3a3a-11eb-adc1-0242ac120002' })
-            .then(result => {
-              setTree({
-                data: result ? StoryTreeMap.toViewModel(result) : null,
-                isLoading: false
-              });
-            })
-            .catch(() => {
-              setTree({
-                isError: true,
-                isLoading: false
-              });
-            });
+      async (nodeId: string, placeBeforeNodeId?: string) => {
+        handleUseCase(async () => {
+          await generateChildrenTreeNodes.execute({
+            parentNodeId: nodeId,
+            placeBeforeNodeId,
+            treeId: 'c0773e64-3a3a-11eb-adc1-0242ac120002'
           });
+        });
       },
-      [generateChildrenTreeNodes]
+      []
     ),
     insertTreeNode: useCallback(
-      (parentNodeId: string, placeBeforeNodeId?: string): void => {
-        insertTreeNode.execute({
-          body: '',
-          header: '',
-          parentNodeId,
-          placeBeforeNodeId,
-          tags: [],
-          treeId: 'c0773e64-3a3a-11eb-adc1-0242ac120002'
-        })
-          .then(() => {
-            fetch(getTreeById, setTree);
+      async (parentNodeId: string, placeBeforeNodeId?: string): Promise<void> => {
+        handleUseCase(async () => {
+          await insertTreeNode.execute({
+            body: '',
+            header: '',
+            parentNodeId,
+            placeBeforeNodeId,
+            tags: [],
+            treeId: 'c0773e64-3a3a-11eb-adc1-0242ac120002'
           });
+        });
       },
-      [insertTreeNode, tree]
+      []
     ),
     root: tree,
-    removeTreeNode: useCallback((nodeId: string) => {
-      removeTreeNode.execute({
-        id: nodeId,
-        treeId: 'c0773e64-3a3a-11eb-adc1-0242ac120002'
-      })
-        .then(() => {
-          fetch(getTreeById, setTree);
+    removeTreeNode: useCallback(async (nodeId: string) => {
+      handleUseCase(async () => {
+        await removeTreeNode.execute({
+          id: nodeId,
+          treeId: 'c0773e64-3a3a-11eb-adc1-0242ac120002'
         });
-    }, [removeTreeNode]),
-    updateTreeNode: useCallback((nodeId: string, { header }: any) => {
-      updateTreeNode.execute({
-        header,
-        id: nodeId,
-        treeId: 'c0773e64-3a3a-11eb-adc1-0242ac120002',
-      })
-        .then(() => {
-          fetch(getTreeById, setTree)
+      });
+    }, []),
+    triggerGetTreeById: useCallback(async (_: string) => {
+      handleUseCase(noop);
+    }, []),
+    updateTreeNode: useCallback(async (nodeId: string, { header }: any) => {
+      handleUseCase(async () => {
+        await updateTreeNode.execute({
+          header,
+          id: nodeId,
+          treeId: 'c0773e64-3a3a-11eb-adc1-0242ac120002',
         });
-    }, [updateTreeNode])
+      });
+    }, [getTreeById, updateTreeNode])
   };
 }
