@@ -1,5 +1,5 @@
 import React from 'react';
-import useTreeDetailsPresenter from './useTreeDetailsPresenter';
+import { useTreeDetailsPresenter } from './useTreeDetailsPresenter';
 import { act, renderHook } from '@testing-library/react-hooks';
 import { ContainerProvider } from '../providers';
 import { container, mocks } from '@/container/mock';

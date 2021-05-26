@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { ReactElement, useEffect } from 'react';
 import {
   GenericCardTeaserTree_VariantA
 } from '@/ui/domain-components/GenericCardTeaserTree';
@@ -7,7 +7,7 @@ import { useTreeDetailsPresenter } from '@/ui/presenters';
 import * as S from './styles';
 import * as GS from '@/ui/styles/global';
 
-export function TreeDetails(): JSX.Element {
+export function TreeDetails(): ReactElement {
   const dragHandleRef = useDraggable<HTMLDivElement>();
 
   const {
@@ -20,7 +20,7 @@ export function TreeDetails(): JSX.Element {
   } = useTreeDetailsPresenter();
 
   useEffect(() => {
-    triggerGetTreeById('');
+    triggerGetTreeById('c0773e64-3a3a-11eb-adc1-0242ac120002');
   }, []);
 
   return (

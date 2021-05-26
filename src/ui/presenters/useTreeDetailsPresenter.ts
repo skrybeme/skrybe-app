@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import { IUseCases } from '@/interfaces';
 import { useContainer, useLoadable } from '@/ui/hooks';
 import { StoryTreeMap } from '@/mappers';
-import { TreeDetailsPresenter } from '@/interfaces/presenters';
+import { TreeDetailsPresenterResult } from '@/interfaces/presenters';
 import { StoryTreeViewModel } from '@/interfaces/view-models';
 import * as SYMBOL from '@/container/symbols';
 import { noop } from '@/utils';
@@ -10,7 +10,7 @@ import { noop } from '@/utils';
 // This is temporary.
 // It is going to change along with listenForTreeDetails use case implementation.
 
-export default function useTreeDetailsPresenter(): TreeDetailsPresenter {
+export function useTreeDetailsPresenter(): TreeDetailsPresenterResult {
   const [tree, setTree] = useLoadable<StoryTreeViewModel>({ isLoading: false });
 
   const {
