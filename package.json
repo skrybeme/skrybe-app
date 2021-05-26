@@ -15,6 +15,9 @@
   "author": "eatthatpie <eatthatpie.dev@gmail.com>",
   "license": "ISC",
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.12.0",
+    "@testing-library/react": "^11.2.7",
+    "@testing-library/react-hooks": "^6.0.0",
     "@types/faker": "^5.1.2",
     "@types/jest": "^24.0.23",
     "@types/react": "^16.9.13",

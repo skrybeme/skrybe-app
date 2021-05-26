@@ -8,7 +8,7 @@ import * as S from './styles';
 import { ModalProvider } from '@/ui/providers';
 
 export function App() {
-  const currentTheme = useSelector(state => state.settings.theme);
+  const currentTheme = useSelector<any, any>((state) => state.settings.theme);
   const currentThemeObject = theme[currentTheme];
 
   return (

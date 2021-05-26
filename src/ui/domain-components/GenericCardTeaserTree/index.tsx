@@ -46,7 +46,10 @@ export function GenericCardTeaserTree_VariantA({
   }, []);
 
   return (
-    <S.GenericCardTeaserTree_VariantA hoisted={isOptionsPickerOpen}>
+    <S.GenericCardTeaserTree_VariantA
+      data-testid="generic-teaser-tree"
+      hoisted={isOptionsPickerOpen}
+    >
       {root && (
         <React.Fragment>
           <S.CardTeaserContext>

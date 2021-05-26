@@ -17,7 +17,7 @@ function Item(props) {
 }
 
 function ThemePicker(): JSX.Element {
-  const currentTheme = useSelector(state => state.settings.theme);
+  const currentTheme = useSelector<any, any>((state) => state.settings.theme);
   const dispatch = useDispatch();
 
   return (
