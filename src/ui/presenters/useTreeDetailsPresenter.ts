@@ -5,7 +5,7 @@ import { StoryTreeMap } from '@/mappers';
 import { TreeDetailsPresenterResult } from '@/interfaces/presenters';
 import { StoryTreeViewModel } from '@/interfaces/view-models';
 import * as SYMBOL from '@/container/symbols';
-import { noop } from '@/utils';
+import { asyncNoop, noop } from '@/utils';
 
 // This is temporary.
 // It is going to change along with listenForTreeDetails use case implementation.
@@ -21,13 +21,13 @@ export function useTreeDetailsPresenter(): TreeDetailsPresenterResult {
     updateTreeNode
   } = useContainer<IUseCases>(SYMBOL.UseCases);
   
-  const handleUseCase = useCallback(async (cb: () => void) => {
+  const handleUseCase = useCallback(async (cb: () => Promise<void>) => {
     setTree((state) => ({
       ...state,
       isLoading: true
     }));
     
-    cb();
+    await cb();
     
     try {
       const result = await getTreeById.execute({
@@ -45,7 +45,7 @@ export function useTreeDetailsPresenter(): TreeDetailsPresenterResult {
         isLoading: false
       });
     }
-  }, []);
+  }, [getTreeById, setTree]);
 
   return {
     generateChildrenTreeNodes: useCallback(
@@ -58,7 +58,7 @@ export function useTreeDetailsPresenter(): TreeDetailsPresenterResult {
           });
         });
       },
-      []
+      [generateChildrenTreeNodes, handleUseCase]
     ),
     insertTreeNode: useCallback(
       async (parentNodeId: string, placeBeforeNodeId?: string): Promise<void> => {
@@ -73,7 +73,7 @@ export function useTreeDetailsPresenter(): TreeDetailsPresenterResult {
           });
         });
       },
-      []
+      [handleUseCase, insertTreeNode]
     ),
     root: tree,
     removeTreeNode: useCallback(async (nodeId: string) => {
@@ -83,10 +83,10 @@ export function useTreeDetailsPresenter(): TreeDetailsPresenterResult {
           treeId: 'c0773e64-3a3a-11eb-adc1-0242ac120002'
         });
       });
-    }, []),
+    }, [handleUseCase, removeTreeNode]),
     triggerGetTreeById: useCallback(async (_: string) => {
-      handleUseCase(noop);
-    }, []),
+      handleUseCase(asyncNoop);
+    }, [handleUseCase]),
     updateTreeNode: useCallback(async (nodeId: string, { header }: any) => {
       handleUseCase(async () => {
         await updateTreeNode.execute({
@@ -95,6 +95,6 @@ export function useTreeDetailsPresenter(): TreeDetailsPresenterResult {
           treeId: 'c0773e64-3a3a-11eb-adc1-0242ac120002',
         });
       });
-    }, [getTreeById, updateTreeNode])
+    }, [handleUseCase, updateTreeNode])
   };
 }
