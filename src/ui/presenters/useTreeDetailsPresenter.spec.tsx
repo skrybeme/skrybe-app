@@ -54,9 +54,11 @@ describe(`useTreeDetailsPresenter`, () => {
             isLoading: true,
           });
 
-          expect(mocks.getTreeByIdUseCaseExecutionMock).toBeCalledWith({
-            id: 'c0773e64-3a3a-11eb-adc1-0242ac120002'
-          });
+          await waitFor(() => {
+            expect(mocks.getTreeByIdUseCaseExecutionMock).toBeCalledWith({
+              id: 'c0773e64-3a3a-11eb-adc1-0242ac120002'
+            });
+          })
 
           await waitFor(() => {
             expect(result.current.root).toEqual(expect.objectContaining({
