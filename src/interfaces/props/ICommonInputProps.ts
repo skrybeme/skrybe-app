@@ -3,7 +3,7 @@ interface ICommonInputProps<T = string> {
   handleBlur?: (value: T) => void;
   handleChange?: (value: T) => void;
   handleFocus?: () => void;
-  value: T;
+  value?: T;
 }
 
 export default ICommonInputProps;
