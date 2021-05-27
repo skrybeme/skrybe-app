@@ -1,5 +1,5 @@
 import { EditableProps } from '@/interfaces/props';
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { ReactElement, useCallback, useEffect, useRef } from 'react';
 import * as S from './styles';
 
 export function Editable({
@@ -9,14 +9,30 @@ export function Editable({
   handleChange,
   handleFocus,
   value
-}: EditableProps): JSX.Element {
+}: EditableProps): ReactElement<EditableProps> {
   const ref = useRef<HTMLDivElement>(null);
 
   const onBlur = useCallback((e: React.FocusEvent<HTMLInputElement>) => {
+    if (isDisabled) {
+      return;
+    }
+
     handleBlur?.(e.target.innerHTML);
   }, [handleBlur]);
 
+  const onFocus = useCallback((e: React.FocusEvent<HTMLInputElement>) => {
+    if (isDisabled) {
+      return;
+    }
+
+    handleFocus?.();
+  }, [handleFocus]);
+
   const onChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    if (isDisabled) {
+      return;
+    }
+
     handleChange?.(e.target.innerHTML);
   }, [handleChange]);
 
@@ -27,6 +43,7 @@ export function Editable({
   const onKeyDown = useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
     if (blurOnEnter && e.key === 'Enter') {
       ref.current?.blur();
+      handleBlur?.(ref.current?.innerHTML || '');
     }
   }, [blurOnEnter, ref]);
 
@@ -36,23 +53,26 @@ export function Editable({
     const plainText = e.clipboardData.getData('text/plain');
   
     document.execCommand("insertHTML", false, plainText);
-  }, []);
+
+    handleChange?.(plainText);
+  }, [handleChange]);
 
   useEffect(() => {
     if (!ref.current) {
       return;
     }
 
-    ref.current.innerHTML = value;
+    ref.current.innerHTML = value || '';
   }, [ref, value]);
 
   return (
     <S.Editable
       contentEditable={!isDisabled}
+      data-testid="editable"
       onBlur={onBlur}
-      onChange={onChange}
       onDrop={onDrop}
-      onFocus={handleFocus}
+      onFocus={onFocus}
+      onInput={onChange}
       onKeyDown={onKeyDown}
       onPaste={onPaste}
       ref={ref}
