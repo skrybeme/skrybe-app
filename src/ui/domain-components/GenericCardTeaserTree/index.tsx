@@ -47,7 +47,7 @@ export function GenericCardTeaserTree_VariantA({
 
   return (
     <S.GenericCardTeaserTree_VariantA
-      data-testid="generic-teaser-tree"
+      data-testid="generic-card-teaser-tree"
       hoisted={isOptionsPickerOpen}
     >
       {root && (

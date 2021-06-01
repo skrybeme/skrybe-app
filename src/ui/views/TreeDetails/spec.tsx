@@ -18,6 +18,6 @@ describe(`View: TreeDetails`, () => {
   it(`renders card teaser tree`, () => {
     const { queryByTestId } = render(<TreeDetails />);
 
-    expect(queryByTestId('generic-teaser-tree')).toBeInTheDocument();
+    expect(queryByTestId('generic-card-teaser-tree')).toBeInTheDocument();
   });
 });
