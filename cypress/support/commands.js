@@ -23,3 +23,23 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+Cypress.Commands.add('assertDefaultStoryTree', () => {
+  cy.get('[data-testid=generic-card-teaser-tree]')
+    .should('be.visible')
+    .get('[data-testid=card-teaser]')
+    .eq(0)
+    .should('have.text', 'Your story begins here.')
+    .get('[data-testid=card-teaser')
+    .eq(1)
+    .should('have.text', 'It can go in one direction.')
+    .get('[data-testid=card-teaser')
+    .eq(2)
+    .should('have.text', 'It can go the other direction.')
+    .get('[data-testid=card-teaser')
+    .eq(3)
+    .should('have.text', 'The other direction has one scenario.')
+    .get('[data-testid=card-teaser')
+    .eq(4)
+    .should('have.text', 'And other scenario.')
+});

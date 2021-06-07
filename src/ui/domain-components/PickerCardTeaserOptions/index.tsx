@@ -27,7 +27,7 @@ export function PickerCardTeaserOptions_VariantA({
   }, [isOpen]);
 
   return (
-    <S.PickerCardTeaserOptions_VariantA>
+    <S.PickerCardTeaserOptions_VariantA data-testid="picker-card-teaser-options">
       <S.Trigger>
         <ButtonOptions_VariantA onClick={toggle} />
       </S.Trigger>

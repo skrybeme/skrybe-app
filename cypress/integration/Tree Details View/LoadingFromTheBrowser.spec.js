@@ -6,28 +6,7 @@ context(`Loading Story Tree persisted in the browser`, () => {
 
     cy.visit('/');
 
-    cy.get('[data-testid=generic-card-teaser-tree]')
-      .should('be.visible');
-
-    cy.get('[data-testid=card-teaser]')
-      .eq(0)
-      .should('have.text', 'Your story begins here.');
-    
-    cy.get('[data-testid=card-teaser')
-      .eq(1)
-      .should('have.text', 'It can go in one direction.');
-
-    cy.get('[data-testid=card-teaser')
-      .eq(2)
-      .should('have.text', 'It can go the other direction.');
-    
-    cy.get('[data-testid=card-teaser')
-      .eq(3)
-      .should('have.text', 'The other direction has one scenario.');
-
-    cy.get('[data-testid=card-teaser')
-      .eq(4)
-      .should('have.text', 'And other scenario.');
+    cy.assertDefaultStoryTree();
   });
 
   it(`displays default story tree if persisted data is corrupted`, () => {
@@ -35,28 +14,7 @@ context(`Loading Story Tree persisted in the browser`, () => {
 
     cy.visit('/');
 
-    cy.get('[data-testid=generic-card-teaser-tree]')
-      .should('be.visible');
-
-    cy.get('[data-testid=card-teaser]')
-      .eq(0)
-      .should('have.text', 'Your story begins here.');
-    
-    cy.get('[data-testid=card-teaser')
-      .eq(1)
-      .should('have.text', 'It can go in one direction.');
-
-    cy.get('[data-testid=card-teaser')
-      .eq(2)
-      .should('have.text', 'It can go the other direction.');
-    
-    cy.get('[data-testid=card-teaser')
-      .eq(3)
-      .should('have.text', 'The other direction has one scenario.');
-
-    cy.get('[data-testid=card-teaser')
-      .eq(4)
-      .should('have.text', 'And other scenario.');
+    cy.assertDefaultStoryTree();
   });
 
   it(`displays default story tree if persisted data is of invalid type`, () => {
@@ -64,28 +22,7 @@ context(`Loading Story Tree persisted in the browser`, () => {
 
     cy.visit('/');
 
-    cy.get('[data-testid=generic-card-teaser-tree]')
-      .should('be.visible');
-
-    cy.get('[data-testid=card-teaser]')
-      .eq(0)
-      .should('have.text', 'Your story begins here.');
-    
-    cy.get('[data-testid=card-teaser')
-      .eq(1)
-      .should('have.text', 'It can go in one direction.');
-
-    cy.get('[data-testid=card-teaser')
-      .eq(2)
-      .should('have.text', 'It can go the other direction.');
-    
-    cy.get('[data-testid=card-teaser')
-      .eq(3)
-      .should('have.text', 'The other direction has one scenario.');
-
-    cy.get('[data-testid=card-teaser')
-      .eq(4)
-      .should('have.text', 'And other scenario.');
+    cy.assertDefaultStoryTree();
   });
 
   it(`displays story tree persisted in local storage if such is valid`, () => {
@@ -124,4 +61,6 @@ context(`Loading Story Tree persisted in the browser`, () => {
       .eq(6)
       .should('have.text', 'Right child.');
   });
+
+  it(`dragging`);
 });

@@ -13,6 +13,7 @@ deploy
 # notes
 TODO
 
-# cypress examples
+# cypress
 cypress/fixtures/example.json
 cypress/integration/examples
+cypress/videos

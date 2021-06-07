@@ -54,6 +54,7 @@ export function PickerItem({
 
   return (
     <S.PickerItem
+      data-testid="picker-item"
       hoverable={hoverable}
       onClick={handleClick}
       styleless={styleless}
