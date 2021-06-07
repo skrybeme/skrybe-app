@@ -14,6 +14,7 @@ export function CardTeaser({
 
   return (
     <S.CardTeaser
+      data-testid="card-teaser"
       onClick={onClick}
       title="Edit this card"
     >
