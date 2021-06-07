@@ -17,3 +17,6 @@ TODO
 cypress/fixtures/example.json
 cypress/integration/examples
 cypress/videos
+
+# storybook examples
+src/stories
