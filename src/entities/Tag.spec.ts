@@ -6,7 +6,7 @@ describe(`Tag`, () => {
     it(`creates a tag with default color and label if not given`, () => {
       const tag = new Tag();
 
-      expect(tag.color).toEqual(TagColor.WHITE);
+      expect(tag.color).toEqual(TagColor.RED);
       expect(tag.label).toEqual("");
     });
 
@@ -38,10 +38,10 @@ describe(`Tag`, () => {
 
       const tag = new Tag(initialState);
 
-      tag.color = TagColor.WHITE;
+      tag.color = TagColor.RED;
       tag.label = "New label";
 
-      expect(tag.color).toEqual(TagColor.WHITE);
+      expect(tag.color).toEqual(TagColor.RED);
       expect(tag.label).toEqual("New label");
     });
   });

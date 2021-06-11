@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import { CardTeaserProps } from '@/interfaces/props';
 import * as S from './styles';
 import { TagViewModel } from '@/interfaces/view-models';
-import { Editable } from '../Editable';
+import { Editable } from '@/ui/components/Editable';
 
 export function CardTeaser({
   handleClick,

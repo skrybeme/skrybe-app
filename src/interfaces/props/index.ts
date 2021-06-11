@@ -12,3 +12,4 @@ export { default as PickerTabProps } from './PickerTabProps';
 export { default as PickerItemProps } from './PickerItemProps';
 export { default as PickerProps } from './PickerProps';
 export { default as PopoverProps } from './PopoverProps';
+export { default as TagLineProps } from './TagLineProps';

@@ -4,7 +4,7 @@ import { useWindowSize } from '@/ui/hooks';
 import { selectNestedCardTree } from '@/ui/store/selectors';
 import * as S from './styles';
 import { useTreeDetailsPresenter } from '@/ui/presenters';
-import { CardTeaser } from '../CardTeaser';
+import { CardTeaser } from '../CardTeaser/VariantA';
 
 const Card = CardTeaser;
 

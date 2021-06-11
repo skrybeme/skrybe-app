@@ -5,5 +5,6 @@ export default interface CardTeaserProps {
   handleClick?: MouseEventHandler;
   handleHeaderChange?: (value: string) => void;
   header: string;
+  isDisabled?: boolean;
   tags?: TagViewModel[];
 }

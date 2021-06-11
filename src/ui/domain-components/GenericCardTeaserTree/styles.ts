@@ -1,6 +1,6 @@
 import { flex } from '@/ui/styles/mixins';
 import styled, { css } from 'styled-components';
-import { CardTeaser } from '@/ui/components/CardTeaser/styles';
+import { CardTeaser } from '@/ui/components/CardTeaser/VariantA/styles';
 import { Button } from '@/ui/components/Button/styles';
 
 export const CardTeaserContext = styled.div`

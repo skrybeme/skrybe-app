@@ -1,4 +1,6 @@
-export default {
+import { ITheme } from '@/interfaces';
+
+const ColorPalette = {
   purple: {
     bg: '#e2e2e2',
     bgLight: '#fff',
@@ -162,5 +164,21 @@ export default {
     primaryContrast: '#fff',
     primaryDark: 'rgb(72, 82, 90)',
     shadow: '#ddd'
+  }
+};
+
+export default ColorPalette;
+
+// @TODO
+// ITheme & any type is here because the codebase is still in transition from old theme
+// object to the new one.
+export const Themes: Record<string, ITheme & any> = {
+  purple: {
+    ...ColorPalette.purple,
+    card: {
+      bg: '#fff',
+      bgHover: '#f6f6f6',
+      fgCard: '#222'
+    }
   }
 };
