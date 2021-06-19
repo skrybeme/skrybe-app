@@ -45,7 +45,7 @@ describe(`InsertTreeNodeUseCase`, () => {
   it(`returns tree with inserted node`, async () => {
     await inMemoryStoryTreeRepo.save(tree);
 
-    await insertTreeNode.execute({
+    const firstAddedCard = await insertTreeNode.execute({
       body: '',
       header: '',
       parentNodeId: root.id,
@@ -53,12 +53,45 @@ describe(`InsertTreeNodeUseCase`, () => {
       treeId: tree.id
     });
 
-    expect(tree.getChildrenOf(root.id)).toHaveLength(3);
+    const secondAddedCard = await insertTreeNode.execute({
+      body: '',
+      header: '',
+      parentNodeId: root.id,
+      place: {
+        afterOrBefore: 'before',
+        nodeId: rootRightChild.id
+      },
+      tags: [],
+      treeId: tree.id
+    });
+
+    const thirdAddedCard = await insertTreeNode.execute({
+      body: '',
+      header: '',
+      parentNodeId: root.id,
+      place: {
+        afterOrBefore: 'after',
+        nodeId: rootLeftChild.id
+      },
+      tags: [],
+      treeId: tree.id
+    });
+
+    const children = tree.getChildrenOf(root.id);
+
+    expect(children).toHaveLength(5);
+    expect(children?.map(({ id }) => id)).toEqual([
+      rootLeftChild.id,
+      thirdAddedCard!.id,
+      secondAddedCard!.id,
+      rootRightChild.id,
+      firstAddedCard!.id
+    ])
   });
 
   it(`persist updated tree in repository`, async () => {
     const persistedTree = await inMemoryStoryTreeRepo.getById(tree.id);
 
-    expect(persistedTree!.getChildrenOf(root.id)).toHaveLength(3);
+    expect(persistedTree!.getChildrenOf(root.id)).toHaveLength(5);
   });
 });

@@ -305,17 +305,49 @@ describe(`StoryTree`, () => {
       const leftRootChild = new Identifiable();
       const rightRootChild = new Identifiable();
       const middleRootChild = new Identifiable();
+      const afterMiddleRootChild = new Identifiable();
 
       tree.insert(root);
       tree.insert(leftRootChild);
       tree.insert(rightRootChild, root.id);
-      tree.insert(middleRootChild, root.id, rightRootChild.id);
+      tree.insert(middleRootChild, root.id, {
+        afterOrBefore: 'before',
+        nodeId: rightRootChild.id,
+      });
+      tree.insert(afterMiddleRootChild, root.id, {
+        afterOrBefore: 'after',
+        nodeId: middleRootChild.id,
+      });
+
+      expect(tree.getChildrenOf(root.id)?.length).toEqual(4);
+      expect(tree.getChildrenOf(root.id)).toEqual([
+        leftRootChild,
+        middleRootChild,
+        afterMiddleRootChild,
+        rightRootChild
+      ]);
+    });
+
+    it(`adds node as last child of given parent if place-after-node is the last child`, () => {
+      const tree = new Tree<Identifiable>();
+      const root = new Identifiable();
+      const leftRootChild = new Identifiable();
+      const rightRootChild = new Identifiable();
+      const lastRootChild = new Identifiable();
+
+      tree.insert(root);
+      tree.insert(leftRootChild);
+      tree.insert(rightRootChild, root.id);
+      tree.insert(lastRootChild, root.id, {
+        afterOrBefore: 'after',
+        nodeId: rightRootChild.id,
+      });
 
       expect(tree.getChildrenOf(root.id)?.length).toEqual(3);
       expect(tree.getChildrenOf(root.id)).toEqual([
         leftRootChild,
-        middleRootChild,
-        rightRootChild
+        rightRootChild,
+        lastRootChild
       ]);
     });
 
@@ -341,6 +373,19 @@ describe(`StoryTree`, () => {
       expect(() => tree.insert(node, 'invalid-uuid')).toThrow();
     });
 
+    it(`throws error if given place-after-node does not exist`, () => {
+      const tree = new Tree<Identifiable>();
+      const root = new Identifiable();
+      const node = new Identifiable();
+
+      tree.insert(root);
+
+      expect(() => tree.insert(node, root.id, {
+        afterOrBefore: 'after',
+        nodeId: 'invalid-uuid',
+      })).toThrow();
+    });
+
     it(`throws error if given place-before-node does not exist`, () => {
       const tree = new Tree<Identifiable>();
       const root = new Identifiable();
@@ -348,7 +393,10 @@ describe(`StoryTree`, () => {
 
       tree.insert(root);
 
-      expect(() => tree.insert(node, root.id, 'invalid-uuid')).toThrow();
+      expect(() => tree.insert(node, root.id, {
+        afterOrBefore: 'before',
+        nodeId: 'invalid-uuid',
+      })).toThrow();
     });
   });
 

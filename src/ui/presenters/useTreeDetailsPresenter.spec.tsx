@@ -149,14 +149,20 @@ describe(`useTreeDetailsPresenter`, () => {
           });
 
           act(() => {
-            result.current.insertTreeNode(root.id, rootChild.id);
+            result.current.insertTreeNode(root.id, {
+              afterOrBefore: 'before',
+              nodeId: rootChild.id
+            });
           });
 
           expect(mocks.insertTreeNodeUseCaseExecutionMock).toBeCalledWith({
             body: '',
             header: '',
             parentNodeId: root.id,
-            placeBeforeNodeId: rootChild.id,
+            place: {
+              afterOrBefore: 'before',
+              nodeId: rootChild.id
+            },
             tags: [],
             treeId: 'c0773e64-3a3a-11eb-adc1-0242ac120002'
           });

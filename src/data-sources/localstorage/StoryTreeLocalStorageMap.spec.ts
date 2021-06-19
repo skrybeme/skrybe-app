@@ -220,8 +220,14 @@ describe(`StoryTreeLocalStorageMap`, () => {
       tree.insert(children[0]);
       tree.insert(children[2]);
       tree.insert(grandChildren[1], children[2].id);
-      tree.insert(grandChildren[0], children[2].id, grandChildren[1].id);
-      tree.insert(children[1], root.id, children[2].id);
+      tree.insert(grandChildren[0], children[2].id, {
+        afterOrBefore: 'before',
+        nodeId: grandChildren[1].id
+      });
+      tree.insert(children[1], root.id, {
+        afterOrBefore: 'before',
+        nodeId: children[2].id
+      });
 
       const output = StoryTreeLocalStorageMap.toLocalStorageModel(tree);
 

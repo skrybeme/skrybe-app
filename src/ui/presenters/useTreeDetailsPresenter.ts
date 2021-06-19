@@ -61,13 +61,19 @@ export function useTreeDetailsPresenter(): TreeDetailsPresenterResult {
       [generateChildrenTreeNodes, handleUseCase]
     ),
     insertTreeNode: useCallback(
-      async (parentNodeId: string, placeBeforeNodeId?: string): Promise<void> => {
+      async (
+        parentNodeId: string,
+        place?: {
+          afterOrBefore: 'after' | 'before',
+          nodeId: string
+        }
+      ): Promise<void> => {
         handleUseCase(async () => {
           await insertTreeNode.execute({
             body: '',
             header: '',
             parentNodeId,
-            placeBeforeNodeId,
+            place,
             tags: [],
             treeId: 'c0773e64-3a3a-11eb-adc1-0242ac120002'
           });
