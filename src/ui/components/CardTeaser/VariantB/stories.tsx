@@ -4,6 +4,7 @@ import { Story } from '@storybook/react';
 import { action } from '@storybook/addon-actions'
 import { CardTeaser_VariantB } from '.';
 import { TagColor } from '@/entities/enums';
+import { generateRandomTags } from '@/helpers';
 
 export default {
   title: 'Common Components/CardTeaser/VariantB'
@@ -32,23 +33,7 @@ Tags.args = {
   header: cardHeader,
   handleClick: action('handleClick'),
   handleHeaderChange: action('handleHeaderChange'),
-  tags: [
-    {
-      color: TagColor.RED,
-      id: '',
-      label: ''
-    },
-    {
-      color: TagColor.GREEN,
-      id: '',
-      label: ''
-    },
-    {
-      color: TagColor.PURPLE,
-      id: '',
-      label: ''
-    }
-  ]
+  tags: generateRandomTags(3)
 };
 Tags.storyName = 'Tagged Card';
 
@@ -66,23 +51,7 @@ DisabledTaggedCard.args = {
   handleClick: action('handleClick'),
   handleHeaderChange: action('handleHeaderChange'),
   isDisabled: true,
-  tags: [
-    {
-      color: TagColor.RED,
-      id: '',
-      label: ''
-    },
-    {
-      color: TagColor.GREEN,
-      id: '',
-      label: ''
-    },
-    {
-      color: TagColor.PURPLE,
-      id: '',
-      label: ''
-    }
-  ]
+  tags: generateRandomTags(3)
 };
 DisabledTaggedCard.storyName = 'Disabled tagged Card';
 
@@ -92,3 +61,5 @@ EmptyCard.args = {
   handleClick: action('handleClick'),
   handleHeaderChange: action('handleHeaderChange')
 };
+
+// 0px 0px 0px 4px #d1cae67d

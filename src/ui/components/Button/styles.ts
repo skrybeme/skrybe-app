@@ -1,7 +1,7 @@
 import { borderCircle } from '@/ui/styles/mixins';
 import styled, { css } from 'styled-components';
 
-export const Button = styled.button<{ muted: boolean, onClick: any, rounded: boolean, transparent: boolean }>`${({ muted, rounded }) => css`
+export const Button = styled.button<{ muted: boolean, onClick: any, rounded: boolean, transparent?: boolean }>`${({ muted, rounded }) => css`
   align-items: center;
   background-color: white;
   border: 0;

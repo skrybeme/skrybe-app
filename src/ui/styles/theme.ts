@@ -178,7 +178,14 @@ export const Themes: Record<string, ITheme & any> = {
     card: {
       bg: '#fff',
       bgHover: '#f6f6f6',
-      fgCard: '#222'
+      bgPlaceholder: '#A795CF99',
+      bgPlaceholderHover: '#422f79CC',
+      fgCard: '#222',
+      fgPlaceholder: '#5E489D',
+      fgPlaceholderHover: '#fff'
+    },
+    storyTree: {
+      edge: '#A795CF'
     }
   }
 };

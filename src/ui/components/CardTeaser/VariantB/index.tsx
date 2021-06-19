@@ -24,7 +24,7 @@ export function CardTeaser_VariantB({
         isDisabled={isDisabled}
         value={header}
       />
-      <TagLine tags={tags || []} />
+      {(tags && tags.length > 0) && <TagLine tags={tags} />}
     </S.CardTeaser_VariantB>
   );
 }

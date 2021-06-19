@@ -2,6 +2,7 @@ import { CardTeaserProps } from '@/interfaces/props';
 import { borderRadius } from '@/ui/styles/mixins';
 import { px, Space } from '@/ui/styles/spacing';
 import styled, { css } from 'styled-components';
+import { Editable } from '../../Editable/styles';
 
 export const CardTeaser_VariantB = styled.div<Partial<CardTeaserProps>>`${({
   theme
@@ -18,12 +19,15 @@ export const CardTeaser_VariantB = styled.div<Partial<CardTeaserProps>>`${({
   font-size: 16px;
   font-weight: 400;
   line-height: 20px;
-  min-height: 80px;
-  padding: ${px(Space.M)} ${px(Space.M)};
+  min-height: 56px;
   width: 384px;
   /* width: 256px; */
 
   &:hover {
     background-color: ${theme.card.bgHover};
+  }
+
+  ${Editable} {
+    padding: ${px(Space.M)} ${px(Space.M)};
   }
 `}`;
