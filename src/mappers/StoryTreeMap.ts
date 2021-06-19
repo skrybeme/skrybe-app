@@ -19,7 +19,8 @@ export default class StoryTreeMap {
       header: root.header,
       body: root.body,
       tags: root.tags.map((tag) => TagMap.toViewModel(tag)),
-      children: []
+      children: [],
+      parentId: null
     };
 
     let childrenOf = {
@@ -38,7 +39,8 @@ export default class StoryTreeMap {
         header: storyCard.header,
         body: storyCard.body,
         tags: storyCard.tags.map((tag) => TagMap.toViewModel(tag)),
-        children: []
+        children: [],
+        parentId
       };
       
       Object.assign(childrenOf, {
