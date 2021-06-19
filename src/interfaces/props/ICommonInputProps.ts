@@ -2,7 +2,7 @@ interface ICommonInputProps<T = string> {
   isDisabled?: boolean;
   handleBlur?: (value: T) => void;
   handleChange?: (value: T) => void;
-  handleFocus?: () => void;
+  handleFocus?: (value: T) => void;
   value?: T;
 }
 

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Toolbar = styled.div<any>`
-  background-color: ${props => props.theme.primaryLight};
+  background-color: #3A2C61;
   color: ${props => props.theme.light};
   position: fixed;
   top: 0;

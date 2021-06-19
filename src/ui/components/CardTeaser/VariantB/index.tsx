@@ -6,9 +6,10 @@ import { TagLine } from '@/ui/components/TagLine';
 
 export function CardTeaser_VariantB({
   handleClick,
-  handleHeaderChange,
   header,
   isDisabled,
+  onBlur,
+  onFocus,
   tags
 }: CardTeaserProps): React.ReactElement<CardTeaserProps> {
   const onClick = React.useCallback((event) => handleClick?.(event), [handleClick]);
@@ -20,7 +21,8 @@ export function CardTeaser_VariantB({
       title="Edit this card"
     >
       <Editable
-        handleBlur={handleHeaderChange}
+        handleBlur={onBlur}
+        handleFocus={onFocus}
         isDisabled={isDisabled}
         value={header}
       />

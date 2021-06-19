@@ -25,7 +25,7 @@ export function Editable({
       return;
     }
 
-    handleFocus?.();
+    handleFocus?.(e.target.innerHTML);
   }, [handleFocus]);
 
   const onChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {

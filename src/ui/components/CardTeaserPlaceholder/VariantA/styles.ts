@@ -20,14 +20,17 @@ export const CardTeaserPlaceholder_VariantA = styled.div`${({ theme }) => css`
   }
 `}`
 
-export const Button = styled.div`${({ theme }) => css`
+export const Button = styled.button`${({ theme }) => css`
   ${borderRadius()};
 
   align-items: center;
   background-color: ${theme.card.bgPlaceholder};
+  border: 0;
+  cursor: pointer;
   display: flex;
   height: ${px(Space.L)};
   justify-content: center;
+  outline: 0;
   padding: 0 ${px(Space.M)};
   width: calc(100% - ${px(Space.M)});
 

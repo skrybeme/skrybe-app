@@ -6,7 +6,7 @@ import { Editable } from '@/ui/components/Editable';
 
 export function CardTeaser({
   handleClick,
-  handleHeaderChange,
+  onBlur,
   header,
   tags
 }: CardTeaserProps): JSX.Element {
@@ -21,7 +21,7 @@ export function CardTeaser({
       <S.Header>
         <Editable
           blurOnEnter
-          handleBlur={handleHeaderChange}
+          handleBlur={onBlur}
           value={header}
         />
       </S.Header>

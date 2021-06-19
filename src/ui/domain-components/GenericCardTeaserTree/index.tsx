@@ -61,7 +61,7 @@ export function GenericCardTeaserTree_VariantA({
         <React.Fragment>
           <S.CardTeaserContext>
             <CardTeaser
-              handleHeaderChange={updateCard(root.id)}
+              onBlur={updateCard(root.id)}
               header={root?.header || ''}
               tags={root?.tags || []}
             />

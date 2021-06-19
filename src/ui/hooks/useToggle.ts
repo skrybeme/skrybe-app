@@ -12,8 +12,8 @@ export default function useToggle(initialState: boolean = false): ToggleResult {
     setIsOpen(true);
   }, []);
 
-  const toggle = useCallback(() => {
-    setIsOpen((state: boolean) => !state);
+  const toggle = useCallback((isOpen?: boolean) => {
+    setIsOpen((state: boolean) => isOpen !== undefined ? isOpen : !state);
   }, []);
 
   return {

@@ -6,22 +6,24 @@ export const Picker_VariantA = styled.div`
 
 export const PickerItem = styled.div<any>`
   ${props => !props.styleless && css`
-    color: #111;
-    font-size: 1.5rem;
+    background-color: #3A2C61;
+    color: #fff;
+    font-size: 1.6rem;
+    font-weight: 400;
     padding: 10px 40px;
     text-align: center;
   `}
 
-  &:not(:first-child) {
-    border-top: 1px solid #e2e2e2;
+  & + & {
+    border-top: 1px solid #5E489D;
   }
 
   ${props => props.hoverable && css`
     cursor: pointer;
-    transition: background-color 0.1s ease-in-out;
+    transition: background-color 0.05s ease-in-out;
 
     &:hover {
-      background-color: #f6f6f6;
+      background-color: #221740;
     }
   `}
 `;

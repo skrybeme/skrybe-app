@@ -4,6 +4,7 @@ import { GenericCardTeaserTree_VariantA } from '.';
 import { GenericCardTeaserTreeProps } from '@/interfaces/props';
 import { Story } from '@storybook/react'
 import theme from '@/ui/styles/theme';
+import { lorem } from 'faker';
 
 export default {
   title: 'Domain Components/GenericCardTeaserTree'
@@ -31,4 +32,58 @@ const Template: Story<GenericCardTeaserTreeProps> = (args) => (
 );
 
 export const Default = Template.bind({});
-Default.args = {};
+Default.args = {
+  root: {
+    body: '',
+    children: [
+      // {
+      //   body: '',
+      //   children: [
+      //     {
+      //       body: '',
+      //       children: [],
+      //       header: lorem.sentence(),
+      //       id: '',
+      //       tags: []
+      //     }
+      //   ],
+      //   header: lorem.sentence(),
+      //   id: '',
+      //   tags: []
+      // },
+      // {
+      //   body: '',
+      //   children: [
+      //     {
+      //       body: '',
+      //       children: [],
+      //       header: lorem.sentence(),
+      //       id: '',
+      //       tags: []
+      //     },
+      //     {
+      //       body: '',
+      //       children: [],
+      //       header: lorem.sentence(),
+      //       id: '',
+      //       tags: []
+      //     }
+      //   ],
+      //   header: lorem.sentence(),
+      //   id: '',
+      //   tags: []
+      // },
+      // {
+      //   body: '',
+      //   children: [],
+      //   header: lorem.sentence(),
+      //   id: '',
+      //   tags: []
+      // }
+    ],
+    header: lorem.sentence(),
+    id: '',
+    parentId: null,
+    tags: []
+  }
+};

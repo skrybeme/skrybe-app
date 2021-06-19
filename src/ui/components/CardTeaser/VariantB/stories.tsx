@@ -25,14 +25,14 @@ export const Default = Template.bind({});
 Default.args = {
   header: cardHeader,
   handleClick: action('handleClick'),
-  handleHeaderChange: action('handleHeaderChange')
+  onBlur: action('onBlur')
 };
 
 export const Tags = Template.bind({});
 Tags.args = {
   header: cardHeader,
   handleClick: action('handleClick'),
-  handleHeaderChange: action('handleHeaderChange'),
+  onBlur: action('onBlur'),
   tags: generateRandomTags(3)
 };
 Tags.storyName = 'Tagged Card';
@@ -41,7 +41,7 @@ export const DisabledCard = Template.bind({});
 DisabledCard.args = {
   header: cardHeader,
   handleClick: action('handleClick'),
-  handleHeaderChange: action('handleHeaderChange'),
+  onBlur: action('onBlur'),
   isDisabled: true
 };
 
@@ -49,7 +49,7 @@ export const DisabledTaggedCard = Template.bind({});
 DisabledTaggedCard.args = {
   header: cardHeader,
   handleClick: action('handleClick'),
-  handleHeaderChange: action('handleHeaderChange'),
+  onBlur: action('onBlur'),
   isDisabled: true,
   tags: generateRandomTags(3)
 };
@@ -59,7 +59,7 @@ export const EmptyCard = Template.bind({});
 EmptyCard.args = {
   header: '',
   handleClick: action('handleClick'),
-  handleHeaderChange: action('handleHeaderChange')
+  onBlur: action('onBlur')
 };
 
 // 0px 0px 0px 4px #d1cae67d

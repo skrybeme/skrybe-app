@@ -87,15 +87,54 @@ export function describeCardTeaser(CardTeaser: React.FC<CardTeaserProps>) {
     expect(mockedOnClickHandler).toBeCalled();
   });
 
-  it(`calls a handler on editable field blur if card is NOT disabled`, () => {
-    const mockedOnHeaderChangeHandler = jest.fn();
+  it(`calls a handler on editable field focus if card is NOT disabled`, () => {
+    const mockedOnFocusHandler = jest.fn();
 
     const header = lorem.sentences();
 
     const { queryByTestId } = render(
       <Fixture
         header={header}
-        handleHeaderChange={mockedOnHeaderChangeHandler}
+        onFocus={mockedOnFocusHandler}
+      />
+    );
+
+    const editable = queryByTestId('editable')!;
+
+    fireEvent.focus(editable);
+
+    expect(mockedOnFocusHandler).toBeCalledWith(header);
+  });
+
+  it(`does NOT call a handler on focus if card is disabled`, () => {
+    const mockedOnFocusHandler = jest.fn();
+
+    const header = lorem.sentences();
+
+    const { queryByTestId } = render(
+      <Fixture
+        header={header}
+        isDisabled={true}
+        onFocus={mockedOnFocusHandler}
+      />
+    );
+
+    const editable = queryByTestId('editable')!;
+
+    fireEvent.focus(editable);
+
+    expect(mockedOnFocusHandler).not.toBeCalledWith(header);
+  });
+
+  it(`calls a handler on editable field blur if card is NOT disabled`, () => {
+    const mockedOnBlurHandler = jest.fn();
+
+    const header = lorem.sentences();
+
+    const { queryByTestId } = render(
+      <Fixture
+        header={header}
+        onBlur={mockedOnBlurHandler}
       />
     );
 
@@ -103,11 +142,11 @@ export function describeCardTeaser(CardTeaser: React.FC<CardTeaserProps>) {
 
     fireEvent.blur(editable);
 
-    expect(mockedOnHeaderChangeHandler).toBeCalledWith(header);
+    expect(mockedOnBlurHandler).toBeCalledWith(header);
   });
 
   it(`calls a handler on editable field blur with changed value if card is NOT disabled`, () => {
-    const mockedOnHeaderChangeHandler = jest.fn();
+    const mockedOnBlurHandler = jest.fn();
 
     const header = lorem.sentences();
     const updatedHeader = lorem.sentences();
@@ -115,7 +154,7 @@ export function describeCardTeaser(CardTeaser: React.FC<CardTeaserProps>) {
     const { queryByTestId } = render(
       <Fixture
         header={header}
-        handleHeaderChange={mockedOnHeaderChangeHandler}
+        onBlur={mockedOnBlurHandler}
       />
     );
 
@@ -129,18 +168,18 @@ export function describeCardTeaser(CardTeaser: React.FC<CardTeaserProps>) {
 
     fireEvent.blur(editable);
 
-    expect(mockedOnHeaderChangeHandler).toBeCalledWith(updatedHeader);
+    expect(mockedOnBlurHandler).toBeCalledWith(updatedHeader);
   });
 
   it(`does NOT call a handler on blur if card is disabled`, () => {
-    const mockedOnHeaderChangeHandler = jest.fn();
+    const mockedOnBlurHandler = jest.fn();
 
     const header = lorem.sentences();
 
     const { queryByTestId } = render(
       <Fixture
         header={header}
-        handleHeaderChange={mockedOnHeaderChangeHandler}
+        onBlur={mockedOnBlurHandler}
         isDisabled={true}
       />
     );
@@ -149,6 +188,6 @@ export function describeCardTeaser(CardTeaser: React.FC<CardTeaserProps>) {
 
     fireEvent.blur(editable);
 
-    expect(mockedOnHeaderChangeHandler).not.toBeCalled();
+    expect(mockedOnBlurHandler).not.toBeCalled();
   });
 }

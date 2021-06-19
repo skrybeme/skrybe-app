@@ -18,7 +18,7 @@ export default class StoryTreeMap {
       id: root.id,
       header: root.header,
       body: root.body,
-      tags: root.tags.map((tag) => TagMap.toViewModel(tag)),
+      tags: root.tags.map(TagMap.toViewModel),
       children: [],
       parentId: null
     };
@@ -31,18 +31,16 @@ export default class StoryTreeMap {
       if (node.id === root.id) {
         return;
       }
-    
-      const storyCard = node;
 
       const entry = {
         id: node.id,
-        header: storyCard.header,
-        body: storyCard.body,
-        tags: storyCard.tags.map((tag) => TagMap.toViewModel(tag)),
+        header: node.header,
+        body: node.body,
+        tags: node.tags.map(TagMap.toViewModel),
         children: [],
         parentId
       };
-      
+
       Object.assign(childrenOf, {
         [node.id]: entry.children
       });

@@ -3,18 +3,27 @@ import { PickerTabProps, PickerItemProps, PickerProps } from '@/interfaces/props
 import { PickerContext, PickerProvider } from '@/ui/providers';
 import { Popover } from '@/ui/components/Popover';
 import * as S from './styles';
+import { IPickerContext } from '@/interfaces';
 
 export function Picker_VariantA({ children, isOpen, left, onClickOutside }: PickerProps): JSX.Element {
+  const handleOutsideClick = React.useCallback((open: IPickerContext['open']) => () => {
+    onClickOutside(open);
+  }, [onClickOutside]);
+
   return (
     <S.Picker_VariantA>
       <PickerProvider>
-        <Popover
-          isOpen={isOpen}
-          left={left}
-          onClickOutside={onClickOutside}
-        >
-          {children}
-        </Popover>
+        <PickerContext.Consumer>
+          {({ open }) => (
+            <Popover
+              isOpen={isOpen}
+              left={left}
+              onClickOutside={handleOutsideClick(open)}
+            >
+              {children}
+            </Popover>
+          )}
+        </PickerContext.Consumer>
       </PickerProvider>
     </S.Picker_VariantA>
   );
