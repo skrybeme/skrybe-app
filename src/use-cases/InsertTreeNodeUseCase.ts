@@ -28,7 +28,7 @@ export class InsertTreeNodeUseCase implements IExecutable<
 
     // @TODO
     // Insert should return inserted object.
-    await tree.insert(card, request.parentNodeId, request.placeBeforeNodeId);
+    await tree.insert(card, request.parentNodeId, request.place);
 
     await this._treeRepo.save(tree);
 

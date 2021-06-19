@@ -24,7 +24,16 @@ export class RebindTreeNodeUseCase implements IExecutable<
     tree.removeById(request.nodeId);
     
     // The insert method needs to return inserted node object.
-    tree.insert(node, request.parentNodeId, request.placeBeforeNodeId);
+    tree.insert(
+      node,
+      request.parentNodeId,
+      request.placeBeforeNodeId
+        ? {
+          afterOrBefore: 'before',
+          nodeId: request.placeBeforeNodeId
+        }
+        : undefined
+    );
 
     await this._treeRepo.save(tree);
     

@@ -171,7 +171,10 @@ class Tree<TNode extends IIdentifiable> implements ITree<TNode, TreeMap<TNode>> 
   insert(
     node: TNode,
     parentNodeId?: UuidType,
-    placeBeforeNodeId?: UuidType
+    place?: {
+      afterOrBefore: 'after' | 'before';
+      nodeId: UuidType;
+    }
   ): void {
     if (this._tree.size === 0) {
       this._tree.set(node.id, {
@@ -207,16 +210,26 @@ class Tree<TNode extends IIdentifiable> implements ITree<TNode, TreeMap<TNode>> 
       );
     }
 
-    if (placeBeforeNodeId) {
-      const placeIndex = parentNode.childrenIds.indexOf(placeBeforeNodeId);
+    if (place) {
+      const placeIndex = parentNode.childrenIds.indexOf(place.nodeId);
 
       if (placeIndex < 0) {
         throw new Error(
-          `Given place-before-node ID "${parentNodeId}" does not exist in the Tree.`
+          `Given node ID "${parentNodeId}" does not exist in the Tree.`
         );
       }
 
-      parentNode?.childrenIds.splice(placeIndex!, 0, node.id);
+      if (
+        place.afterOrBefore === 'after' &&
+        placeIndex < parentNode?.childrenIds.length - 1
+      ) {
+        parentNode?.childrenIds.splice(placeIndex + 1, 0, node.id);
+      }
+      else if (place.afterOrBefore === 'before') {
+        parentNode?.childrenIds.splice(placeIndex!, 0, node.id);
+      } else {
+        parentNode?.childrenIds.push(node.id);
+      }
     } else {
       parentNode?.childrenIds.push(node.id);
     }

@@ -34,7 +34,16 @@ export class GenerateChildrenTreeNodesUseCase implements IExecutable<
 
       const card = new StoryCard({ header: sentence });
 
-      tree!.insert(card, parent?.id, request.placeBeforeNodeId);
+      tree!.insert(
+        card,
+        parent?.id,
+        request.placeBeforeNodeId
+          ? {
+            afterOrBefore: 'before',
+            nodeId: request.placeBeforeNodeId
+          }
+          : undefined
+      );
 
       cards.push(card);
     });

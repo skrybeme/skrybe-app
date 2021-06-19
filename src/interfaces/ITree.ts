@@ -17,7 +17,10 @@ interface ITree<T extends IIdentifiable, M> extends IIdentifiable {
   insert(
     node: T,
     parentNodeId?: UuidType,
-    placeBeforeNodeId?: UuidType
+    place?: {
+      afterOrBefore: 'after' | 'before';
+      nodeId: UuidType;
+    }
   ): void;
   removeById(id: UuidType): void;
 };

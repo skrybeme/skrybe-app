@@ -21,9 +21,16 @@ export function GenericCardTeaserTree_VariantA({
     }
   }, []);
 
-  const insertCard = useCallback((parentNodeId?: string, placeBeforeNodeId?: string) => {
+  const insertCard = useCallback(
+    (
+      parentNodeId?: string,
+      place?: {
+        afterOrBefore: 'after' | 'before';
+        nodeId: string;
+      }
+    ) => {
     return (): void => {
-      insertTreeNode(parentNodeId, placeBeforeNodeId)
+      insertTreeNode(parentNodeId, place);
     }
   }, [insertTreeNode]);
 
@@ -70,7 +77,10 @@ export function GenericCardTeaserTree_VariantA({
             {root.children.map((child: StoryTreeViewModel) => (
               <React.Fragment key={child.id}>
                 <S.ClickableArea>
-                  <ButtonAddCard_VariantA onClick={insertCard(root.id, child.id)} />
+                  <ButtonAddCard_VariantA onClick={insertCard(root.id, {
+                    afterOrBefore: 'before',
+                    nodeId: child.id
+                  })} />
                 </S.ClickableArea>
                 <GenericCardTeaserTree_VariantA
                   generateChildrenTreeNodes={generateChildrenTreeNodes}
