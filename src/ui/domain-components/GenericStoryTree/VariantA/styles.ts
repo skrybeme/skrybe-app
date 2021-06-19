@@ -5,10 +5,10 @@ import {
   PickerCardTeaserOptions_VariantB
 } from '../../PickerCardTeaserOptions/VariantB/styles';
 
-export const GenericStoryTree_VariantA = styled.div<{ childless?: boolean, optionsOpen?: boolean }>`
+export const GenericStoryTree_VariantA = styled.div<{ optionsOpen?: boolean }>`
   align-items: center;
   display: flex;
-  margin: ${props => props.childless ? px(Space.L) : px(Space.XL)} 0;
+  margin: ${px(Space.XL)};
   position: relative;
   z-index: 1;
 

@@ -2,11 +2,10 @@ import React from 'react';
 import { GenericStoryTreeProps } from '@/interfaces/props';
 import { CardTeaser_VariantB as CardTeaser } from '@/ui/components/CardTeaser';
 import { useGenericStoryTree } from '../hook';
-import * as S from './styles';
 import { PickerCardTeaserOptions_VariantB } from '../../PickerCardTeaserOptions/VariantB';
 import { useToggle } from '@/ui/hooks';
 import { CardTeaserPlaceholder_VariantA } from '@/ui/components/CardTeaserPlaceholder/VariantA';
-import { CSSProperties } from 'styled-components';
+import * as S from './styles';
 
 export function GenericStoryTree_VariantA({
   generateChildrenTreeNodes,
@@ -28,7 +27,6 @@ export function GenericStoryTree_VariantA({
   return (
     <S.GenericStoryTree_VariantA
       data-testid="generic-card-teaser-tree"
-      childless={root?.children.length === 0}
       optionsOpen={isOpen}
       style={style}
     >
@@ -45,7 +43,10 @@ export function GenericStoryTree_VariantA({
                 <S.CardTeaserPlaceholderContext>
                   <CardTeaserPlaceholder_VariantA
                     label="+ Add card above"
-                    onClick={insertCard(root.parentId, root.id)}
+                    onClick={insertCard(root.parentId, {
+                      afterOrBefore: 'before',
+                      nodeId: root.id
+                    })}
                   />
                 </S.CardTeaserPlaceholderContext>
                 <S.VEdge />
@@ -65,7 +66,10 @@ export function GenericStoryTree_VariantA({
               <S.CardTeaserPlaceholderContext>
                 <CardTeaserPlaceholder_VariantA
                   label="+ Add card below"
-                  onClick={insertCard(root.parentId)}
+                  onClick={insertCard(root.parentId, {
+                    afterOrBefore: 'after',
+                    nodeId: root.id
+                  })}
                 />
               </S.CardTeaserPlaceholderContext>
             )}

@@ -4,7 +4,13 @@ import React from 'react';
 export interface GenericStoryTreeHookResult {
   generateSubcards: (nodeId: string) => () => void;
   isOptionsPickerOpen: boolean;
-  insertCard: (parentNodeId?: string, placeBeforeNodeId?: string) => () => void;
+  insertCard: (
+    parentNodeId?: string,
+    place?: {
+      afterOrBefore: 'after' | 'before';
+      nodeId: string;
+    }
+  ) => () => void;
   onOptionsPickerToggle: (isOpen: boolean) => void;
   removeCard: (nodeId: string) => () => void;
   updateCard: (nodeId: string) => (header: string) => void;
@@ -23,9 +29,15 @@ export function useGenericStoryTree({
   }, []);
 
   const insertCard = React.useCallback(
-    (parentNodeId?: string, placeBeforeNodeId?: string) => {
+    (
+      parentNodeId?: string,
+      place?: {
+        afterOrBefore: 'after' | 'before';
+        nodeId: string;
+      }
+    ) => {
       return (): void => {
-        insertTreeNode(parentNodeId, placeBeforeNodeId)
+        insertTreeNode(parentNodeId, place)
       }
     },
     [insertTreeNode]
