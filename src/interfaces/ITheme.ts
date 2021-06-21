@@ -8,6 +8,9 @@ interface ITheme {
     fgPlaceholder: string;
     fgPlaceholderHover: string;
   };
+  modal: {
+    backdrop: string;
+  };
   profilePicture: {
     bg: string;
     fg: string;

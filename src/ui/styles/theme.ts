@@ -184,6 +184,9 @@ export const Themes: Record<string, ITheme & any> = {
       fgPlaceholder: '#5E489D',
       fgPlaceholderHover: '#422f79CC'
     },
+    modal: {
+      backdrop: `rgba(0, 0, 0, 0.6)`
+    },
     profilePicture: {
       bg: '#FFC15C',
       fg: '#3A2C61'

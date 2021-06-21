@@ -1,19 +1,22 @@
-import styled, { css } from 'styled-components';
+import { ModalProps } from '@/interfaces/props';
+import { positionCover, positionCoverBefore } from '@/ui/styles/mixins';
+import styled from 'styled-components';
 
-interface ModalProps {
-  isVisible?: boolean;
-}
+export const Modal = styled.div<Partial<ModalProps>>`
+  ${positionCoverBefore()};
+  ${positionCover()};
 
-export const Modal = styled.div<ModalProps>`
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(10px);
-  transition: all 0.1s ease-in-out;
+  align-items: center;
+  display: flex;
+  justify-content: center;
   z-index: 1;
 
-  ${props => props.isVisible && css`
-    opacity: 1;
-    pointer-events: all;
-    transform: none;
-  `};
+  &:before {
+    background-color: ${props => props.theme.modal.backdrop};
+    z-index: -1;
+  }
+`;
+
+export const Window = styled.div`
+  max-width: 768px;
 `;
