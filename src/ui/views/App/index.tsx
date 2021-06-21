@@ -9,14 +9,14 @@ import { ModalProvider } from '@/ui/providers';
 export function App() {
   return (
     <ThemeProvider theme={Themes.purple}>
-      <ModalProvider>
-        <S.App>
+      <S.App>
+        <ModalProvider>
           <Toolbar />
           <S.Workspace>
             <TreeDetails />
           </S.Workspace>
-        </S.App>
-      </ModalProvider>
+        </ModalProvider>
+      </S.App>
     </ThemeProvider>
   );
 }
