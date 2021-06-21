@@ -75,6 +75,7 @@ describe(`useTreeDetailsPresenter`, () => {
                   children: [],
                   header: rootChild.header,
                   id: rootChild.id,
+                  parentId: root.id,
                   tags: rootChild.tags.map(({ color, id, label }) => ({
                     color,
                     id,
@@ -84,6 +85,7 @@ describe(`useTreeDetailsPresenter`, () => {
               ],
               header: root.header,
               id: root.id,
+              parentId: null,
               tags: []
             },
             isError: false,

@@ -184,8 +184,16 @@ export const Themes: Record<string, ITheme & any> = {
       fgPlaceholder: '#5E489D',
       fgPlaceholderHover: '#422f79CC'
     },
+    profilePicture: {
+      bg: '#FFC15C',
+      fg: '#3A2C61'
+    },
     storyTree: {
       edge: '#A795CF'
+    },
+    toolbar: {
+      bg: '#3A2C61',
+      fg: '#fff'
     }
   }
 };

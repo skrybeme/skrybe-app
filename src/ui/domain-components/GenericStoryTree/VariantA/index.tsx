@@ -4,7 +4,9 @@ import { CardTeaser_VariantB as CardTeaser } from '@/ui/components/CardTeaser';
 import { useGenericStoryTree } from '../hook';
 import { PickerCardTeaserOptions_VariantB } from '../../PickerCardTeaserOptions/VariantB';
 import { useToggle } from '@/ui/hooks';
-import { CardTeaserPlaceholder_VariantA } from '@/ui/components/CardTeaserPlaceholder/VariantA';
+import {
+  CardTeaserPlaceholder_VariantA
+} from '@/ui/components/CardTeaserPlaceholder/VariantA';
 import * as S from './styles';
 
 export function GenericStoryTree_VariantA({

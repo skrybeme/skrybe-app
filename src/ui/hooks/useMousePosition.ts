@@ -11,7 +11,7 @@ export default function useMousePosition(): MousePositionResult {
       x: e.pageX,
       y: e.pageY
     });
-  }, 50), []);
+  }, 20), []);
 
   useEffect(() => {
     window.addEventListener('mousemove', mouseMoveCallback);

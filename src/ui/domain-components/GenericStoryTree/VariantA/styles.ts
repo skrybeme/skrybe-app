@@ -8,7 +8,7 @@ import {
 export const GenericStoryTree_VariantA = styled.div<{ optionsOpen?: boolean }>`
   align-items: center;
   display: flex;
-  margin: ${px(Space.XL)};
+  margin: ${px(Space.XL)} 0;
   position: relative;
   z-index: 1;
 

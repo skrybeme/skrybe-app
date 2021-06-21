@@ -1,36 +1,56 @@
-import React from 'react';
-import { PickerAccountSettings } from '@/ui/domain-components/PickerAccountSettings';
-import { PickerMainProjectList } from '@/ui/domain-components/PickerMainProjectList';
+import React, { SVGAttributes } from 'react';
 import * as S from './styles';
+
+interface LogoProps extends SVGAttributes<SVGElement> {
+  id: string;
+}
+
+function Logo({ id, ...rest }: LogoProps): React.ReactElement<LogoProps> {
+  return (
+    <svg
+      {...rest}
+      fill="none"
+      height="30"
+      id={id}
+      viewBox="0 0 32 30"
+      width="32"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M18.5 0L30.1913 20.25H6.80866L18.5 0Z"
+        fill="#A795CF"
+        fillOpacity="0.61"
+      />
+      <path
+        d="M15.5 3L27.1913 23.25H3.80866L15.5 3Z"
+        fill="#5B3DA2"
+      />
+      <path
+        d="M13.5 3L25.1913 23.25H1.80866L13.5 3Z"
+        fill="#A795CF"
+        fillOpacity="0.61"
+      />
+    </svg>
+  );
+}
 
 export function Toolbar(): JSX.Element {
   return (
-    <S.Toolbar flex>
+    <S.Toolbar>
       <S.Flex>
-        <S.HomeIcon>
+        <S.Hamburger id="hamburger">
+          <span />
+          <span />
+          <span />
+        </S.Hamburger>
+        <S.LogoContainer>
+          <Logo id="logo" />
+        </S.LogoContainer>
+        <S.ProfilePicture id="profile-picture">
           <span>
-            <i className="fas fa-home"></i>
+            TJ
           </span>
-        </S.HomeIcon>
-        <PickerMainProjectList />
-      </S.Flex>
-      <S.Logo>
-        <img
-          src="/logo_v21.png"
-          alt=""
-        />
-      </S.Logo>
-      <S.Flex>
-        <S.Bullet title="My generated stories">
-          <i className="fas fa-plus"></i>
-        </S.Bullet>
-        <S.Bullet title="My generated stories">
-          <i className="fas fa-book-open"></i>
-        </S.Bullet>
-        <S.Bullet title="Help">
-          <i className="fas fa-question"></i>
-        </S.Bullet>
-        <PickerAccountSettings />
+        </S.ProfilePicture>
       </S.Flex>
     </S.Toolbar>
   );
