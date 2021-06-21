@@ -1,36 +1,24 @@
+import { Logo } from '@/ui/domain-components/Logo';
 import React from 'react';
-import { PickerAccountSettings } from '@/ui/domain-components/PickerAccountSettings';
-import { PickerMainProjectList } from '@/ui/domain-components/PickerMainProjectList';
 import * as S from './styles';
 
-export function Toolbar(): JSX.Element {
+export function Toolbar(): React.ReactElement {
   return (
-    <S.Toolbar flex>
+    <S.Toolbar>
       <S.Flex>
-        <S.HomeIcon>
+        <S.Hamburger id="hamburger">
+          <span />
+          <span />
+          <span />
+        </S.Hamburger>
+        <S.LogoContainer>
+          <Logo id="logo" />
+        </S.LogoContainer>
+        <S.ProfilePicture id="profile-picture">
           <span>
-            <i className="fas fa-home"></i>
+            TJ
           </span>
-        </S.HomeIcon>
-        <PickerMainProjectList />
-      </S.Flex>
-      <S.Logo>
-        <img
-          src="/logo_v21.png"
-          alt=""
-        />
-      </S.Logo>
-      <S.Flex>
-        <S.Bullet title="My generated stories">
-          <i className="fas fa-plus"></i>
-        </S.Bullet>
-        <S.Bullet title="My generated stories">
-          <i className="fas fa-book-open"></i>
-        </S.Bullet>
-        <S.Bullet title="Help">
-          <i className="fas fa-question"></i>
-        </S.Bullet>
-        <PickerAccountSettings />
+        </S.ProfilePicture>
       </S.Flex>
     </S.Toolbar>
   );

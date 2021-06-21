@@ -7,6 +7,7 @@ export { default as GenericCardTeaserTreeProps } from './GenericCardTeaserTreePr
 export { default as GenericStoryTreeProps } from './GenericStoryTreeProps';
 export { default as EditableProps } from './EditableProps';
 export { default as ICommonInputProps } from './ICommonInputProps';
+export { default as LogoProps } from './LogoProps';
 export { default as ModalProps } from './ModalProps';
 export { default as OverlayProps } from './OverlayProps';
 export { default as PickerCardTeaserOptionsProps } from './PickerCardTeaserOptionsProps';

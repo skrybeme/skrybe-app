@@ -1,3 +1,4 @@
+import { px, Space } from '@/ui/styles/spacing';
 import styled from 'styled-components';
 
 export const App = styled.div`
@@ -14,7 +15,7 @@ export const App = styled.div`
 
 export const Workspace = styled.div`
   height: 100%;
-  padding-top: 74px;
+  padding-top: ${px(Space.XXL)};
   position: relative;
   width: 100%;
 `;

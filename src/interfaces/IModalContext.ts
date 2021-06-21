@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
 export default interface IModalContext {
-  hide(): void;
-  show(component: ReactNode): void;
+  close(): void;
+  open(component: ReactNode): void;
 }

@@ -8,9 +8,20 @@ interface ITheme {
     fgPlaceholder: string;
     fgPlaceholderHover: string;
   };
+  modal: {
+    backdrop: string;
+  };
+  profilePicture: {
+    bg: string;
+    fg: string;
+  },
   storyTree: {
     edge: string;
   };
+  toolbar: {
+    bg: string;
+    fg: string;
+  }
 }
 
 export default ITheme;

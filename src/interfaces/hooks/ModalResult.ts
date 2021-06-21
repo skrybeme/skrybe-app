@@ -1,4 +1,4 @@
 export default interface ModalResult {
-  hide(): void;
-  show(): void;
+  close(): void;
+  open(component: React.ReactNode): void;
 }

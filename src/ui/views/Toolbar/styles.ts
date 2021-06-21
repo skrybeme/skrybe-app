@@ -1,97 +1,70 @@
-import styled from 'styled-components';
+import { px, Space } from '@/ui/styles/spacing';
+import styled, { css } from 'styled-components';
 
-export const Toolbar = styled.div<any>`
-  background-color: #3A2C61;
-  color: ${props => props.theme.light};
-  position: fixed;
-  top: 0;
+export const Toolbar = styled.div`${({ theme }) => css`
+  background-color: ${theme.toolbar.bg};
+  height: ${px(Space.XXL)};
   left: 0;
+  padding: 0 ${px(Space.M)};
+  position: fixed;
   right: 0;
-  height: 74px;
-  padding: 0 20px 0 30px;
-  z-index: 599;
-
-  ${props => props.flex !== null && `
-    display: flex;
-    align-content: center;
-    justify-content: space-between;
-  `}
-`;
+  top: 0;
+  width: 100%;
+`}`;
 
 export const Flex = styled.div`
   align-items: center;
   display: flex;
+  height: 100%;
+  justify-content: space-between;
+`;
+
+export const Hamburger = styled.button`${({ theme }) => css`
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+  height: 14px;
+  outline: 0;
   position: relative;
-  z-index: 1;
-`;
-
-export const Hamburger = styled.div`
-  padding: 8px 30px 8px 30px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  > div {
-    position: relative;
-    width: 24px;
-    height: 24px;
-
-    > span {
-      background-color: ${props => props.theme.light};
-      position: absolute;
-      width: 24px;
-      height: 2px;
-      left: 0;
-      top: 5px;
-
-      &:nth-child(2) {
-        top: 11px;
-      }
-
-      &:nth-child(3) {
-        top: 17px;
-      }
-    }
-  }
-`;
-
-export const HomeIcon = styled.div`
-  padding: 8px 8px 8px 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  width: 24px;
 
   > span {
-    height: auto;
-    font-size: 28px;
+    background-color: ${theme.toolbar.fg};
+    height: 2px;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+
+    &:nth-child(2) {
+      top: 6px;
+    }
+
+    &:nth-child(3) {
+      top: 12px;
+    }
   }
+`}`;
+
+export const LogoContainer = styled.div`
+  height: 24px;
 `;
 
-export const Logo = styled.div`
+export const ProfilePicture = styled.div`${({ theme }) => css`
   align-items: center;
-  display: flex;
-  height: 100%;
-  justify-content: center;
-  left: 0;
-  position: absolute;
-  right: 0;
-  top: 0;
-  z-index: 0;
-
-  img {
-    max-height: 38px;
-  }
-`;
-
-export const Bullet = styled.div`
-  background-color: ${props => props.theme.primaryContrast};
-  color: ${props => props.theme.primaryLight};
-  font-size: 15px;
-  width: 30px;
-  height: 30px;
-  margin: 10px;
+  background-color: ${theme.profilePicture.bg};
   border-radius: 50%;
   display: flex;
-  align-items: center;
+  height: 32px;
   justify-content: center;
-`;
+  user-select: none;
+  width: 32px;
+
+  > span {
+    color: ${theme.profilePicture.fg};
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 20px;
+    text-transform: uppercase;
+  }
+`}`;
