@@ -11,14 +11,14 @@ class Tag implements ITag {
   constructor(props?: ITagProps, id: UuidType = generateUuid()) {
     this._id = id;
     this._props = {
-      color: TagColor.WHITE,
+      color: TagColor.RED,
       label: "",
       ...props
     };
   }
 
   get color(): TagColor {
-    return this._props.color || TagColor.WHITE;
+    return this._props.color || TagColor.RED;
   }
 
   get id(): UuidType {

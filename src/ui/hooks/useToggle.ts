@@ -1,20 +1,25 @@
 import { ToggleResult } from '@/interfaces/hooks';
 import { useCallback, useState } from 'react';
 
-export default function useToggle(): ToggleResult {
-  const [isOpen, setIsOpen] = useState(false);
+export default function useToggle(initialState: boolean = false): ToggleResult {
+  const [isOpen, setIsOpen] = useState(initialState);
 
   const close = useCallback(() => {
     setIsOpen(false);
   }, []);
 
-  const toggle = useCallback(() => {
-    setIsOpen((state: boolean) => !state);
+  const open = useCallback(() => {
+    setIsOpen(true);
+  }, []);
+
+  const toggle = useCallback((isOpen?: boolean) => {
+    setIsOpen((state: boolean) => isOpen !== undefined ? isOpen : !state);
   }, []);
 
   return {
     close,
     isOpen,
+    open,
     toggle
   };
 }

@@ -1,4 +1,24 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+
+interface CenterProps {
+  bgColor?: string;
+  horizontal?: boolean;
+  vertical?: boolean;
+}
+
+export const Center = styled.div<CenterProps>`${({ bgColor, horizontal, vertical }) => css`
+  background-color: ${bgColor || 'transparent'};
+  display: flex;
+  height: 100%;
+
+  ${horizontal && css`
+    justify-content: center;
+  `};
+
+  ${vertical && css`
+    align-items: center;
+  `};
+`}`;
 
 export const Unscrollable = styled.div`
   height: 100%;

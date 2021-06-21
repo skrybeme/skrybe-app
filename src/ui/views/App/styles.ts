@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const App = styled.div`
-  background-color: ${props => props.theme.bg};
+  background-color: #5E489D;
   color: ${props => props.theme.default};
   padding: 0;
   height: 100%;

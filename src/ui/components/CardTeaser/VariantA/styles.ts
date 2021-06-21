@@ -1,7 +1,7 @@
 import { MouseEventHandler } from '@/common/types';
 import { flex } from '@/ui/styles/mixins';
 import styled, { css } from 'styled-components';
-import { Editable } from '../Editable/styles';
+import { Editable } from '@/ui/components/Editable/styles';
 
 export const CardTeaser = styled.div<{ onClick: MouseEventHandler }>`${({ theme }) => css`
   background-color: ${theme.bgLight};

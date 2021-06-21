@@ -29,7 +29,7 @@ describe(`StoryTreeLocalStorageMap`, () => {
                   label: 't1'
                 },
                 {
-                  color: TagColor.WHITE,
+                  color: TagColor.RED,
                   id: 'c594b2a4-b7fa-44c5-a107-1ee372a4ca46',
                   label: 't2'
                 }
@@ -60,7 +60,7 @@ describe(`StoryTreeLocalStorageMap`, () => {
               id: 'e798000f-f706-46f2-90ca-0cf4bfa466c3',
               tags: [
                 {
-                  color: TagColor.WHITE,
+                  color: TagColor.RED,
                   id: '94d421e1-4659-443a-a448-6519479f546f',
                   label: 't3'
                 }
@@ -117,7 +117,7 @@ describe(`StoryTreeLocalStorageMap`, () => {
       expect(root.tags[0].color).toEqual(TagColor.RED);
       expect(root.tags[0].id).toEqual('983367cc-709b-41e4-b33a-f90ad43154dc');
       expect(root.tags[0].label).toEqual('t1');
-      expect(root.tags[1].color).toEqual(TagColor.WHITE);
+      expect(root.tags[1].color).toEqual(TagColor.RED);
       expect(root.tags[1].id).toEqual('c594b2a4-b7fa-44c5-a107-1ee372a4ca46');
       expect(root.tags[1].label).toEqual('t2');
 
@@ -135,7 +135,7 @@ describe(`StoryTreeLocalStorageMap`, () => {
       expect(children[2].body).toEqual('b13');
       expect(children[2].header).toEqual('h13');
       expect(children[2].tags).toHaveLength(1);
-      expect(children[2].tags[0].color).toEqual(TagColor.WHITE);
+      expect(children[2].tags[0].color).toEqual(TagColor.RED);
       expect(children[2].tags[0].id).toEqual('94d421e1-4659-443a-a448-6519479f546f');
       expect(children[2].tags[0].label).toEqual('t3');
 
@@ -161,7 +161,7 @@ describe(`StoryTreeLocalStorageMap`, () => {
           label: 't1'
         }),
         new Tag({
-          color: TagColor.WHITE,
+          color: TagColor.RED,
           label: 't2'
         }),
         new Tag({
@@ -169,7 +169,7 @@ describe(`StoryTreeLocalStorageMap`, () => {
           label: 't3'
         }),
         new Tag({
-          color: TagColor.WHITE,
+          color: TagColor.RED,
           label: 't4'
         }),
         new Tag({
@@ -248,7 +248,7 @@ describe(`StoryTreeLocalStorageMap`, () => {
                   label: 't1'
                 },
                 {
-                  color: TagColor.WHITE,
+                  color: TagColor.RED,
                   id: tags[1].id,
                   label: 't2'
                 },
@@ -281,7 +281,7 @@ describe(`StoryTreeLocalStorageMap`, () => {
               id: children[1].id,
               tags: [
                 {
-                  color: TagColor.WHITE,
+                  color: TagColor.RED,
                   id: tags[3].id,
                   label: 't4'
                 },

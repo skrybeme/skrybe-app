@@ -1,6 +1,6 @@
 import { flex } from '@/ui/styles/mixins';
 import styled, { css } from 'styled-components';
-import { CardTeaser } from '@/ui/components/CardTeaser/styles';
+import { CardTeaser } from '@/ui/components/CardTeaser/VariantA/styles';
 import { Button } from '@/ui/components/Button/styles';
 
 export const CardTeaserContext = styled.div`
@@ -22,8 +22,8 @@ export const LevelContext = styled.div`
   > * {
     &:before {
       content: '';
-      background-color: lightgray;
-      height: 2px;
+      background-color: #A795CF;
+      height: 1px;
       position: absolute;
       top: -6px;
     }
@@ -77,13 +77,13 @@ export const GenericCardTeaserTree_VariantA = styled.div<any>`
 
   &:not(:first-child) {
     &:after {
-      background-color: lightgray;
+      background-color: #A795CF;
       content: '';
       height: 12px;
-      left: calc(50% - 1px);
+      left: 50%;
       position: absolute;
-      right: calc(50% - 1px);
       top: -6px;
+      width: 1px;
       z-index: -1;
     }
   }
@@ -97,7 +97,7 @@ export const ClickableArea = styled.div<any>`
   z-index: 1;
 
   &:after {
-    border: 1px dashed lightgray;
+    border: 1px dashed #A795CF;
     bottom: 50%;
     content: '';
     left: calc(50% - 1px);
@@ -108,7 +108,9 @@ export const ClickableArea = styled.div<any>`
   }
 
   ${Button} {
-    opacity: 0.4;
+    background-color: #A795CF;
+    color: #5E489D;
+    opacity: 1;
     outline: 0;
 
     &:before {

@@ -1,8 +1,9 @@
-import { ReactNode } from "react";
+import { ReactNode } from 'react';
+import IPickerContext from '../IPickerContext';
 
 export default interface PickerProps {
   children: ReactNode;
   isOpen: boolean;
   left?: boolean;
-  onClickOutside: () => void;
+  onClickOutside: (open: IPickerContext['open']) => void;
 }
