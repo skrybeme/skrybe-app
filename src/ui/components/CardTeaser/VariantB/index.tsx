@@ -16,7 +16,7 @@ export function CardTeaser_VariantB({
 
   return (
     <S.CardTeaser_VariantB
-      data-testid="card-teaser"
+      data-testid="card"
       onClick={onClick}
       title="Edit this card"
     >

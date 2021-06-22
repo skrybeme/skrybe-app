@@ -32,7 +32,7 @@ export function PickerCardTeaserOptions_VariantB({
   }, [isOpen]);
 
   return (
-    <S.PickerCardTeaserOptions_VariantB data-testid="picker-card-teaser-options">
+    <S.PickerCardTeaserOptions_VariantB data-testid="picker-card-options">
       <S.Trigger
         isOpen={isOpen}
         onClick={toggle}

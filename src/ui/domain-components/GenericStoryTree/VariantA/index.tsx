@@ -34,7 +34,7 @@ export function GenericStoryTree_VariantA({
 
   return (
     <S.GenericStoryTree_VariantA
-      data-testid="generic-card-teaser-tree"
+      data-testid="generic-story-tree"
       optionsOpen={isOpen}
       ref={ref}
       style={style}
@@ -43,6 +43,7 @@ export function GenericStoryTree_VariantA({
         <React.Fragment>
           <S.CardTeaserContext
             childless={!root.children.length}
+            data-testid="card-context"
             hidePlaceholders={isOpen}
             oneChild={root.children.length === 1}
             optionsOpen={isOpen}
@@ -63,7 +64,7 @@ export function GenericStoryTree_VariantA({
             )}
             <CardTeaser
               header={root.header || ''}
-              onBlur={updateCard}
+              onBlur={updateCard(root.id)}
               tags={root.tags || []}
             />
             <PickerCardTeaserOptions_VariantB
