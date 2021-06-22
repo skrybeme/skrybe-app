@@ -26,10 +26,17 @@ export function GenericStoryTree_VariantA({
 
   const { isOpen, toggle } = useToggle(false);
 
+  const ref = React.useRef<HTMLDivElement>(null);
+
+  React.useLayoutEffect(() => {
+    ref.current?.querySelector<HTMLDivElement>('[contenteditable]')?.focus();
+  }, [ref])
+
   return (
     <S.GenericStoryTree_VariantA
       data-testid="generic-card-teaser-tree"
       optionsOpen={isOpen}
+      ref={ref}
       style={style}
     >
       {root && (
@@ -55,9 +62,9 @@ export function GenericStoryTree_VariantA({
               </>
             )}
             <CardTeaser
-              header={root?.header || ''}
+              header={root.header || ''}
               onBlur={updateCard}
-              tags={root?.tags || []}
+              tags={root.tags || []}
             />
             <PickerCardTeaserOptions_VariantB
               onGenerateChildren={generateSubcards(root.id)}
