@@ -1,5 +1,13 @@
 import { css } from "styled-components";
 
+export const borderCircle = () => css`
+  border-radius: 50%;
+`;
+
+export const borderRadius = (radius = 3) => css`
+  border-radius: ${radius}px;
+`;
+
 export const flex = () => css`
   align-items: center;
   display: flex;
@@ -17,4 +25,17 @@ export const positionCover = () => css`
   position: absolute;
   right: 0;
   top: 0;
+`;
+
+export const positionCoverBefore = () => css`
+  position: relative;
+
+  &:before {
+    bottom: 0;
+    content: '';
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
 `;

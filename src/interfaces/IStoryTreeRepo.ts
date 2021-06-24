@@ -1,9 +1,7 @@
 import IRepo from './IRepo';
-import ITree from './ITree';
-import { UuidType } from '@/common/types';
+import StoryCard from '@/entities/StoryCard';
+import Tree from '@/entities/Tree';
 
-interface IStoryTreeRepo extends IRepo {
-  get(id: UuidType): ITree;
-}
+interface IStoryTreeRepo extends IRepo<Tree<StoryCard>> {}
 
 export default IStoryTreeRepo;

@@ -1,20 +1,33 @@
-import React from 'react';
-import {
-  GenericCardTeaserTree_VariantA
-} from '@/ui/components/GenericCardTeaserTree';
-import { useDraggable } from '@/ui/hooks';
-import { useTreeDetails } from '@/ui/presenters';
+import React, { ReactElement, useEffect } from 'react';
+import { useTreeDetailsPresenter } from '@/ui/presenters';
 import * as S from './styles';
 import * as GS from '@/ui/styles/global';
+import { GenericStoryTree_VariantA } from '@/ui/domain-components/GenericStoryTree';
 
-export default function TreeDetails(): JSX.Element {
-  const { nodes } = useTreeDetails();
-  const dragHandleRef = useDraggable<HTMLDivElement>();
+export function TreeDetails(): ReactElement {
+  const {
+    generateChildrenTreeNodes,
+    insertTreeNode,
+    removeTreeNode,
+    root,
+    triggerGetTreeById,
+    updateTreeNode
+  } = useTreeDetailsPresenter();
+
+  useEffect(() => {
+    triggerGetTreeById('c0773e64-3a3a-11eb-adc1-0242ac120002');
+  }, []);
 
   return (
     <GS.Unscrollable>
-      <S.TreeDetails ref={dragHandleRef}>
-        <GenericCardTeaserTree_VariantA nodes={nodes.data} />
+      <S.TreeDetails>
+        <GenericStoryTree_VariantA
+          generateChildrenTreeNodes={generateChildrenTreeNodes}
+          insertTreeNode={insertTreeNode}
+          removeTreeNode={removeTreeNode}
+          root={root.data}
+          updateTreeNode={updateTreeNode}
+        />
       </S.TreeDetails>
     </GS.Unscrollable>
   );

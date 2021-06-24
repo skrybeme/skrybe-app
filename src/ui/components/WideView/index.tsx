@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useWindowSize } from '@/ui/hooks';
 import { selectNestedCardTree } from '@/ui/store/selectors';
 import * as S from './styles';
-import { useTreeDetails } from '@/ui/presenters';
-import { CardTeaser } from '../CardTeaser';
+import { useTreeDetailsPresenter } from '@/ui/presenters';
+import { CardTeaser } from '../CardTeaser/VariantA';
 
 const Card = CardTeaser;
 
@@ -14,7 +14,7 @@ function WideView() {
   const nestedCardTree = useSelector(selectNestedCardTree());
   const windowSize = useWindowSize();
 
-  const { nodes } = useTreeDetails();
+  const { root } = useTreeDetailsPresenter();
 
   function onClickCard(e) {
     if (!cardOverlayRef) {          
@@ -103,7 +103,7 @@ function WideView() {
 
   return (
     <S.Context>
-      {!nodes.isLoading && <CardContext rootTreeNode={nodes.data} className="root" key={nodes.data!.id} />}
+      {!root.isLoading && <CardContext rootTreeNode={root.data} className="root" key={root.data!.id} />}
       <S.DynamicOverlay ref={cardOverlayRef} />
     </S.Context>
   );

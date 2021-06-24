@@ -1,23 +1,72 @@
-import { ITreeNode } from '@/interfaces';
+import { IIdentifiable, ITreeNodeContext } from '@/interfaces';
+import { Queue } from '@/common/data-structures';
+import { UuidType } from '@/common/types';
+import Tree from './Tree';
 
-export function crawlBreadthFirst<T>(root: ITreeNode, cb: (node: ITreeNode) => T): Array<T> {
-  function bfs(treeNode: ITreeNode, cb: (node: ITreeNode) => T): any {
-    const children = treeNode.getTree().getChildrenOf(treeNode);
+export function crawlBreadthFirst<T extends IIdentifiable, R>(
+  tree: Tree<T>,
+  cb: (nodeContext: ITreeNodeContext<T>) => R,
+  startNodeId?: UuidType
+): Array<R> {
+  const root = startNodeId
+    ? tree.getNodeContextById(startNodeId)
+    : tree.getRootContext();
 
-    return []
-      // @ts-ignore
-      .concat(...children.map(child => cb(child as ITreeNode)))
-      .concat(...children.map(child => bfs(child as ITreeNode, cb)));
+  if (!root) {
+    return [];
+  }
+
+  const out = [cb(root)];
+
+  const q = new Queue<ITreeNodeContext<T>>();
+
+  q.enqueue(root)
+
+  while (!q.isEmpty()) {
+    const u = q.dequeue();
+
+    // isEmpty() returning false ensures that dequeue() returns a valid value.
+    const children = tree.getNodeContextChildrenOf(u!.node.id);
+
+    children?.forEach((child: ITreeNodeContext<T>) => {
+      q.enqueue(child);
+
+      out.push(cb(child));
+    });
   }
   
-  return [cb(root)].concat(...bfs(root, cb));
+  return out;
 }
 
-export function crawlDeepFirst<T>(root: ITreeNode, cb: (node: ITreeNode) => T): Array<T> {
-  const children = root.getTree().getChildrenOf(root);
+export function crawlDeepFirst<T extends IIdentifiable, R>(
+  tree: Tree<T>,
+  cb: (nodeContext: ITreeNodeContext<T>) => R,
+  startNodeId?: UuidType
+): Array<R> {
+  const root = startNodeId
+    ? tree.getNodeContextById(startNodeId)
+    : tree.getRootContext();
 
-  return [cb(root)].concat(
-    ...children.map(child => crawl(child as ITreeNode, cb))
+  if (!root) {
+    return [];
+  }
+
+  return dfs<T, R>(tree, root, cb);
+}
+
+function dfs<T extends IIdentifiable, R>(
+  tree: Tree<T>,
+  nodeContext: ITreeNodeContext<T>,
+  cb: (nodeContext: ITreeNodeContext<T>) => R
+): Array<R> {
+  const children = tree.getNodeContextChildrenOf(nodeContext.node.id);
+
+  if (!children || !children.length) {
+    return [cb(nodeContext)];
+  }
+
+  return [cb(nodeContext)].concat(
+    ...children.map(child => dfs<T, R>(tree, child, cb))
   );
 }
 

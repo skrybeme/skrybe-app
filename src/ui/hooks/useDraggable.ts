@@ -1,64 +1,49 @@
 import { IPoint } from '@/interfaces';
-import { RefObject, useCallback, useEffect, useRef, useState } from 'react';
+import { RefObject, useEffect, useRef, useState } from 'react';
+import useMouseDown from './useMouseDown';
+import useMousePosition from './useMousePosition';
 
 // @TODO
 // - Test this with RTL.
 // - Add dragging limits.
-export default function useDraggable<T extends HTMLElement = HTMLElement>(): RefObject<T> {
+export default function useDraggable<
+  T extends HTMLElement = HTMLElement
+>(): RefObject<T> {
   const ref = useRef<T>(null);
-
-  const [isDragging, setIsDragging] = useState<boolean>(false);
 
   const [dragStartPosition, setDragStartPosition] = useState<IPoint>({ x: 0, y: 0 });
 
   const [previousTranslation, setPreviousTranslation] = useState<IPoint>({ x: 0, y: 0 });
 
-  const onMouseDown = useCallback((e: MouseEvent) => {
-    if (e.button !== 0) {
-      return;
-    }
-  
-    setDragStartPosition({ x: e.pageX, y: e.pageY });
-    setIsDragging(true);
-  }, []);
+  const position = useMousePosition();
 
-  const onMouseMove = useCallback((e: MouseEvent) => {
-    if (!isDragging) {
-      return;
-    }
-
-    const x = previousTranslation.x + e.pageX - dragStartPosition.x;
-    const y = previousTranslation.y + e.pageY - dragStartPosition.y;
-  
-    ref.current!.style.transform = `translateX(${x}px) translateY(${y}px)`;
-  }, [ref, isDragging]);
-
-  const onMouseUp = useCallback((e: MouseEvent) => {
-    if (!isDragging || e.button !== 0) {
-      return;
-    }
-
-    setPreviousTranslation({
-      x: previousTranslation.x + e.pageX - dragStartPosition.x,
-      y: previousTranslation.y + e.pageY - dragStartPosition.y
-    });
-
-    setIsDragging(false);
-  }, [ref, isDragging]);
+  const isMouseDown = useMouseDown<T>(ref);
 
   useEffect(() => {
-    ref.current?.addEventListener('mousedown', onMouseDown);
+    if (isMouseDown) {
+      setDragStartPosition({
+        x: position.x,
+        y: position.y
+      });
+    } else {
+      setPreviousTranslation({
+        x: previousTranslation.x + position.x - dragStartPosition.x,
+        y: previousTranslation.y + position.y - dragStartPosition.y
+      });
+    }
+  }, [isMouseDown]);
 
-    window.addEventListener('mousemove', onMouseMove);
-    window.addEventListener('mouseup', onMouseUp);
+  useEffect(() => {
+    if (!isMouseDown) {
+      return;
+    }
 
-    return () => {
-      ref.current?.removeEventListener('mousedown', onMouseDown);
-
-      window.removeEventListener('mousemove', onMouseMove);
-      window.removeEventListener('mouseup', onMouseUp);
-    };
-  }, [ref, isDragging]);
+    const translateX = previousTranslation.x + position.x - dragStartPosition.x;
+    const translateY = previousTranslation.y + position.y - dragStartPosition.y;
+  
+    ref.current!.style.transform =
+      `translateX(${translateX}px) translateY(${translateY}px)`;
+  }, [position]);
 
   return ref;
 }

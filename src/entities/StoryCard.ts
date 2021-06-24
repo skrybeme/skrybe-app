@@ -1,45 +1,73 @@
-import { IStoryCard, ITag } from '@/interfaces';
+import { IStoryCard, IStoryCardProps, ITag } from '@/interfaces';
 import { UuidType } from '@/common/types';
+import { generateUuid } from '@/utils';
 
 class StoryCard implements IStoryCard {
-  constructor(
-    public header: string = '',
-    public body: string = '',
-    public tags: Array<ITag> = []) {
+  private _id: UuidType;
+  private _props: IStoryCardProps;
+
+  constructor(props?: IStoryCardProps, id: UuidType = generateUuid()) {
+    this._id = id;
+    this._props = {
+      body: '',
+      header: '',
+      ...props,
+      tags: props?.tags || []
+    };
   }
 
-  public addTag(tag: ITag): IStoryCard {
-    if (this.tags.find(t => t.id === tag.id)) {
+  get body(): string {
+    return this._props.body || "";
+  }
+
+  get header(): string {
+    return this._props.header || "";
+  }
+
+  get id(): UuidType {
+    return this._id;
+  }
+
+  get tags(): Array<ITag> {
+    return this._props.tags || [];
+  }
+
+  set body(value: string) {
+    this._props.body = value;
+  }
+
+  set header(value: string) {
+    this._props.header = value;
+  }
+
+  addTag(tag: ITag): StoryCard {
+    if (this._props.tags!.find(t => t.id === tag.id)) {
       throw Error(`Tree node cannot have the same tag added twice.`);
     }
 
-    this.tags.push(tag);
+    this._props.tags!.push(tag);
 
     return this;
   }
 
-  public removeTag(tag: ITag | UuidType): IStoryCard {
-    this.tags = this.tags.filter(t => t != tag && t.id !== tag);
+  removeTagById(id: UuidType): StoryCard {
+    const index = this._props.tags!.findIndex((tag: ITag) => tag.id === id);
+
+    if (index < 0) {
+      throw new Error(
+        `A tag with id "${id}" does not exist in card with id "${this.id}"`
+      );
+    }
+
+    this._props.tags!.splice(index, 1);
 
     return this;
   }
 
-  public replaceTag(oldTag: ITag, newTag: ITag): IStoryCard {
-    const index = this.tags.indexOf(oldTag);
+  replaceTag(oldTagId: UuidType, newTag: ITag): StoryCard {
+    const index = this._props.tags!.findIndex((tag: ITag) => tag.id === oldTagId);
 
-    this.tags.splice(index, 1, newTag);
-
-    return this;
-  }
-
-  public setBody(body: string): IStoryCard {
-    this.body = body;
-
-    return this;
-  }
-
-  public setHeader(header: string): IStoryCard {
-    this.header = header;
+    this._props.tags!.splice(index, 1, newTag);
 
     return this;
   }

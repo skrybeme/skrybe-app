@@ -1,1 +1,1 @@
-export { default as useTreeDetails } from '@/ui/presenters/useTreeDetails';
+export { useTreeDetailsPresenter } from '@/ui/presenters/useTreeDetailsPresenter';

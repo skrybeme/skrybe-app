@@ -1,73 +1,74 @@
-import React, { useRef, useState } from 'react';
-import ThemePicker from '@/ui/components/ThemePicker';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { PickerTabProps, PickerItemProps, PickerProps } from '@/interfaces/props';
+import { PickerContext, PickerProvider } from '@/ui/providers';
+import { Popover } from '@/ui/components/Popover';
 import * as S from './styles';
-import { useClickOutside } from '@/ui/hooks';
+import { IPickerContext } from '@/interfaces';
 
-function Item(props) {
-  const { children } = props;
+export function Picker_VariantA({ children, isOpen, left, onClickOutside }: PickerProps): JSX.Element {
+  const handleOutsideClick = React.useCallback((open: IPickerContext['open']) => () => {
+    onClickOutside(open);
+  }, [onClickOutside]);
 
   return (
-    <S.Item>
+    <S.Picker_VariantA>
+      <PickerProvider>
+        <PickerContext.Consumer>
+          {({ open }) => (
+            <Popover
+              isOpen={isOpen}
+              left={left}
+              onClickOutside={handleOutsideClick(open)}
+            >
+              {children}
+            </Popover>
+          )}
+        </PickerContext.Consumer>
+      </PickerProvider>
+    </S.Picker_VariantA>
+  );
+}
+
+export function PickerTab({ children, name = 'default' }: PickerTabProps): JSX.Element {
+  const { openItemName } = useContext(PickerContext);
+
+  const [isActive, setIsActive] = useState(false);
+
+  useEffect(() => {
+    if (openItemName === name) {
+      setIsActive(true);
+    } else if (isActive) {
+      setIsActive(false);
+    }
+  }, [openItemName]);
+
+  return (
+    <S.PickerTab isActive={isActive}>
       {children}
-    </S.Item>
+    </S.PickerTab>
   );
 }
 
-function List() {
-  return (
-    <S.List>
-      <Item>
-        <ThemePicker />
-      </Item>
-      <Item>
-        <S.Link>
-          Help
-        </S.Link>
-      </Item>
-      {/* <Item>
-        <S.Link>
-          Account settings
-        </S.Link>
-      </Item>
-      <Item>
-        <S.Link>
-          Sign out
-        </S.Link>
-      </Item> */}
-      <Item>
-        <S.Link>
-          Sign in / Sign up
-          <div style={{ marginTop: '7px', fontSize: '13px' }}>
-            <i className="fas fa-user-plus" style={{ color: 'orange' }}></i>
-            &nbsp;&nbsp;No credit card required.
-          </div>
-        </S.Link>
-      </Item>
-      {/* <Item>
-        <S.Link>
-          <i className="fas fa-star" style={{ color: 'orange' }}></i>
-          &nbsp;&nbsp;Skrybe Premium
-        </S.Link>
-      </Item> */}
-    </S.List>
-  );
-}
+export function PickerItem({
+  children,
+  hoverable = false,
+  onClick,
+  styleless = false
+}: PickerItemProps): JSX.Element {
+  const { open } = useContext(PickerContext);
 
-function Picker(): JSX.Element {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const self = useRef(null);
-
-  useClickOutside(self, () => setIsOpen(false));
+  const handleClick = useCallback(() => {
+    onClick?.(open);
+  }, [onClick, open]);
 
   return (
-    <S.Context isOpen={isOpen} ref={self}>
-      <S.Picker flex onClick={() => setIsOpen(!isOpen)}>
-        <i className="fas fa-user-cog"></i>
-      </S.Picker>
-      <List />
-    </S.Context>
+    <S.PickerItem
+      data-testid="picker-item"
+      hoverable={hoverable}
+      onClick={handleClick}
+      styleless={styleless}
+    >
+      {children}
+    </S.PickerItem>
   );
 }
-
-export default Picker;
