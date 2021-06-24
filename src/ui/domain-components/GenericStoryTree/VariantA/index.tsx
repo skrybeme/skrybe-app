@@ -2,10 +2,12 @@ import React from 'react';
 import { GenericStoryTreeProps } from '@/interfaces/props';
 import { CardTeaser_VariantB as CardTeaser } from '@/ui/components/CardTeaser';
 import { useGenericStoryTree } from '../hook';
-import { PickerCardTeaserOptions_VariantB } from '../../PickerCardTeaserOptions/VariantB';
+import {
+  PickerCardTeaserOptions_VariantB as PickerCardTeaserOptions
+} from '../../PickerCardTeaserOptions/VariantB';
 import { useToggle } from '@/ui/hooks';
 import {
-  CardTeaserPlaceholder_VariantA
+  CardTeaserPlaceholder_VariantA as CardTeaserPlaceholder
 } from '@/ui/components/CardTeaserPlaceholder/VariantA';
 import * as S from './styles';
 
@@ -55,7 +57,7 @@ export function GenericStoryTree_VariantA({
             {root.parentId !== null && (
               <>
                 <S.CardTeaserPlaceholderContext>
-                  <CardTeaserPlaceholder_VariantA
+                  <CardTeaserPlaceholder
                     label="+ Add card above"
                     onClick={insertCard(root.parentId, {
                       afterOrBefore: 'before',
@@ -71,14 +73,14 @@ export function GenericStoryTree_VariantA({
               onBlur={updateCard(root.id)}
               tags={root.tags || []}
             />
-            <PickerCardTeaserOptions_VariantB
+            <PickerCardTeaserOptions
               onGenerateChildren={generateSubcards(root.id)}
               onRemoveNode={removeCard(root.id)}
               onToggle={toggle}
             />
             {root.parentId !== null && (
               <S.CardTeaserPlaceholderContext>
-                <CardTeaserPlaceholder_VariantA
+                <CardTeaserPlaceholder
                   label="+ Add card below"
                   onClick={insertCard(root.parentId, {
                     afterOrBefore: 'after',
@@ -89,7 +91,7 @@ export function GenericStoryTree_VariantA({
             )}
             {!root.children.length && (
               <S.CardTeaserPlaceholderContext move>
-                <CardTeaserPlaceholder_VariantA
+                <CardTeaserPlaceholder
                   label="+ Add subcard"
                   onClick={insertCard(root.id)}
                 />

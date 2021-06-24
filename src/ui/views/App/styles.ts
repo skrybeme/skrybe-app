@@ -14,8 +14,8 @@ export const App = styled.div`
 `;
 
 export const Workspace = styled.div`
-  height: 100%;
-  padding-top: ${px(Space.XXL)};
+  height: calc(100% - ${px(Space.XXL)});
+  margin-top: ${px(Space.XXL)};
   position: relative;
   width: 100%;
 `;

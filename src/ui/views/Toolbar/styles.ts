@@ -10,6 +10,7 @@ export const Toolbar = styled.div`${({ theme }) => css`
   right: 0;
   top: 0;
   width: 100%;
+  z-index: 2;
 `}`;
 
 export const Flex = styled.div`
