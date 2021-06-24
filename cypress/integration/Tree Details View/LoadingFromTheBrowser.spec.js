@@ -30,34 +30,34 @@ context(`Loading Story Tree persisted in the browser`, () => {
   
     cy.visit('/');
 
-    cy.get('[data-testid=generic-card-teaser-tree]')
+    cy.get('[data-testid=generic-story-tree]')
       .should('be.visible');
 
-    cy.get('[data-testid=card-teaser]')
+    cy.get('[data-testid=card]')
       .eq(0)
       .should('have.text', 'The root of the story.');
 
-    cy.get('[data-testid=card-teaser]')
+    cy.get('[data-testid=card]')
       .eq(1)
       .should('have.text', 'Left child.');
 
-    cy.get('[data-testid=card-teaser]')
+    cy.get('[data-testid=card]')
       .eq(2)
       .should('have.text', 'Left\'s first grandchild.');
 
-    cy.get('[data-testid=card-teaser]')
+    cy.get('[data-testid=card]')
       .eq(3)
       .should('have.text', 'Left\'s second grandchild.');
 
-    cy.get('[data-testid=card-teaser]')
+    cy.get('[data-testid=card]')
       .eq(4)
       .should('have.text', 'Middle child.');
 
-    cy.get('[data-testid=card-teaser]')
+    cy.get('[data-testid=card]')
       .eq(5)
       .should('have.text', 'Middle\'s grandchild.');
 
-    cy.get('[data-testid=card-teaser]')
+    cy.get('[data-testid=card]')
       .eq(6)
       .should('have.text', 'Right child.');
   });

@@ -28,8 +28,12 @@ export function GenericStoryTree_VariantA({
 
   const ref = React.useRef<HTMLDivElement>(null);
 
-  React.useLayoutEffect(() => {
-    ref.current?.querySelector<HTMLDivElement>('[contenteditable]')?.focus();
+  React.useEffect(() => {
+    const editable = ref.current?.querySelector<HTMLDivElement>('[contenteditable]');
+
+    if (editable && editable.innerHTML.length === 0) {
+      editable.focus()
+    }
   }, [ref])
 
   return (

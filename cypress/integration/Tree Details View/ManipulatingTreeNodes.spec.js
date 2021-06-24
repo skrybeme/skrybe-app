@@ -103,6 +103,8 @@ context(`Adding, removing and generating Story Tree nodes`, () => {
 
     cy.focused().clear().type(text);
 
+    cy.get('body').click();
+
     cy.reload();
 
     cy.get('[data-testid=generic-story-tree]')
