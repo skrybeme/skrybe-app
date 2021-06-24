@@ -15,9 +15,9 @@ export default function useDraggable<
 
   const [previousTranslation, setPreviousTranslation] = useState<IPoint>({ x: 0, y: 0 });
 
-  const position = useMousePosition();
-
   const isMouseDown = useMouseDown<T>(ref);
+
+  const position = useMousePosition();
 
   useEffect(() => {
     if (isMouseDown) {

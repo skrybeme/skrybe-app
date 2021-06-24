@@ -1,10 +1,15 @@
 import React, { ReactElement, useEffect } from 'react';
 import { useTreeDetailsPresenter } from '@/ui/presenters';
+import {
+  GenericStoryTree_VariantA as GenericStoryTree
+} from '@/ui/domain-components/GenericStoryTree';
+import { useDraggable } from '@/ui/hooks';
 import * as S from './styles';
 import * as GS from '@/ui/styles/global';
-import { GenericStoryTree_VariantA } from '@/ui/domain-components/GenericStoryTree';
 
 export function TreeDetails(): ReactElement {
+  const dragHandleRef = useDraggable<HTMLDivElement>();
+
   const {
     generateChildrenTreeNodes,
     insertTreeNode,
@@ -20,8 +25,8 @@ export function TreeDetails(): ReactElement {
 
   return (
     <GS.Unscrollable>
-      <S.TreeDetails>
-        <GenericStoryTree_VariantA
+      <S.TreeDetails ref={dragHandleRef}>
+        <GenericStoryTree
           generateChildrenTreeNodes={generateChildrenTreeNodes}
           insertTreeNode={insertTreeNode}
           removeTreeNode={removeTreeNode}
