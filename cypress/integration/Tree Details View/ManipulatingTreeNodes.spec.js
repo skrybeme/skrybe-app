@@ -1,3 +1,5 @@
+/// <reference types="cypress" />
+
 const { lorem } = require("faker");
 
 context(`Adding, removing and generating Story Tree nodes`, () => {
@@ -5,223 +7,134 @@ context(`Adding, removing and generating Story Tree nodes`, () => {
     cy.viewport(1440, 1024);
 
     cy.visit('/');
-
-    cy.get('button').eq(1).click();
-    cy.get('button').eq(3).click();
-    cy.get('button').eq(5).click();
-    cy.get('button').eq(10).click();
   });
 
-  it(`allows to add story tree node and persists the change`, () => {
-    cy.get('[data-testid=card-teaser]').eq(0)
+  it(`adds card and persists the change`, () => {
+    cy.get('[data-testid=generic-story-tree]')
+      .find('[data-testid=generic-story-tree]').eq(0)
+      .find('[data-testid=card-placeholder-button]').eq(0)
+      .click({ force: true })
+      
+    cy.get('[data-testid=generic-story-tree]')
+      .find('[data-testid=generic-story-tree]').eq(1)
+      .find('[data-testid=card-placeholder-button]').eq(1)
+      .click({ force: true });
+
+    cy.get('[data-testid=generic-story-tree]')
+      .find('[data-testid=generic-story-tree]').eq(1)
+      .find('[data-testid=card-placeholder-button]').eq(2)
+      .click({ force: true });
+
+    cy.get('body').click();
+
+    cy.get('[data-testid=generic-story-tree]')
+      .find('[data-testid=generic-story-tree]').eq(0)
+      .find('[data-testid=card]').eq(0)
       .should('be.visible')
-      .and('have.text', 'Your story begins here.')
-      .get('[data-testid=card-teaser]').eq(1)
+      .and('have.text', '');
+
+    cy.get('[data-testid=generic-story-tree]')
+      .find('[data-testid=generic-story-tree]').eq(3)
+      .find('[data-testid=card]').eq(0)
       .should('be.visible')
-      .and('have.text', '')
-      .get('[data-testid=card-teaser]').eq(2)
+      .and('have.text', '');
+
+    cy.get('[data-testid=generic-story-tree]')
+      .find('[data-testid=generic-story-tree]').eq(1)
+      .find('[data-testid=generic-story-tree]').eq(0)
+      .find('[data-testid=card]').eq(0)
       .should('be.visible')
-      .and('have.text', '')
-      .get('[data-testid=card-teaser]').eq(3)
-      .should('be.visible')
-      .and('have.text', '')
-      .get('[data-testid=card-teaser]').eq(4)
-      .should('be.visible')
-      .and('have.text', '')
-      .get('[data-testid=card-teaser]').eq(5)
-      .should('be.visible')
-      .and('have.text', 'It can go in one direction.')
-      .get('[data-testid=card-teaser]').eq(6)
-      .should('be.visible')
-      .and('have.text', 'It can go the other direction.')
-      .get('[data-testid=card-teaser]').eq(7)
-      .should('be.visible')
-      .and('have.text', 'The other direction has one scenario.')
-      .get('[data-testid=card-teaser]').eq(8)
-      .should('be.visible')
-      .and('have.text', 'And other scenario.');
+      .and('have.text', '');
 
     cy.reload();
 
-    cy.get('[data-testid=card-teaser]').eq(0)
+    cy.get('[data-testid=generic-story-tree]')
+      .find('[data-testid=generic-story-tree]').eq(0)
+      .find('[data-testid=card]').eq(0)
       .should('be.visible')
-      .and('have.text', 'Your story begins here.')
-      .get('[data-testid=card-teaser]').eq(1)
+      .and('have.text', '');
+
+    cy.get('[data-testid=generic-story-tree]')
+      .find('[data-testid=generic-story-tree]').eq(3)
+      .find('[data-testid=card]').eq(0)
       .should('be.visible')
-      .and('have.text', '')
-      .get('[data-testid=card-teaser]').eq(2)
+      .and('have.text', '');
+
+    cy.get('[data-testid=generic-story-tree]')
+      .find('[data-testid=generic-story-tree]').eq(1)
+      .find('[data-testid=generic-story-tree]').eq(0)
+      .find('[data-testid=card]').eq(0)
       .should('be.visible')
-      .and('have.text', '')
-      .get('[data-testid=card-teaser]').eq(3)
-      .should('be.visible')
-      .and('have.text', '')
-      .get('[data-testid=card-teaser]').eq(4)
-      .should('be.visible')
-      .and('have.text', '')
-      .get('[data-testid=card-teaser]').eq(5)
-      .should('be.visible')
-      .and('have.text', 'It can go in one direction.')
-      .get('[data-testid=card-teaser]').eq(6)
-      .should('be.visible')
-      .and('have.text', 'It can go the other direction.')
-      .get('[data-testid=card-teaser]').eq(7)
-      .should('be.visible')
-      .and('have.text', 'The other direction has one scenario.')
-      .get('[data-testid=card-teaser]').eq(8)
-      .should('be.visible')
-      .and('have.text', 'And other scenario.');
+      .and('have.text', '');
   });
 
-  it(`allows to inline edit card header and persists the change`, () => {
-    const texts = [
-      lorem.sentences(2),
-      lorem.sentences(2),
-      lorem.sentences(2)
-    ];
+  it(`adds card with text and persists the change`, () => {
+    const text = lorem.words();
 
-    cy.get('[data-testid=card-teaser]').eq(4)
-      .click()
-      .type(texts[0])
-      .get('[data-testid=card-teaser]').eq(5).find('[contenteditable]')
-      .click()
-      .clear()
-      .type(texts[1])
-      .get('[data-testid=card-teaser]').eq(1)
-      .click()
-      .type(texts[2])
-      .get('body')
-      .click();
+    cy.get('[data-testid=generic-story-tree]')
+      .find('[data-testid=generic-story-tree]').eq(0)
+      .find('[data-testid=card-placeholder-button]').eq(0)
+      .click({ force: true });
 
-    cy.get('[data-testid=card-teaser]').eq(0)
-      .should('be.visible')
-      .and('have.text', 'Your story begins here.')
-      .get('[data-testid=card-teaser]').eq(1)
-      .should('be.visible')
-      .and('have.text', texts[2])
-      .get('[data-testid=card-teaser]').eq(2)
-      .should('be.visible')
-      .and('have.text', '')
-      .get('[data-testid=card-teaser]').eq(3)
-      .should('be.visible')
-      .and('have.text', '')
-      .get('[data-testid=card-teaser]').eq(4)
-      .should('be.visible')
-      .and('have.text', texts[0])
-      .get('[data-testid=card-teaser]').eq(5)
-      .should('be.visible')
-      .and('have.text', texts[1])
-      .get('[data-testid=card-teaser]').eq(6)
-      .should('be.visible')
-      .and('have.text', 'It can go the other direction.')
-      .get('[data-testid=card-teaser]').eq(7)
-      .should('be.visible')
-      .and('have.text', 'The other direction has one scenario.')
-      .get('[data-testid=card-teaser]').eq(8)
-      .should('be.visible')
-      .and('have.text', 'And other scenario.');
+    cy.focused().type(text);
+
+    cy.get('body').click();
+
+    cy.get('[data-testid=generic-story-tree]')
+      .find('[data-testid=generic-story-tree]').eq(0)
+      .find('[data-testid=card]').eq(0)
+      .should('have.text', text);
 
     cy.reload();
 
-    cy.get('[data-testid=card-teaser]').eq(0)
-      .should('be.visible')
-      .and('have.text', 'Your story begins here.')
-      .get('[data-testid=card-teaser]').eq(1)
-      .should('be.visible')
-      .and('have.text', texts[2])
-      .get('[data-testid=card-teaser]').eq(2)
-      .should('be.visible')
-      .and('have.text', '')
-      .get('[data-testid=card-teaser]').eq(3)
-      .should('be.visible')
-      .and('have.text', '')
-      .get('[data-testid=card-teaser]').eq(4)
-      .should('be.visible')
-      .and('have.text', texts[0])
-      .get('[data-testid=card-teaser]').eq(5)
-      .should('be.visible')
-      .and('have.text', texts[1])
-      .get('[data-testid=card-teaser]').eq(6)
-      .should('be.visible')
-      .and('have.text', 'It can go the other direction.')
-      .get('[data-testid=card-teaser]').eq(7)
-      .should('be.visible')
-      .and('have.text', 'The other direction has one scenario.')
-      .get('[data-testid=card-teaser]').eq(8)
-      .should('be.visible')
-      .and('have.text', 'And other scenario.');
+    cy.get('[data-testid=generic-story-tree]')
+      .find('[data-testid=generic-story-tree]').eq(0)
+      .find('[data-testid=card]').eq(0)
+      .should('have.text', text);
   });
 
-  it(`allows to remove tree node with its subcards and persists the change`, () => {
-    cy.get('button').eq(2)
-      .click()
-      .get('[data-testid="picker-card-teaser-options"]').eq(1)
-      .find('[data-testid="picker-item"]').eq(1)
-      .click()
-      .parent().parent()
-      .find('[data-testid="picker-item"]').eq(3)
-      .click();
+  it(`updates header content of existing card`, () => {
+    const text = lorem.words();
 
-    // Cancel
-    cy.get('button').eq(5)
-      .click()
-      .get('[data-testid="picker-card-teaser-options"]').eq(2)
-      .find('[data-testid="picker-item"]').eq(1)
-      .click()
-      .parent().parent()
-      .find('[data-testid="picker-item"]').eq(4)
-      .click()
-      .get('body')
-      .click();
+    cy.get('[data-testid=generic-story-tree]')
+      .find('[data-testid=generic-story-tree]').eq(1)
+      .find('[data-testid=editable]').eq(1)
+      .click({ force: true });
 
-    cy.get('button').eq(2)
-      .click()
-      .get('[data-testid="picker-card-teaser-options"]').eq(1)
-      .find('[data-testid="picker-item"]').eq(1)
-      .click()
-      .parent().parent()
-      .find('[data-testid="picker-item"]').eq(3)
-      .click();
+    cy.focused().clear().type(text);
 
-      cy.get('[data-testid=card-teaser]').eq(0)
-      .should('be.visible')
-      .and('have.text', 'Your story begins here.')
-      .get('[data-testid=card-teaser]').eq(1)
-      .should('be.visible')
-      .and('have.text', 'It can go in one direction.')
-      .get('[data-testid=card-teaser]').eq(2)
-      .should('be.visible')
-      .and('have.text', 'It can go the other direction.')
-      .get('[data-testid=card-teaser]').eq(3)
-      .should('be.visible')
-      .and('have.text', '')
-      .get('[data-testid=card-teaser]').eq(4)
-      .should('be.visible')
-      .and('have.text', 'The other direction has one scenario.')
-      .get('[data-testid=card-teaser]').eq(5)
-      .should('be.visible')
-      .and('have.text', 'And other scenario.');
+    cy.get('body').click();
 
     cy.reload();
 
-    cy.get('[data-testid=card-teaser]').eq(0)
-      .should('be.visible')
-      .and('have.text', 'Your story begins here.')
-      .get('[data-testid=card-teaser]').eq(1)
-      .should('be.visible')
-      .and('have.text', 'It can go in one direction.')
-      .get('[data-testid=card-teaser]').eq(2)
-      .should('be.visible')
-      .and('have.text', 'It can go the other direction.')
-      .get('[data-testid=card-teaser]').eq(3)
-      .should('be.visible')
-      .and('have.text', '')
-      .get('[data-testid=card-teaser]').eq(4)
-      .should('be.visible')
-      .and('have.text', 'The other direction has one scenario.')
-      .get('[data-testid=card-teaser]').eq(5)
-      .should('be.visible')
-      .and('have.text', 'And other scenario.');
+    cy.get('[data-testid=generic-story-tree]')
+      .find('[data-testid=generic-story-tree]').eq(1)
+      .find('[data-testid=editable]').eq(1)
+      .should('have.text', text);
+  });
+  
+  it(`removes card with its descendants and persists the change`, () => {
+    cy.get('[data-testid=generic-story-tree]')
+      .find('[data-testid=generic-story-tree]').eq(1)
+      .find('[data-testid=picker-card-options]').eq(0)
+      .click()
+      .contains('Remove card...')
+      .click();
+
+    cy.get('[data-testid=generic-story-tree]')
+      .find('[data-testid=generic-story-tree]').eq(1)
+      .find('[data-testid=picker-card-options]').eq(0)
+      .contains('Yes')
+      .click();
+
+    cy.get('[data-testid=generic-story-tree]')
+      .should('have.length', 2);
+
+    cy.reload();
+
+    cy.get('[data-testid=generic-story-tree]')
+      .should('have.length', 2);
   });
 
-  it(`allows to geenrate subcards and persists the change`);
+  it(`generates subcards and persists the change`);
 });

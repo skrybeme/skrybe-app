@@ -8,7 +8,10 @@ export function CardTeaserPlaceholder_VariantA({
 }: CardTeaserPlaceholderProps): React.ReactElement<CardTeaserPlaceholderProps> {
   return (
     <S.CardTeaserPlaceholder_VariantA>
-      <S.Button onClick={onClick}>
+      <S.Button
+         data-testid="card-placeholder-button"
+         onClick={onClick}
+        >
         <span>{label}</span>
       </S.Button>
     </S.CardTeaserPlaceholder_VariantA>

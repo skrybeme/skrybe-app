@@ -1,16 +1,10 @@
 import React, { ReactElement, useEffect } from 'react';
-import {
-  GenericCardTeaserTree_VariantA
-} from '@/ui/domain-components/GenericCardTeaserTree';
-import { useDraggable } from '@/ui/hooks';
 import { useTreeDetailsPresenter } from '@/ui/presenters';
 import * as S from './styles';
 import * as GS from '@/ui/styles/global';
 import { GenericStoryTree_VariantA } from '@/ui/domain-components/GenericStoryTree';
 
 export function TreeDetails(): ReactElement {
-  const dragHandleRef = useDraggable<HTMLDivElement>();
-
   const {
     generateChildrenTreeNodes,
     insertTreeNode,
@@ -26,7 +20,7 @@ export function TreeDetails(): ReactElement {
 
   return (
     <GS.Unscrollable>
-      <S.TreeDetails ref={dragHandleRef}>
+      <S.TreeDetails>
         <GenericStoryTree_VariantA
           generateChildrenTreeNodes={generateChildrenTreeNodes}
           insertTreeNode={insertTreeNode}
