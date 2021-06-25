@@ -1,6 +1,8 @@
 export { default as useClickOutside } from './useClickOutside';
 export { default as useContainer } from './useContainer';
+export { default as useBoundingRect } from './useBoundingRect';
 export { default as useDraggable } from './useDraggable';
+export { default as useEventListener } from './useEventListener';
 export { default as useLoadable } from './useLoadable';
 export { default as useToggle } from './useToggle';
 export { default as useMouseDown } from './useMouseDown';
