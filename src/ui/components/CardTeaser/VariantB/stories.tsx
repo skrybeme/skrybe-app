@@ -2,15 +2,23 @@ import React from 'react';
 import { CardTeaserProps } from '@/interfaces/props';
 import { Story } from '@storybook/react';
 import { action } from '@storybook/addon-actions'
-import { CardTeaser_VariantB } from '.';
-import { TagColor } from '@/entities/enums';
+import { CardTeaser_VariantB as CardTeaser } from '.';
 import { generateRandomTags } from '@/helpers';
+import * as GS from '@/ui/styles/global';
 
 export default {
   title: 'Common Components/CardTeaser/VariantB'
 }
 
-const Template: Story<CardTeaserProps> = (args) => <CardTeaser_VariantB {...args} />;
+const Template: Story<CardTeaserProps> = (args) => (
+  <GS.Center
+    bgColor='#5E489D'
+    horizontal
+    vertical
+  >
+    <CardTeaser {...args} />
+  </GS.Center>
+);
 
 const cardHeader =
   `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum

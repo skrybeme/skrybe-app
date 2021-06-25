@@ -1,24 +1,17 @@
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
 import { Themes } from '../src/ui/styles/theme';
-import * as GS from '../src/ui/styles/global';
 
 const StoryWrapper = ({ children }: React.PropsWithChildren<{}>) => (
   <ThemeProvider theme={Themes.purple}>
-    <GS.Center
-      bgColor='#5E489D'
-      horizontal
-      vertical
-    >
-      {children}
-    </GS.Center>
+    {children}
   </ThemeProvider>
 )
 
 export const decorators = [
   (Story: React.FC) => (
     <StoryWrapper>
-        <Story />
+      <Story />
     </StoryWrapper>
   )
 ];
