@@ -1,1 +1,2 @@
-export { useTreeDetailsPresenter } from '@/ui/presenters/useTreeDetailsPresenter';
+export { useCardDetailsPresenter } from './useCardDetailsPresenter';
+export { useTreeDetailsPresenter } from './useTreeDetailsPresenter';

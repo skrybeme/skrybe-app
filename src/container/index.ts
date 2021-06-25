@@ -6,6 +6,7 @@ import createStoryTreeRepo from '@/repository/StoryTreeRepo';
 import {
   GenerateChildrenTreeNodesUseCase
 } from '@/use-cases/GenerateChildrenTreeNodesUseCase';
+import { GetCardByIdUseCase } from '@/use-cases/GetCardByIdUseCase';
 import { GetTreeByIdUseCase } from '@/use-cases/GetTreeByIdUseCase';
 import { InsertTreeNodeUseCase } from '@/use-cases/InsertTreeNodeUseCase';
 import { RebindTreeNodeUseCase } from '@/use-cases/RebindTreeNodeUseCase';
@@ -22,6 +23,7 @@ container.load(new ContainerModule((bind) => {
 
     return {
       generateChildrenTreeNodes: new GenerateChildrenTreeNodesUseCase(treeRepo),
+      getCardById: new GetCardByIdUseCase(treeRepo),
       getTreeById: new GetTreeByIdUseCase(treeRepo),
       insertTreeNode: new InsertTreeNodeUseCase(treeRepo),
       rebindTreeNode: new RebindTreeNodeUseCase(treeRepo),

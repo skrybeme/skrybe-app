@@ -27,7 +27,7 @@ describe(`useTreeDetailsPresenter`, () => {
         expect(result.current.root).toEqual({
           data: null,
           isError: false,
-          isLoading: false,
+          isLoading: false
         });
       }
     );
