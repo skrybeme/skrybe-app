@@ -25,7 +25,11 @@ export function PickerCardTeaserOptions_VariantB({
   const onCancel = React.useCallback((open: IPickerContext['open']) => {
     open('default');
     close();
-  }, [close])
+  }, [close]);
+
+  const onTriggerClick = React.useCallback(() => {
+    toggle();
+  }, [toggle]);
 
   React.useEffect(() => {
     onToggle?.(isOpen);
@@ -35,7 +39,7 @@ export function PickerCardTeaserOptions_VariantB({
     <S.PickerCardTeaserOptions_VariantB data-testid="picker-card-options">
       <S.Trigger
         isOpen={isOpen}
-        onClick={toggle}
+        onClick={onTriggerClick}
       >
         <i className="fa fa-ellipsis-v" />
       </S.Trigger>
