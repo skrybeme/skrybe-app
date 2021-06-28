@@ -25,7 +25,9 @@ export class GenerateChildrenTreeNodesUseCase implements IExecutable<
       return Promise.resolve(null);
     }
     
-    const sentences = parent.body.match(/\b((?!=|\?|\.).)+(.)\b/g);
+    const sentences = request.source === 'body'
+      ? parent.body.match(/\b((?!=|\?|\.).)+(.)\b/g)
+      : parent.header.match(/\b((?!=|\?|\.).)+(.)\b/g);
 
     let cards: Array<StoryCard> = [];
 
