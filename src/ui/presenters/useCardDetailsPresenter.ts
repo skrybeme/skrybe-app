@@ -1,6 +1,6 @@
 import React from 'react';
 import { CardDetailsPresenterProps, CardDetailsPresenterResult } from '@/interfaces/presenters'
-import { StoryCardViewModel } from '@/interfaces/view-models/StoryCardViewModel';
+import { StoryCardViewModel } from '@/interfaces/view-models';
 import { useContainer, useLoadable } from '../hooks';
 import { asyncNoop } from '@/utils';
 import { IUseCases } from '@/interfaces';
