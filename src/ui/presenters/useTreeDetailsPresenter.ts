@@ -5,7 +5,7 @@ import { StoryTreeMap } from '@/mappers';
 import { TreeDetailsPresenterResult } from '@/interfaces/presenters';
 import { StoryTreeViewModel } from '@/interfaces/view-models';
 import * as SYMBOL from '@/container/symbols';
-import { asyncNoop, noop } from '@/utils';
+import { asyncNoop } from '@/utils';
 
 // This is temporary.
 // It is going to change along with listenForTreeDetails use case implementation.

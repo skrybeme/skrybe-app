@@ -1,4 +1,5 @@
 import { GenericStoryTreeProps } from '@/interfaces/props';
+import { SidebarContext } from '@/ui/components/Sidebar/context';
 import React from 'react';
 
 export interface GenericStoryTreeHookResult {
@@ -12,6 +13,7 @@ export interface GenericStoryTreeHookResult {
     }
   ) => () => void;
   onOptionsPickerToggle: (isOpen: boolean) => void;
+  openCard: (nodeId: string) => () => void;
   removeCard: (nodeId: string) => () => void;
   updateCard: (nodeId: string) => (header: string) => void;
 }
@@ -61,11 +63,22 @@ export function useGenericStoryTree({
     setIsOptionsPickerOpen(isOpen);
   }, []);
 
+  const { open, setCardId } = React.useContext(SidebarContext);
+
+  const openCard = React.useCallback((nodeId: string) => {
+    return () => {
+      setCardId(nodeId);
+
+      open();
+    };
+  }, [open, setCardId]);
+
   return {
     generateSubcards,
     isOptionsPickerOpen,
     insertCard,
     onOptionsPickerToggle,
+    openCard,
     removeCard,
     updateCard
   };

@@ -2,15 +2,24 @@ import React from 'react';
 import { GenericStoryTreeProps } from '@/interfaces/props';
 import { Story } from '@storybook/react';
 import { action } from '@storybook/addon-actions'
-import { GenericStoryTree_VariantA } from '.';
+import { GenericStoryTree_VariantA as GenericStoryTree } from '.';
 import { lorem } from 'faker';
 import { TagColor } from '@/entities/enums';
+import * as GS from '@/ui/styles/global';
 
 export default {
   title: 'Domain Components/GenericStoryTree/VariantA'
 }
 
-const Template: Story<GenericStoryTreeProps> = (args) => <GenericStoryTree_VariantA {...args} />;
+const Template: Story<GenericStoryTreeProps> = (args) => (
+  <GS.Center
+    bgColor='#5E489D'
+    horizontal
+    vertical
+  >
+     <GenericStoryTree {...args} />
+  </GS.Center>
+);
 
 export const Default = Template.bind({});
 Default.args = {

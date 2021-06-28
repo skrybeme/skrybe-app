@@ -24,17 +24,31 @@ describe(`UpdateTreeNodeUseCase`, () => {
 
   it(`updates tree node with given props`, async () => {
     await updateTreeNode.execute({
+      body: "Updated body text",
       header: "Updated header text",
       id: root.id,
       treeId: tree.id
     });
 
+    expect(tree.getRoot()!.body).toEqual("Updated body text");
     expect(tree.getRoot()!.header).toEqual("Updated header text");
+  });
+
+  it(`updates tree node with partial props`, async () => {
+    await updateTreeNode.execute({
+      header: "Another updated header text",
+      id: root.id,
+      treeId: tree.id
+    });
+
+    expect(tree.getRoot()!.body).toEqual("Updated body text");
+    expect(tree.getRoot()!.header).toEqual("Another updated header text");
   });
 
   it("persists updated tree to repository", async () => {
     const persistedTree = await inMemoryStoryTreeRepo.getById(tree.id);
 
-    expect(persistedTree!.getRoot()!.header).toEqual("Updated header text");
+    expect(persistedTree!.getRoot()!.body).toEqual("Updated body text");
+    expect(persistedTree!.getRoot()!.header).toEqual("Another updated header text");
   });
 });

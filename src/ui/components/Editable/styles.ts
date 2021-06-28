@@ -8,6 +8,17 @@ export const Editable = styled.div<Partial<EditableProps>>`
   flex: 1;
   outline: 0;
 
+  &:before {
+    color: #ccc;
+    pointer-events: none;
+  }
+
+  &:empty {
+    &:before {
+      content: "${props => props.placeholder}";
+    }
+  }
+
   ${(props) => props.isDisabled && css`
     user-select: none;
   `};

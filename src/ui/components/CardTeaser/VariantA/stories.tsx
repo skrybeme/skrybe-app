@@ -1,13 +1,22 @@
 import React from 'react';
 import { CardTeaser } from '.';
 import { CardTeaserProps } from '@/interfaces/props';
-import { Story } from '@storybook/react'
+import { Story } from '@storybook/react';
+import * as GS from '@/ui/styles/global';
 
 export default {
   title: 'Common Components/CardTeaser/VariantA'
 }
 
-const Template: Story<CardTeaserProps> = (args) => <CardTeaser {...args} />;
+const Template: Story<CardTeaserProps> = (args) => (
+  <GS.Center
+    bgColor='#5E489D'
+    horizontal
+    vertical
+  >
+     <CardTeaser {...args} />
+  </GS.Center>
+);
 
 const cardHeader =
   `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum

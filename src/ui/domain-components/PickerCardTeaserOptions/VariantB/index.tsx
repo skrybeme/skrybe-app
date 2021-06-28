@@ -6,6 +6,7 @@ import * as S from './styles';
 import { IPickerContext } from '@/interfaces';
 
 export function PickerCardTeaserOptions_VariantB({
+  onCardOpen,
   onGenerateChildren,
   onRemoveNode,
   onToggle
@@ -25,7 +26,16 @@ export function PickerCardTeaserOptions_VariantB({
   const onCancel = React.useCallback((open: IPickerContext['open']) => {
     open('default');
     close();
-  }, [close])
+  }, [close]);
+
+  const onTriggerClick = React.useCallback(() => {
+    toggle();
+  }, [toggle]);
+
+  const onCardOpenButtonClick = React.useCallback(() => {
+    onCardOpen?.();
+    close();
+  }, [close, onCardOpen]);
 
   React.useEffect(() => {
     onToggle?.(isOpen);
@@ -35,7 +45,7 @@ export function PickerCardTeaserOptions_VariantB({
     <S.PickerCardTeaserOptions_VariantB data-testid="picker-card-options">
       <S.Trigger
         isOpen={isOpen}
-        onClick={toggle}
+        onClick={onTriggerClick}
       >
         <i className="fa fa-ellipsis-v" />
       </S.Trigger>
@@ -46,7 +56,7 @@ export function PickerCardTeaserOptions_VariantB({
         <PickerTab name="default">
         <PickerItem
             hoverable
-            onClick={emitGenerateChildren}
+            onClick={onCardOpenButtonClick}
           >
             Open card
           </PickerItem>

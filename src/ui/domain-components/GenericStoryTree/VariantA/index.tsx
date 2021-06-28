@@ -19,7 +19,13 @@ export function GenericStoryTree_VariantA({
   style,
   updateTreeNode
 }: GenericStoryTreeProps): React.ReactElement<GenericStoryTreeProps> {
-  const { generateSubcards, insertCard, removeCard, updateCard } = useGenericStoryTree({
+  const {
+    generateSubcards,
+    insertCard,
+    openCard,
+    removeCard,
+    updateCard
+  } = useGenericStoryTree({
     generateChildrenTreeNodes,
     insertTreeNode,
     removeTreeNode,
@@ -74,6 +80,7 @@ export function GenericStoryTree_VariantA({
               tags={root.tags || []}
             />
             <PickerCardTeaserOptions
+              onCardOpen={openCard(root.id)}
               onGenerateChildren={generateSubcards(root.id)}
               onRemoveNode={removeCard(root.id)}
               onToggle={toggle}

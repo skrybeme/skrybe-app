@@ -7,6 +7,7 @@ const container = new Container();
 
 const mocks = {
   generateChildrenTreeNodesUseCaseExecutionMock: jest.fn(),
+  getCardByIdUseCaseExecutionMock: jest.fn(),
   getTreeByIdUseCaseExecutionMock: jest.fn(),
   insertTreeNodeUseCaseExecutionMock: jest.fn(),
   rebindTreeNodeUseCaseExecutionMock: jest.fn(),
@@ -20,6 +21,7 @@ container.load(new ContainerModule((bind) => {
       generateChildrenTreeNodes: {
         execute: mocks.generateChildrenTreeNodesUseCaseExecutionMock
       },
+      getCardById: { execute: mocks.getCardByIdUseCaseExecutionMock },
       getTreeById: { execute: mocks.getTreeByIdUseCaseExecutionMock },
       insertTreeNode: { execute: mocks.insertTreeNodeUseCaseExecutionMock },
       rebindTreeNode: { execute: mocks.rebindTreeNodeUseCaseExecutionMock },

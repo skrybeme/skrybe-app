@@ -25,6 +25,7 @@ export class UpdateTreeNodeUseCase implements IExecutable<
       return Promise.resolve(null);
     }
 
+    node.body = request.body !== undefined ? request.body : node.body;
     node.header = request.header !== undefined ? request.header : node.header;
 
     await this._treeRepo.save(tree);
