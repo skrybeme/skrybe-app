@@ -3,7 +3,7 @@ import { SidebarContext } from '@/ui/components/Sidebar/context';
 import React from 'react';
 
 export interface GenericStoryTreeHookResult {
-  generateSubcards: (nodeId: string) => () => void;
+  generateSubcards: (nodeId: string) => (source: 'body' | 'header') => void;
   isOptionsPickerOpen: boolean;
   insertCard: (
     parentNodeId?: string,
@@ -24,11 +24,14 @@ export function useGenericStoryTree({
   removeTreeNode,
   updateTreeNode
 }: Omit<GenericStoryTreeProps, 'root'>): GenericStoryTreeHookResult {
-  const generateSubcards = React.useCallback((nodeId: string) => {
-    return (): void => {
-      generateChildrenTreeNodes(nodeId);
-    }
-  }, []);
+  const generateSubcards = React.useCallback(
+    (nodeId: string) => {
+      return (source: 'body' | 'header'): void => {
+        generateChildrenTreeNodes(source, nodeId);
+      }
+    },
+    []
+  );
 
   const insertCard = React.useCallback(
     (

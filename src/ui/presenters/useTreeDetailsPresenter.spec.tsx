@@ -112,12 +112,13 @@ describe(`useTreeDetailsPresenter`, () => {
           });
 
           act(() => {
-            result.current.generateChildrenTreeNodes(rootChild.id);
+            result.current.generateChildrenTreeNodes('body', rootChild.id);
           });
 
           expect(mocks.generateChildrenTreeNodesUseCaseExecutionMock).toBeCalledWith({
             parentNodeId: rootChild.id,
             placeBeforeNodeId: undefined,
+            source: 'body',
             treeId: 'c0773e64-3a3a-11eb-adc1-0242ac120002',
           });
 

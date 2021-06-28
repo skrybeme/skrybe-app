@@ -13,10 +13,23 @@ export function PickerCardTeaserOptions_VariantB({
 }: PickerCardTeaserOptionsProps): React.ReactElement<PickerCardTeaserOptionsProps> {
   const { close, isOpen, toggle } = useToggle();
 
-  const emitGenerateChildren = React.useCallback(() => {
-    onGenerateChildren?.();
-    close();
-  }, [close, onGenerateChildren]);
+  const emitGenerateChildrenFromBody = React.useCallback(
+    (open: IPickerContext['open']) => {
+      onGenerateChildren?.('body');
+      open('default');
+      close();
+    },
+    [close, onGenerateChildren]
+  );
+
+  const emitGenerateChildrenFromHeader = React.useCallback(
+    (open: IPickerContext['open']) => {
+      onGenerateChildren?.('header');
+      open('default');
+      close();
+    },
+    [close, onGenerateChildren]
+  );
 
   const emitRemoveNode = React.useCallback(() => {
     onRemoveNode?.();
@@ -62,7 +75,7 @@ export function PickerCardTeaserOptions_VariantB({
           </PickerItem>
           <PickerItem
             hoverable
-            onClick={emitGenerateChildren}
+            onClick={open => open('generate')}
           >
             Generate subcards...
           </PickerItem>
@@ -71,6 +84,23 @@ export function PickerCardTeaserOptions_VariantB({
             onClick={open => open('remove')}
           >
             Remove card...
+          </PickerItem>
+        </PickerTab>
+        <PickerTab name="generate">
+          <PickerItem onClick={open => open('default')}>
+            Back
+          </PickerItem>
+          <PickerItem
+            hoverable
+            onClick={emitGenerateChildrenFromBody}
+          >
+            Generate from body
+          </PickerItem>
+          <PickerItem
+            hoverable
+            onClick={emitGenerateChildrenFromHeader}
+          >
+            Generate from header
           </PickerItem>
         </PickerTab>
         <PickerTab name="remove">

@@ -2,7 +2,11 @@ import ILoadable from "../ILoadable";
 import { StoryTreeViewModel } from "../view-models";
 
 export default interface TreeDetailsPresenterResult {
-  generateChildrenTreeNodes: (nodeId: string, placeBeforeNodeId?: string) => void;
+  generateChildrenTreeNodes: (
+    source: 'body' | 'header',
+    nodeId: string,
+    placeBeforeNodeId?: string
+  ) => void;
   insertTreeNode: (parentNodeId: string, place: {
     afterOrBefore: 'after' | 'before',
     nodeId: string

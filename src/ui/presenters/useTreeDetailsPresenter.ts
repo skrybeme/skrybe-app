@@ -49,11 +49,12 @@ export function useTreeDetailsPresenter(): TreeDetailsPresenterResult {
 
   return {
     generateChildrenTreeNodes: useCallback(
-      async (nodeId: string, placeBeforeNodeId?: string) => {
+      async (source: 'body' | 'header', nodeId: string, placeBeforeNodeId?: string) => {
         handleUseCase(async () => {
           await generateChildrenTreeNodes.execute({
             parentNodeId: nodeId,
             placeBeforeNodeId,
+            source,
             treeId: 'c0773e64-3a3a-11eb-adc1-0242ac120002'
           });
         });
