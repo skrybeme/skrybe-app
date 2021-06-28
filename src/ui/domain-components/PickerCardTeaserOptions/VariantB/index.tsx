@@ -6,6 +6,7 @@ import * as S from './styles';
 import { IPickerContext } from '@/interfaces';
 
 export function PickerCardTeaserOptions_VariantB({
+  onCardOpen,
   onGenerateChildren,
   onRemoveNode,
   onToggle
@@ -31,6 +32,11 @@ export function PickerCardTeaserOptions_VariantB({
     toggle();
   }, [toggle]);
 
+  const onCardOpenButtonClick = React.useCallback(() => {
+    onCardOpen?.();
+    close();
+  }, [close, onCardOpen]);
+
   React.useEffect(() => {
     onToggle?.(isOpen);
   }, [isOpen]);
@@ -50,7 +56,7 @@ export function PickerCardTeaserOptions_VariantB({
         <PickerTab name="default">
         <PickerItem
             hoverable
-            onClick={emitGenerateChildren}
+            onClick={onCardOpenButtonClick}
           >
             Open card
           </PickerItem>

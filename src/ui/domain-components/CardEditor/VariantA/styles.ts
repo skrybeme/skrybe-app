@@ -2,11 +2,6 @@ import { Editable } from "@/ui/components/Editable/styles";
 import { px, Space } from "@/ui/styles/spacing";
 import styled from "styled-components";
 
-export const CardEditor_VariantA = styled.div`
-  background-color: #fff;
-  width: 100%;
-`;
-
 export const Fixed = styled.div`
   background-color: #fff;
   left: 0;
@@ -31,6 +26,7 @@ export const ClippedEditableHeader = styled.div`
     font-weight: 400;
     line-height: 25px;
     overflow: hidden;
+    padding: 0 128px;
     text-overflow: ellipsis;
     transition: color 0.05s ease-in-out;
     white-space: nowrap;
@@ -48,35 +44,30 @@ export const ClippedEditableHeader = styled.div`
 `;
 
 export const Scrollable = styled.div`
-  padding-bottom: ${px(Space.XXXXL)};
-  padding-top: ${px(Space.XXXXL)};
-`
-
-export const Container = styled.div`
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 768px;
-  min-width: 512px;
-  width: 100%;
+  margin-top: -57px;
+  min-height: 100%;
+  padding: 128px;
 `;
 
 export const EditableHeader = styled.div`
   ${Editable} {
     color: #111;
-    font-size: 28px;
+    font-size: 22px;
     font-weight: 600;
-    line-height: 42px;
+    line-height: 34px;
   }
 `;
 
 export const EditableBody = styled.div`
+  height: 100%;
   padding-top: ${px(Space.XXXL)};
 
   ${Editable} {
     color: #111;
-    font-size: 20px;
+    font-size: 16px;
     font-weight: 400;
-    line-height: 40px;
+    height: 100%;
+    line-height: 32px;
 
     p {
       margin: 0;

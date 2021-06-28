@@ -3,6 +3,7 @@ import { CardEditorProps } from '@/interfaces/props';
 import { Editable } from '@/ui/components/Editable';
 import { useHeaderVisibility } from '../useHeaderVisibility';
 import * as S from './styles';
+import { ScrollableContext } from '@/ui/components/Sidebar';
 
 export function CardEditor_VariantA({
   body = '',
@@ -11,59 +12,74 @@ export function CardEditor_VariantA({
 }: CardEditorProps): React.ReactElement {
   const [value, setValue] = React.useState({ body, header });
 
+  const sidebarContext = React.useContext(ScrollableContext);
+
   const ref = React.useRef(null);
 
   const { headerVisible } = useHeaderVisibility(ref, {
+    containerRef: sidebarContext && sidebarContext.ref ? sidebarContext.ref : undefined,
     threshold: 0
   });
 
   const onEditableChange = React.useCallback(
-    (party: 'body' | 'header') => (value: string) => {
+    (party: 'body' | 'header') => (val: string) => {
       setValue((state) => ({
         ...state,
-        [party]: value
+        [party]: val
       }));
+
+      onChange?.({
+        ...value,
+        [party]: val
+      });
     },
-    [setValue]
+    [setValue, value]
   );
 
   useEffect(() => {
-    onChange?.(value);
-  }, [value]);
+    setValue((state) => ({
+      ...state,
+      body
+    }));
+  }, [body]);
+
+  useEffect(() => {
+    setValue((state) => ({
+      ...state,
+      header
+    }));
+  }, [header]);
 
   return (
-    <S.CardEditor_VariantA>
+    <>
       <S.Fixed className={headerVisible ? "" : "visible"}>
-        <S.Container>
-          <S.ClippedEditableHeader data-testid="clipped-editable-header">
-            <Editable
-              handleBlur={onEditableChange('header')}
-              placeholder="Untitled card"
-              value={value.header || ""}
-            />
-          </S.ClippedEditableHeader>
-        </S.Container>
+        <S.ClippedEditableHeader data-testid="clipped-editable-header">
+          <Editable
+            handleBlur={onEditableChange('header')}
+            placeholder="Untitled card"
+            value={value.header || ""}
+          />
+        </S.ClippedEditableHeader>
       </S.Fixed>
       <S.Scrollable>
-        <S.Container>
-          <S.EditableHeader
-            data-testid="main-editable-header"
-            ref={ref}
-          >
-            <Editable
-              handleBlur={onEditableChange('header')}
-              placeholder="Untitled card"
-              value={value.header || ""}
-            />
-          </S.EditableHeader>
-          <S.EditableBody data-testid="editable-body">
-            <Editable
-              handleBlur={onEditableChange('body')}
-              value={body || ""}
-            />
-          </S.EditableBody>
-        </S.Container>
+        <S.EditableHeader
+          data-testid="main-editable-header"
+          ref={ref}
+        >
+          <Editable
+            handleBlur={onEditableChange('header')}
+            placeholder="Untitled card"
+            value={value.header || ""}
+          />
+        </S.EditableHeader>
+        <S.EditableBody data-testid="editable-body">
+          <Editable
+            handleBlur={onEditableChange('body')}
+            placeholder="Type here"
+            value={body || ""}
+          />
+        </S.EditableBody>
       </S.Scrollable>
-    </S.CardEditor_VariantA>
+    </>
   );
 }
