@@ -9,6 +9,8 @@ export { default as IModalContext } from './IModalContext';
 export { default as IPersistable } from './IPersistable';
 export { default as IPickerContext } from './IPickerContext';
 export { default as IPoint } from './IPoint';
+export { default as IScrollableContext } from './IScrollableContext';
+export { default as ISidebarContext } from './ISidebarContext';
 export { default as IStoryCard } from './IStoryCard';
 export { default as IStoryCardProps } from './IStoryCardProps';
 export { default as IStoryTreeDataSource } from './IStoryTreeDataSource';
