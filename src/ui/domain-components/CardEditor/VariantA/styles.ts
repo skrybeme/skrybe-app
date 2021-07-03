@@ -1,6 +1,7 @@
 import { Editable } from "@/ui/components/Editable/styles";
 import { px, Space } from "@/ui/styles/spacing";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+import { EditableTagsPicker } from "../../EditableTagsPicker/styles";
 
 export const Fixed = styled.div`
   background-color: #fff;
@@ -17,6 +18,10 @@ export const Fixed = styled.div`
     transform: none;
     transition: none;
   }
+`;
+
+export const TagEditorContainer = styled.div`
+  height: 40px;
 `;
 
 export const ClippedEditableHeader = styled.div`
@@ -47,6 +52,10 @@ export const Scrollable = styled.div`
   margin-top: -57px;
   min-height: 100%;
   padding: 128px;
+
+  ${EditableTagsPicker} {
+    margin-left: -${px(Space.M)};
+  }
 `;
 
 export const EditableHeader = styled.div`

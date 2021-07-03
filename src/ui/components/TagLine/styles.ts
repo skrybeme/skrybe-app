@@ -5,7 +5,6 @@ import styled, { css } from 'styled-components';
 
 export const TagLine = styled.div`
   display: flex;
-  padding: 0 ${px(Space.M)} ${px(Space.M)};
 `;
 
 interface TagProps {

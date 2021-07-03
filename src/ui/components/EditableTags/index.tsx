@@ -24,8 +24,6 @@ export function EditableTags({
     onClick?.(tag);
   }, [onClick]);
 
-  console.log(tags)
-
   return (
     <S.EditableTags>
       {tags.map((tag) => (

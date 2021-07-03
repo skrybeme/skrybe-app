@@ -2,8 +2,9 @@ import React, { useEffect } from 'react';
 import { CardEditorProps } from '@/interfaces/props';
 import { Editable } from '@/ui/components/Editable';
 import { useHeaderVisibility } from '../useHeaderVisibility';
-import * as S from './styles';
 import { ScrollableContext } from '@/ui/components/Sidebar';
+import { EditableTagsPicker } from '../../EditableTagsPicker';
+import * as S from './styles';
 
 export function CardEditor_VariantA({
   body = '',
@@ -62,6 +63,9 @@ export function CardEditor_VariantA({
         </S.ClippedEditableHeader>
       </S.Fixed>
       <S.Scrollable>
+        <S.TagEditorContainer>
+          <EditableTagsPicker />
+        </S.TagEditorContainer>
         <S.EditableHeader
           data-testid="main-editable-header"
           ref={ref}
