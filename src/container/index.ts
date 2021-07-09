@@ -32,7 +32,7 @@ container.load(new ContainerModule((bind) => {
       insertTreeNode: new InsertTreeNodeUseCase(treeRepo),
       rebindTreeNode: new RebindTreeNodeUseCase(treeRepo),
       removeTreeNode: new RemoveTreeNodeUseCase(treeRepo),
-      updateTreeNode: new UpdateTreeNodeUseCase(treeRepo)
+      updateTreeNode: new UpdateTreeNodeUseCase(tagsRepo, treeRepo)
     };
   });
 }));
