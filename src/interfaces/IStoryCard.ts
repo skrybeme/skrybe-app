@@ -10,6 +10,7 @@ interface IStoryCard extends IIdentifiable {
   addTag(tag: ITag): IStoryCard;
   removeTagById(id: UuidType): IStoryCard;
   replaceTag(oldTagId: UuidType, newTag: ITag): IStoryCard;
+  setTags(tags: ITag[]): IStoryCard;
 };
 
 export default IStoryCard;

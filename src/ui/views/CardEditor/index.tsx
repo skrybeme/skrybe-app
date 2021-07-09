@@ -1,11 +1,14 @@
 import React, { useEffect } from 'react';
 import { CardEditor_VariantA } from '@/ui/domain-components/CardEditor';
-import { useCardDetailsPresenter } from '@/ui/presenters';
+import { useCardDetailsPresenter, useTagCollectionPresenter } from '@/ui/presenters';
 
 export function CardEditor({ cardId }): React.ReactElement {
   const { card, triggerGetCardById, updateTreeNode } = useCardDetailsPresenter({ cardId });
 
+  const { tags, triggerGetTagsByTree } = useTagCollectionPresenter();
+
   useEffect(() => {
+    triggerGetTagsByTree('example-tree');
     triggerGetCardById(cardId);
   }, []);
 
@@ -15,6 +18,7 @@ export function CardEditor({ cardId }): React.ReactElement {
 
   return (
     <CardEditor_VariantA
+      availableTags={tags.data || []}
       body={card.data?.body}
       header={card.data?.header}
       onChange={handleChange}

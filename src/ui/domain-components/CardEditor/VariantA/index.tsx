@@ -7,6 +7,7 @@ import { EditableTagsPicker } from '../../EditableTagsPicker';
 import * as S from './styles';
 
 export function CardEditor_VariantA({
+  availableTags,
   body = '',
   header = '',
   onChange
@@ -64,7 +65,7 @@ export function CardEditor_VariantA({
       </S.Fixed>
       <S.Scrollable>
         <S.TagEditorContainer>
-          <EditableTagsPicker />
+          <EditableTagsPicker tags={availableTags} />
         </S.TagEditorContainer>
         <S.EditableHeader
           data-testid="main-editable-header"

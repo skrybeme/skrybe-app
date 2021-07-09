@@ -8,7 +8,10 @@ import { CardEditorProps } from '@/interfaces/props';
 const Fixture = (
   props?: Partial<CardEditorProps>,
 ): React.ReactElement<CardEditorProps> => (
-  <CardEditor_VariantA {...props} />
+  <CardEditor_VariantA
+    availableTags={[]}
+    {...props}
+  />
 );
 
 describe(`Domain Components: CardEditor_VariantA`, () => {

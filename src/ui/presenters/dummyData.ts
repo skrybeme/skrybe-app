@@ -1,4 +1,5 @@
 import StoryCard from '@/entities/StoryCard';
+import Tag from '@/entities/Tag';
 import Tree from '@/entities/Tree';
 import { generateRandomTags } from '@/helpers';
 import { lorem } from 'faker';
@@ -19,4 +20,11 @@ const rootChild = new StoryCard({
 tree.insert(root);
 tree.insert(rootChild);
 
-export { root, rootChild, tree }
+const tagCollection = [
+  new Tag(),
+  new Tag(),
+  new Tag(),
+  new Tag()
+];
+
+export { root, rootChild, tagCollection, tree }
