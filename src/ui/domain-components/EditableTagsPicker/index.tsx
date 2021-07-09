@@ -1,12 +1,13 @@
 import React from 'react';
 import { EditableTagsPickerProps } from '@/interfaces/props';
-import { useToggle } from '@/ui/hooks';
+import { useEffectAfterMount, useToggle } from '@/ui/hooks';
 import { PickerItem, PickerTab, Picker_VariantA as Picker } from '@/ui/components/Picker';
 import { EditableTags } from '@/ui/components/EditableTags';
 import { TagLine } from '@/ui/components/TagLine';
 import * as S from './styles';
 
 export function EditableTagsPicker({
+  onClose,
   tags
 }: EditableTagsPickerProps): React.ReactElement<EditableTagsPickerProps> {
   const { close, isOpen, toggle } = useToggle();
@@ -25,12 +26,22 @@ export function EditableTagsPicker({
     });
   }, [setValue]);
 
-  const selectedTags = tags.filter((tag) => value.includes(tag.id))
+  const selectedTags = React.useMemo(
+    () => tags.filter((tag) => value.includes(tag.id)),
+    [tags, value]
+  );
   // const selectedTags = value.map((id) => tags.find((tag) => id === tag.id)!)
+
+  useEffectAfterMount(() => {
+    onClose?.(selectedTags);
+  }, [isOpen]);
 
   return (
     <S.EditableTagsPicker>
-      <S.ClickableTrigger onClick={toggle}>
+      <S.ClickableTrigger
+        data-testid="clickable-trigger"
+        onClick={toggle}
+      >
         {!value.length && (
           <S.DefaultLabel>
             + Add tags
