@@ -43,12 +43,13 @@ export function useCardDetailsPresenter({
 
   return {
     card,
-    updateTreeNode: React.useCallback(async (treeId: string, nodeId: string, { body, header }: { body: string, header: string }) => {
+    updateTreeNode: React.useCallback(async (treeId: string, nodeId: string, { body, header, tags }: { body: string, header: string, tags: string[] }) => {
       handleUseCase(async () => {
         await updateTreeNode.execute({
           body,
           header,
           id: nodeId,
+          tags,
           treeId: treeId
         });
       });

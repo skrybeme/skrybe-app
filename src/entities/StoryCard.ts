@@ -71,6 +71,12 @@ class StoryCard implements IStoryCard {
 
     return this;
   }
+
+  setTags(tags: ITag[]): StoryCard {
+    this._props.tags = tags;
+
+    return this;
+  }
 }
 
 export default StoryCard;

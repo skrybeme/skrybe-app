@@ -8,7 +8,11 @@ import { CardEditorProps } from '@/interfaces/props';
 const Fixture = (
   props?: Partial<CardEditorProps>,
 ): React.ReactElement<CardEditorProps> => (
-  <CardEditor_VariantA {...props} />
+  <CardEditor_VariantA
+    availableTags={[]}
+    tags={[]}
+    {...props}
+  />
 );
 
 describe(`Domain Components: CardEditor_VariantA`, () => {
@@ -94,7 +98,8 @@ describe(`Domain Components: CardEditor_VariantA`, () => {
 
     expect(onChangeMock).toBeCalledWith({
       body: typedBody,
-      header: typedHeader
+      header: typedHeader,
+      tags: []
     });
   });
 });

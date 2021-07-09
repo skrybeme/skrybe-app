@@ -1,8 +1,9 @@
+import styled, { css } from 'styled-components';
 import { CardTeaserProps } from '@/interfaces/props';
 import { borderRadius } from '@/ui/styles/mixins';
 import { px, Space } from '@/ui/styles/spacing';
-import styled, { css } from 'styled-components';
 import { Editable } from '../../Editable/styles';
+import { TagLine } from '../../TagLine/styles';
 
 export const CardTeaser_VariantB = styled.div<Partial<CardTeaserProps>>`${({
   theme
@@ -29,5 +30,9 @@ export const CardTeaser_VariantB = styled.div<Partial<CardTeaserProps>>`${({
 
   ${Editable} {
     padding: ${px(Space.M)} ${px(Space.M)};
+  }
+
+  ${TagLine} {
+    padding: 0 ${px(Space.M)} ${px(Space.M)};
   }
 `}`;

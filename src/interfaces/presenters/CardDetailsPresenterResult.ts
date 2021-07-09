@@ -7,6 +7,6 @@ export default interface CardDetailsPresenterResult {
   updateTreeNode: (
     treeId: string,
     nodeId: string,
-    props: { body: string, header: string }
+    props: { body: string, header: string, tags: string[] }
   ) => void;
 }

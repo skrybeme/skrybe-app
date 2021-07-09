@@ -239,13 +239,15 @@ describe(`useTreeDetailsPresenter`, () => {
 
           act(() => {
             result.current.updateTreeNode(rootChild.id, {
-              header: root.header
+              header: root.header,
+              tags: ['fake-tag-id-1', 'fake-tag-id-2']
             });
           });
 
           expect(mocks.updateTreeNodeUseCaseExecutionMock).toBeCalledWith({
             header: root.header,
             id: rootChild.id,
+            tags: ['fake-tag-id-1', 'fake-tag-id-2'],
             treeId: 'c0773e64-3a3a-11eb-adc1-0242ac120002'
           });
 

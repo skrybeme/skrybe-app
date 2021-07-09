@@ -16,6 +16,7 @@ export { default as IStoryCardProps } from './IStoryCardProps';
 export { default as IStoryTreeDataSource } from './IStoryTreeDataSource';
 export { default as IStoryTreeRepo } from './IStoryTreeRepo';
 export { default as ITag } from './ITag';
+export { default as ITagRepo } from './ITagRepo';
 export { default as ITheme } from './ITheme';
 export { default as ITree } from './ITree';
 export { default as ITreeNodeContext } from './ITreeNodeContext';

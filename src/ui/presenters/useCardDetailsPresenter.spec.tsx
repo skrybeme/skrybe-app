@@ -68,7 +68,8 @@ describe(`useCardDetailsPresneter`, () => {
             data: {
               body: rootChild.body,
               header: rootChild.header,
-              id: rootChild.id
+              id: rootChild.id,
+              tags: rootChild.tags.map(({ color, id, label }) => ({ color, id, label }))
             },
             isError: false,
             isLoading: false
@@ -94,7 +95,8 @@ describe(`useCardDetailsPresneter`, () => {
         act(() => {
           result.current.updateTreeNode('c0773e64-3a3a-11eb-adc1-0242ac120002', rootChild.id, {
             body: 'updated body',
-            header: 'updated header'
+            header: 'updated header',
+            tags: ['test-id-1']
           });
         });
 
@@ -102,6 +104,7 @@ describe(`useCardDetailsPresneter`, () => {
           body: 'updated body',
           header: 'updated header',
           id: rootChild.id,
+          tags: ['test-id-1'],
           treeId: 'c0773e64-3a3a-11eb-adc1-0242ac120002'
         });
 

@@ -32,7 +32,7 @@ export function GenericStoryTree_VariantA({
     updateTreeNode
   });
 
-  const { isOpen, toggle } = useToggle(false);
+  const { isOpen, set } = useToggle(false);
 
   const ref = React.useRef<HTMLDivElement>(null);
 
@@ -83,7 +83,7 @@ export function GenericStoryTree_VariantA({
               onCardOpen={openCard(root.id)}
               onGenerateChildren={generateSubcards(root.id)}
               onRemoveNode={removeCard(root.id)}
-              onToggle={toggle}
+              onToggle={set}
             />
             {root.parentId !== null && (
               <S.CardTeaserPlaceholderContext>

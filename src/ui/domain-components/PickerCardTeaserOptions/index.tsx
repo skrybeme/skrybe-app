@@ -22,10 +22,6 @@ export function PickerCardTeaserOptions_VariantA({
     close();
   }, [close, onRemoveNode]);
 
-  const onTriggerClick = useCallback(() => {
-    toggle();
-  }, [toggle]);
-
   useEffect(() => {
     onToggle?.(isOpen);
   }, [isOpen]);
@@ -33,7 +29,7 @@ export function PickerCardTeaserOptions_VariantA({
   return (
     <S.PickerCardTeaserOptions_VariantA data-testid="picker-card-teaser-options">
       <S.Trigger>
-        <ButtonOptions_VariantA onClick={onTriggerClick} />
+        <ButtonOptions_VariantA onClick={toggle} />
       </S.Trigger>
       <Picker_VariantA
         isOpen={isOpen}
