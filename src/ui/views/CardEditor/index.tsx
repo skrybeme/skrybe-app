@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { CardEditor_VariantA } from '@/ui/domain-components/CardEditor';
 import { useCardDetailsPresenter, useTagCollectionPresenter } from '@/ui/presenters';
+import { TagViewModel } from '@/interfaces/view-models';
 
 export function CardEditor({ cardId }): React.ReactElement {
   const { card, triggerGetCardById, updateTreeNode } = useCardDetailsPresenter({ cardId });
@@ -12,8 +13,12 @@ export function CardEditor({ cardId }): React.ReactElement {
     triggerGetCardById(cardId);
   }, []);
 
-  const handleChange = React.useCallback((args: { body: string, header: string }) => {
-    updateTreeNode('c0773e64-3a3a-11eb-adc1-0242ac120002', cardId, args);
+  const handleChange = React.useCallback((args: { body: string, header: string, tags: TagViewModel[] }) => {
+    updateTreeNode('c0773e64-3a3a-11eb-adc1-0242ac120002', cardId, {
+      body: args.body,
+      header: args.header,
+      tags: args.tags.map(({ id }) => id)
+    });
   }, [updateTreeNode]);
 
   return (
@@ -22,6 +27,7 @@ export function CardEditor({ cardId }): React.ReactElement {
       body={card.data?.body}
       header={card.data?.header}
       onChange={handleChange}
+      tags={card.data?.tags || []}
     />
   );
 }

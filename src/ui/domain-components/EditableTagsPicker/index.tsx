@@ -7,12 +7,13 @@ import { TagLine } from '@/ui/components/TagLine';
 import * as S from './styles';
 
 export function EditableTagsPicker({
+  initialValue = [],
   onClose,
   tags
-}: EditableTagsPickerProps): React.ReactElement<EditableTagsPickerProps> {
+}: EditableTagsPickerProps): React.ReactElement<EditableTagsPickerProps> {  
   const { close, isOpen, toggle } = useToggle();
 
-  const [value, setValue] = React.useState<Array<string>>([]);
+  const [value, setValue] = React.useState<Array<string>>(initialValue);
 
   const handleTagClick = React.useCallback((tag) => {
     setValue((state) => {
@@ -31,6 +32,10 @@ export function EditableTagsPicker({
     [tags, value]
   );
   // const selectedTags = value.map((id) => tags.find((tag) => id === tag.id)!)
+
+  React.useEffect(() => {
+    setValue(initialValue);
+  }, [initialValue]);
 
   useEffectAfterMount(() => {
     onClose?.(selectedTags);

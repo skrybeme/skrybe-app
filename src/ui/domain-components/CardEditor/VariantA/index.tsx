@@ -5,14 +5,16 @@ import { useHeaderVisibility } from '../useHeaderVisibility';
 import { ScrollableContext } from '@/ui/components/Sidebar';
 import { EditableTagsPicker } from '../../EditableTagsPicker';
 import * as S from './styles';
+import { TagViewModel } from '@/interfaces/view-models';
 
 export function CardEditor_VariantA({
   availableTags,
   body = '',
   header = '',
-  onChange
+  onChange,
+  tags
 }: CardEditorProps): React.ReactElement {
-  const [value, setValue] = React.useState({ body, header });
+  const [value, setValue] = React.useState({ body, header, tags });
 
   const sidebarContext = React.useContext(ScrollableContext);
 
@@ -35,8 +37,20 @@ export function CardEditor_VariantA({
         [party]: val
       });
     },
-    [setValue, value]
+    [onChange, setValue, value]
   );
+
+  const onTagsPickerClose = React.useCallback((tags: TagViewModel[]) => {
+    setValue((state) => ({
+      ...state,
+      tags
+    }));
+
+    onChange?.({
+      ...value,
+      tags
+    });
+  }, [onChange, setValue, value]);
 
   useEffect(() => {
     setValue((state) => ({
@@ -52,6 +66,13 @@ export function CardEditor_VariantA({
     }));
   }, [header]);
 
+  useEffect(() => {
+    setValue((state) => ({
+      ...state,
+      tags
+    }));
+  }, [tags]);
+
   return (
     <>
       <S.Fixed className={headerVisible ? "" : "visible"}>
@@ -65,7 +86,11 @@ export function CardEditor_VariantA({
       </S.Fixed>
       <S.Scrollable>
         <S.TagEditorContainer>
-          <EditableTagsPicker tags={availableTags} />
+          <EditableTagsPicker
+            initialValue={tags.map(({ id }) => id)}
+            onClose={onTagsPickerClose}
+            tags={availableTags}
+          />
         </S.TagEditorContainer>
         <S.EditableHeader
           data-testid="main-editable-header"
