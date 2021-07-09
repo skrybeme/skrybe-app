@@ -1,5 +1,5 @@
-import ILoadable from "../ILoadable";
-import { StoryTreeViewModel } from "../view-models";
+import ILoadable from '../ILoadable';
+import { StoryTreeViewModel } from '../view-models';
 
 export default interface TreeDetailsPresenterResult {
   generateChildrenTreeNodes: (
@@ -14,5 +14,5 @@ export default interface TreeDetailsPresenterResult {
   removeTreeNode: (nodeId: string) => void;
   root: ILoadable<StoryTreeViewModel>;
   triggerGetTreeById: (treeId: string) => void;
-  updateTreeNode: (nodeId: string, props: { header?: string }) => void;
+  updateTreeNode: (nodeId: string, props: { header?: string, tags?: string[] }) => void;
 }

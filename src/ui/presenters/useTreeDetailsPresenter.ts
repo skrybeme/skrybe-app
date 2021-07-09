@@ -94,11 +94,12 @@ export function useTreeDetailsPresenter(): TreeDetailsPresenterResult {
     triggerGetTreeById: useCallback(async (_: string) => {
       handleUseCase(asyncNoop);
     }, [handleUseCase]),
-    updateTreeNode: useCallback(async (nodeId: string, { header }: any) => {
+    updateTreeNode: useCallback(async (nodeId: string, { header, tags }: any) => {
       handleUseCase(async () => {
         await updateTreeNode.execute({
           header,
           id: nodeId,
+          tags,
           treeId: 'c0773e64-3a3a-11eb-adc1-0242ac120002',
         });
       });
