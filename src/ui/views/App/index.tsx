@@ -5,20 +5,27 @@ import { ThemeProvider } from 'styled-components';
 import { Themes } from '@/ui/styles/theme';
 import { ModalProvider } from '@/ui/providers';
 import { SidebarProvider } from '@/ui/components/Sidebar/context';
+import { Nav } from '@/ui/components/Nav';
+import { useToggle } from '@/ui/hooks';
 import * as S from './styles';
+import * as GS from '@/ui/styles/global';
 
 export function App() {
+  const { isOpen, toggle } = useToggle(true);
+
   return (
     <ThemeProvider theme={Themes.purple}>
+      <GS.CssReset />
       <S.App>
         <ModalProvider>
           <SidebarProvider>
-            <Toolbar />
+            <Toolbar onHamburgerClick={toggle} />
             <S.Workspace>
               <TreeDetails />
             </S.Workspace>
           </SidebarProvider>
         </ModalProvider>
+        <Nav isOpen={isOpen} />
       </S.App>
     </ThemeProvider>
   );
