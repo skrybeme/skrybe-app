@@ -2,9 +2,9 @@ import { UuidType, Maybe } from '@/common/types';
 import StoryCard from '@/entities/StoryCard';
 import Tree from '@/entities/Tree';
 import Tag from '@/entities/Tag';
-import { StoryCardLocalStorageModel } from './models/StoryCardLocalStorageModel';
-import { StoryTreeLocalStorageModel } from './models/StoryTreeLocalStorageModel';
 import ITagProps from '@/interfaces/ITagProps';
+import { StoryTreeLocalStorageModel } from '../models/StoryTreeLocalStorageModel';
+import { StoryCardLocalStorageModel } from '../models/StoryCardLocalStorageModel';
 
 export class StoryTreeLocalStorageMap {
   static toDomainModel(localStorageModel: StoryTreeLocalStorageModel): Tree<StoryCard> {

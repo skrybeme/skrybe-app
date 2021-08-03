@@ -1,53 +1,44 @@
-import { UuidType, AsyncMaybe } from '@/common/types';
+import { UuidType, AsyncMaybe, Maybe } from '@/common/types';
+import { IPersistable } from '@/interfaces';
+import { StoryTreeLocalStorageModel } from './models/StoryTreeLocalStorageModel';
+import { StoryTreeLocalStorageMap } from './mappers/StoryTreeLocalStorageMap';
 import StoryCard from '@/entities/StoryCard';
 import Tree from '@/entities/Tree';
-import { IStoryTreeDataSource } from '@/interfaces';
-import { StoryTreeLocalStorageMap } from './StoryTreeLocalStorageMap';
-import { StoryTreeLocalStorageModel } from './models/StoryTreeLocalStorageModel';
-import defaultTree from './data/defaultStoryTree';
 
-export class LocalStorageStoryTreeDataSource implements IStoryTreeDataSource {
-  boot(): void {
-    let tree: Tree<StoryCard>;
-  
-    try {
-      const rawTree =
-        JSON.parse(localStorage.getItem('example-tree')!) as StoryTreeLocalStorageModel;
+export type ILocalStorageStoryTreeDataSource = IPersistable<Tree<StoryCard>>;
 
-      tree = StoryTreeLocalStorageMap.toDomainModel(rawTree);
-    } catch (e) {
-      localStorage.removeItem('example-tree');
+export interface ILocalStorageStoryTreeRootDatabase {
+  getStoryTreeRootById(id: UuidType): Maybe<StoryTreeLocalStorageModel>;
+  getStoryTreeRootCollection(): StoryTreeLocalStorageModel[];
+  saveStoryTreeRoot(
+    record: StoryTreeLocalStorageModel
+  ): StoryTreeLocalStorageModel;
+}
 
-      const treeLocalStorageModel = StoryTreeLocalStorageMap.toLocalStorageModel(defaultTree);
+export class LocalStorageStoryTreeDataSource implements ILocalStorageStoryTreeDataSource {
+  constructor(private _localStorageDatabase: ILocalStorageStoryTreeRootDatabase) {}
 
-      localStorage.setItem('example-tree', JSON.stringify(treeLocalStorageModel));
-    }
-  }
+  getById(id: UuidType): AsyncMaybe<Tree<StoryCard>> {
+    const record = this._localStorageDatabase.getStoryTreeRootById(id);
 
-  getById(_: UuidType): AsyncMaybe<Tree<StoryCard>> {
-    let tree: Tree<StoryCard>;
-  
-    try {
-      const rawTree =
-        JSON.parse(localStorage.getItem('example-tree')!) as StoryTreeLocalStorageModel;
-
-      tree = StoryTreeLocalStorageMap.toDomainModel(rawTree);
-    } catch (e) {
+    if (!record) {
       return Promise.resolve(null);
     }
 
-    return Promise.resolve(tree);
+    return Promise.resolve(StoryTreeLocalStorageMap.toDomainModel(record));
   }
 
   getCollection(): Promise<Tree<StoryCard>[]> {
-    return Promise.resolve([]);
+    const collection = this._localStorageDatabase.getStoryTreeRootCollection();
+
+    return Promise.resolve(collection.map(StoryTreeLocalStorageMap.toDomainModel));
   }
 
-  save(tree: Tree<StoryCard>): Promise<Tree<StoryCard>> {
-    const treeLocalStorageModel = StoryTreeLocalStorageMap.toLocalStorageModel(tree);
+  save(entity: Tree<StoryCard>): Promise<Tree<StoryCard>> {
+    const record = StoryTreeLocalStorageMap.toLocalStorageModel(entity);
 
-    localStorage.setItem('example-tree', JSON.stringify(treeLocalStorageModel));
+    const result = this._localStorageDatabase.saveStoryTreeRoot(record);
 
-    return Promise.resolve(tree);
+    return Promise.resolve(StoryTreeLocalStorageMap.toDomainModel(result));
   }
 }

@@ -33,4 +33,4 @@ tree.insert(new StoryCard({
   tags: []
 }, '5aef3981-b775-4232-b833-d94636079e2b'), '0373574e-3160-4b9e-9e4c-082c5abfa1eb');
 
-export default tree;
+export default [tree];

@@ -1,3 +1,6 @@
+export const LocalStorageDatabase = Symbol.for('LocalStorageDatabase');
+export const StoryTreeInfoDataSource = Symbol.for('StoryTreeInfoDataSource');
+export const StoryTreeInfoRepo = Symbol.for('StoryTreeInfoRepo');
 export const TagRepo = Symbol.for('TagRepo');
 export const TreeDataSource = Symbol.for('TreeDataSource');
 export const TreeRepo = Symbol.for('TreeRepo');

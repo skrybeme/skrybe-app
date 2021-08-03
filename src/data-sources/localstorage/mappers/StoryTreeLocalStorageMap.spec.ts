@@ -1,5 +1,5 @@
 import { StoryTreeLocalStorageMap } from './StoryTreeLocalStorageMap';
-import { StoryTreeLocalStorageModel } from './models/StoryTreeLocalStorageModel';
+import { StoryTreeLocalStorageModel } from '../models/StoryTreeLocalStorageModel';
 import Tree from '@/entities/Tree';
 import StoryCard from '@/entities/StoryCard';
 import Tag from '@/entities/Tag';

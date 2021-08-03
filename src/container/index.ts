@@ -1,9 +1,27 @@
 import 'reflect-metadata';
 import {
+  LocalStorageDatabase
+} from '@/data-sources/localstorage/database/LocalStorageDatabase';
+import {
+  ILocalStorageStoryTreeDataSource,
+  ILocalStorageStoryTreeRootDatabase,
   LocalStorageStoryTreeDataSource
 } from '@/data-sources/localstorage/LocalStorageStoryTreeDataSource';
-import { IStoryTreeDataSource, IStoryTreeRepo, ITagRepo, IUseCases } from '@/interfaces';
+import {
+  ILocalStorageStoryTreeInfoDatabase,
+  ILocalStorageStoryTreeInfoDataSource,
+  LocalStorageStoryTreeInfoDataSource
+} from '@/data-sources/localstorage/LocalStorageStoryTreeInfoDataSource';
+import StoryTreeInfo from '@/entities/StoryTreeInfo';
+import {
+  IPersistable,
+  IStoryTreeDataSource,
+  IStoryTreeRepo,
+  ITagRepo,
+  IUseCases
+} from '@/interfaces';
 import { TagRepo } from '@/repository';
+import StoryTreeInfoRepo from '@/repository/StoryTreeInfoRepo';
 import createStoryTreeRepo from '@/repository/StoryTreeRepo';
 import { CardDetailsStore } from '@/store';
 import { StoryTreeRootDetailsStore } from '@/store/StoryTreeRootDetailsStore';
@@ -11,6 +29,7 @@ import {
   GenerateChildrenTreeNodesUseCase
 } from '@/use-cases/GenerateChildrenTreeNodesUseCase';
 import { GetCardByIdUseCase } from '@/use-cases/GetCardByIdUseCase';
+import { GetStoryTreeInfoCollectionUseCase, IStoryTreeInfoRepo } from '@/use-cases/GetStoryTreeInfoCollectionUseCase';
 import { GetTagsByTreeUseCase } from '@/use-cases/GetTagsByTreeUseCase';
 import { GetTreeByIdUseCase } from '@/use-cases/GetTreeByIdUseCase';
 import { InsertTreeNodeUseCase } from '@/use-cases/InsertTreeNodeUseCase';
@@ -45,6 +64,8 @@ container.load(new ContainerModule((bind) => {
     const tagCollectionStore
       = container.get<ITagCollectionStore>(SYMBOL.store.TagCollectionStore);
 
+    const storyTreeInfoRepo = container.get<IStoryTreeInfoRepo>(SYMBOL.StoryTreeInfoRepo);
+
     const tagsRepo = container.get<ITagRepo>(SYMBOL.TagRepo);
 
     const treeRepo = container.get<IStoryTreeRepo>(SYMBOL.TreeRepo);
@@ -53,6 +74,7 @@ container.load(new ContainerModule((bind) => {
       generateChildrenTreeNodes:
         new GenerateChildrenTreeNodesUseCase(treeRepo, storyTreeRootDetailsStore),
       getCardById: new GetCardByIdUseCase(treeRepo, cardDetailsStore),
+      getStoryTreeInfoCollection: new GetStoryTreeInfoCollectionUseCase(storyTreeInfoRepo),
       getTagsByTree: new GetTagsByTreeUseCase(tagsRepo, tagCollectionStore),
       getTreeById: new GetTreeByIdUseCase(treeRepo, storyTreeRootDetailsStore),
       insertTreeNode: new InsertTreeNodeUseCase(treeRepo, storyTreeRootDetailsStore),
@@ -69,6 +91,14 @@ container.load(new ContainerModule((bind) => {
 }));
 
 container.load(new ContainerModule((bind) => {
+  bind<IStoryTreeInfoRepo>(SYMBOL.StoryTreeInfoRepo).toDynamicValue(({ container }) => {
+    const storyTreeInfoDataSource
+      = container.get<IPersistable<StoryTreeInfo>>(SYMBOL.StoryTreeInfoDataSource);
+
+    return new StoryTreeInfoRepo(storyTreeInfoDataSource);
+  })}));
+
+container.load(new ContainerModule((bind) => {
   bind<IStoryTreeRepo>(SYMBOL.TreeRepo).toDynamicValue(({ container }) =>
     createStoryTreeRepo(container.get<IStoryTreeDataSource>(SYMBOL.TreeDataSource))
 )}));
@@ -80,12 +110,40 @@ container.load(new ContainerModule((bind) => {
 }));
 
 container.load(new ContainerModule((bind) => {
-  const mockTreeDataSource: IStoryTreeDataSource = new LocalStorageStoryTreeDataSource();
+  const localStorageDatabase = new LocalStorageDatabase();
 
-  mockTreeDataSource.boot();
+  bind<ILocalStorageStoryTreeInfoDatabase & ILocalStorageStoryTreeRootDatabase>(
+    SYMBOL.LocalStorageDatabase
+  )
+    .toConstantValue(localStorageDatabase);
+}));
 
-  bind<IStoryTreeDataSource>(SYMBOL.TreeDataSource)
-    .toConstantValue(mockTreeDataSource);
+container.load(new ContainerModule((bind) => {
+  bind<ILocalStorageStoryTreeDataSource>(SYMBOL.TreeDataSource)
+    .toDynamicValue(({ container }) => {
+      const db = container.get<
+        ILocalStorageStoryTreeInfoDatabase & ILocalStorageStoryTreeRootDatabase
+      >(SYMBOL.LocalStorageDatabase);
+
+      const mockedStoryTreeDataSource: ILocalStorageStoryTreeDataSource
+        = new LocalStorageStoryTreeDataSource(db);
+  
+      return mockedStoryTreeDataSource;
+    });
+}));
+
+container.load(new ContainerModule((bind) => {
+  bind<ILocalStorageStoryTreeInfoDataSource>(SYMBOL.StoryTreeInfoDataSource)
+    .toDynamicValue(({ container }) => {
+      const db = container.get<
+        ILocalStorageStoryTreeInfoDatabase & ILocalStorageStoryTreeRootDatabase
+      >(SYMBOL.LocalStorageDatabase);
+
+      const mockedStoryTreeInfoDataSource: ILocalStorageStoryTreeInfoDataSource
+        = new LocalStorageStoryTreeInfoDataSource(db);
+  
+      return mockedStoryTreeInfoDataSource;
+    });
 }));
 
 export { container }
