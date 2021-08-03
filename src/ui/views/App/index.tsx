@@ -5,7 +5,7 @@ import { ThemeProvider } from 'styled-components';
 import { Themes } from '@/ui/styles/theme';
 import { ModalProvider } from '@/ui/providers';
 import { SidebarProvider } from '@/ui/components/Sidebar/context';
-import { Nav } from '@/ui/components/Nav';
+import { Nav } from '@/ui/views/Nav';
 import { useToggle } from '@/ui/hooks';
 import * as S from './styles';
 import * as GS from '@/ui/styles/global';

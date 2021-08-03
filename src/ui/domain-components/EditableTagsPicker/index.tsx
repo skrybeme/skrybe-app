@@ -31,7 +31,6 @@ export function EditableTagsPicker({
     () => tags.filter((tag) => value.includes(tag.id)),
     [tags, value]
   );
-  // const selectedTags = value.map((id) => tags.find((tag) => id === tag.id)!)
 
   React.useEffect(() => {
     setValue(initialValue);

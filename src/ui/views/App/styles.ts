@@ -1,6 +1,6 @@
-import { Nav } from '@/ui/components/Nav/styles';
+import { Nav } from '@/ui/views/Nav/styles';
 import { px, Space } from '@/ui/styles/spacing';
-import styled, { createGlobalStyle } from 'styled-components';
+import styled from 'styled-components';
 
 export const App = styled.div`
   background-color: #5E489D;
