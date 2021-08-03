@@ -13,6 +13,6 @@ export default interface TreeDetailsPresenterResult {
   }) => void;
   removeTreeNode: (nodeId: string) => void;
   root: ILoadable<StoryTreeViewModel>;
-  triggerGetTreeById: (treeId: string) => void;
+  triggerGetTreeById: () => void;
   updateTreeNode: (nodeId: string, props: { header?: string, tags?: string[] }) => void;
 }

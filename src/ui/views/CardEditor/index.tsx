@@ -2,6 +2,7 @@ import React from 'react';
 import { observer } from 'mobx-react-lite';
 import { CardEditor_VariantA } from '@/ui/domain-components/CardEditor';
 import { useCardEditorPresenter } from './presenter';
+import { defaultStoryTreeRootCollection } from '@/data-sources/localstorage/data';
 
 export type CardEditorProps = React.PropsWithChildren<{ cardId?: string }>;
 
@@ -15,8 +16,8 @@ export const CardEditor = observer<CardEditorProps>(({ cardId }): React.ReactEle
   } = useCardEditorPresenter({ cardId });
 
   React.useEffect(() => {
-    getTagsByTree.execute({ treeId: 'ba5ff9b6-c93c-4af9-b6d2-8e73168db61c' });
-    getCardById.execute({ id: cardId!, treeId: 'ba5ff9b6-c93c-4af9-b6d2-8e73168db61c' });
+    getTagsByTree.execute({ treeId: defaultStoryTreeRootCollection[0].id });
+    getCardById.execute({ id: cardId!, treeId: defaultStoryTreeRootCollection[0].id });
   }, [cardId, getCardById]);
 
   return (

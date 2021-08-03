@@ -9,6 +9,7 @@ import { useTreeDetailsPresenter } from './presenter';
 import * as SYMBOL from '@/container/symbols';
 import * as S from './styles';
 import * as GS from '@/ui/styles/global';
+import { defaultStoryTreeRootCollection } from '@/data-sources/localstorage/data';
 
 export const TreeDetails = observer((): ReactElement => {
   const dragHandleRef = useDraggable<HTMLDivElement>();
@@ -19,7 +20,7 @@ export const TreeDetails = observer((): ReactElement => {
     removeTreeNode,
     triggerGetTreeById,
     updateTreeNode
-  } = useTreeDetailsPresenter();
+  } = useTreeDetailsPresenter({ storyTreeId: defaultStoryTreeRootCollection[0].id });
 
   const storyTreeRootDetailsStore
     = useContainer<StoryTreeRootDetailsStore>(SYMBOL.store.StoryTreeRootDetailsStore);
@@ -30,7 +31,7 @@ export const TreeDetails = observer((): ReactElement => {
   );
 
   useEffect(() => {
-    triggerGetTreeById('c0773e64-3a3a-11eb-adc1-0242ac120002');
+    triggerGetTreeById();
   }, []);
 
   return (

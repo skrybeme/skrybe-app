@@ -14,7 +14,7 @@ function WideView() {
   const nestedCardTree = useSelector(selectNestedCardTree());
   const windowSize = useWindowSize();
 
-  const { root } = useTreeDetailsPresenter();
+  const { root } = useTreeDetailsPresenter({ storyTreeId: '' });
 
   function onClickCard(e) {
     if (!cardOverlayRef) {          
