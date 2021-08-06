@@ -3,6 +3,7 @@ import { Maybe, UuidType } from '@/common/types';
 import { crawl } from './Crawler';
 import isEqual from 'lodash/isEqual';
 import { generateUuid } from '@/utils';
+import StoryTreeInfo from './StoryTreeInfo';
 
 class TreeMap<TNode> extends Map<UuidType, ITreeNodeContext<TNode>> {
   static toNativeMap<TNode>(map: TreeMap<TNode>): Map<UuidType, TNode> {
@@ -16,16 +17,31 @@ class TreeMap<TNode> extends Map<UuidType, ITreeNodeContext<TNode>> {
   }
 }
 
+export interface TreeProps<TNode> {
+  info?: StoryTreeInfo;
+  rootNode?: TreeMap<TNode>;
+}
+
 class Tree<TNode extends IIdentifiable> implements ITree<TNode, TreeMap<TNode>> {
   protected _id: UuidType;
-  protected _tree: TreeMap<TNode> = new TreeMap<TNode>();
+  protected _meta: Maybe<StoryTreeInfo>;
+  protected _tree: TreeMap<TNode>;
 
   constructor(
-    tree: TreeMap<TNode> = new TreeMap<TNode>(),
+    props?: TreeProps<TNode>,
     id: UuidType = generateUuid()
   ) {
     this._id = id;
-    this._tree = tree;
+    this._meta = props?.info || null;
+    this._tree = props?.rootNode || new TreeMap<TNode>();
+  }
+
+  get info() {
+    return this._meta;
+  }
+
+  set info(info: Maybe<StoryTreeInfo>) {
+    this._meta = info;
   }
 
   equals(tree: Tree<TNode>): boolean {
@@ -161,7 +177,7 @@ class Tree<TNode extends IIdentifiable> implements ITree<TNode, TreeMap<TNode>> 
       map.set(nodeId, treeNode);
     });
 
-    return new Tree<TNode>(map, generateUuid());
+    return new Tree<TNode>({ rootNode: map }, generateUuid());
   }
 
   get id() {
