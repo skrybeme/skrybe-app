@@ -9,7 +9,8 @@
     "noImplicitAny": false,
     "paths": {
       "@/*": ["src/*"]
-    }
+    },
+    "experimentalDecorators": true
   },
   "exclude": [
     "node_modules"

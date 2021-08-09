@@ -4,6 +4,8 @@ import {
 import { IStoryTreeDataSource, IStoryTreeRepo, ITagRepo, IUseCases } from '@/interfaces';
 import { TagRepo } from '@/repository';
 import createStoryTreeRepo from '@/repository/StoryTreeRepo';
+import { CardDetailsStore } from '@/store';
+import { StoryTreeRootDetailsStore } from '@/store/StoryTreeRootDetailsStore';
 import {
   GenerateChildrenTreeNodesUseCase
 } from '@/use-cases/GenerateChildrenTreeNodesUseCase';
@@ -55,6 +57,11 @@ container.load(new ContainerModule((bind) => {
 
   bind<IStoryTreeDataSource>(SYMBOL.TreeDataSource)
     .toConstantValue(mockTreeDataSource);
+}));
+
+container.load(new ContainerModule((bind) => {
+  bind<CardDetailsStore>(SYMBOL.store.CardDetailsStore);
+  bind<StoryTreeRootDetailsStore>(SYMBOL.store.StoryTreeRootDetailsStore);
 }));
 
 export { container }

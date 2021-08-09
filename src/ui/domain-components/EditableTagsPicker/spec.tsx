@@ -41,6 +41,7 @@ describe(`Domain component: EditableTagsPicker`, () => {
 
     const { queryAllByTestId, queryByTestId } = render(
       <Fixture
+        initialValue={[]}
         onClose={onCloseHandler}
         tags={tags}
       />
@@ -48,18 +49,20 @@ describe(`Domain component: EditableTagsPicker`, () => {
 
     expect(onCloseHandler).not.toBeCalled();
     
-    const triggerElement = queryByTestId('clickable-trigger')!;
+    const triggerElement = queryByTestId('clickable-trigger');
 
-    fireEvent.click(triggerElement);
+    expect(triggerElement).toBeInTheDocument();
+
+    fireEvent.click(triggerElement!);
 
     const tagElements = queryAllByTestId('tag-color');
 
     fireEvent.click(tagElements[0]);
     fireEvent.click(tagElements[2]);
 
-    fireEvent.click(triggerElement);
+    fireEvent.click(triggerElement!);
 
-    expect(onCloseHandler).toHaveBeenNthCalledWith(2, [
+    expect(onCloseHandler).toBeCalledWith([
       {
         color: TagColor.BLUE,
         id: 'test-id-1',
