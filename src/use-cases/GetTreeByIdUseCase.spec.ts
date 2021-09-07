@@ -1,25 +1,30 @@
-import tree from "@/data-sources/localstorage/data/defaultStoryTree";
-import StoryCard from "@/entities/StoryCard";
-import Tree from "@/entities/Tree";
-import { InMemoryRepo } from "@/repository";
-import { GetTreeByIdUseCase } from "./GetTreeByIdUseCase";
+import { InMemoryRepo } from '@/repository';
+import { GetTreeByIdUseCase } from './GetTreeByIdUseCase';
+import { StoryTreeRootDetailsStore } from '@/store/StoryTreeRootDetailsStore';
+import { StoryTreeMap } from '@/mappers';
+import StoryCard from '@/entities/StoryCard';
+import Tree from '@/entities/Tree';
 
 describe(`GetTreeByIdUseCase`, () => {
   const tree = new Tree<StoryCard>();
 
   const inMemoryStoryTreeRepo = new InMemoryRepo([tree]);
+  const storyTreeRootDetailsStore = new StoryTreeRootDetailsStore();
 
-  const getTreeById = new GetTreeByIdUseCase(inMemoryStoryTreeRepo);
+  const getTreeById = new GetTreeByIdUseCase(inMemoryStoryTreeRepo, storyTreeRootDetailsStore);
 
-  it(`resolves with null if the tree with given id does not exist in the repo`, async () => {
-    const entry = await getTreeById.execute({ id: 'invalid-uuid' });
+  it(
+    `saves null to the store if the tree with given id does not exist in the repo`,
+    async () => {
+      await getTreeById.execute({ id: 'invalid-uuid' });
 
-    expect(entry).toBeNull();
-  });
+      expect(storyTreeRootDetailsStore.data).toBeNull();
+    }
+  );
 
-  it(`resolves with story tree domain model if it exists in the repo`, async () => {
-    const entry = await getTreeById.execute({ id: tree.id });
+  it(`saves story tree to the store if it exists in the repo`, async () => {
+    await getTreeById.execute({ id: tree.id });
 
-    expect(entry).toEqual(tree);
+    expect(storyTreeRootDetailsStore.data).toEqual(StoryTreeMap.toViewModel(tree));
   });
 });

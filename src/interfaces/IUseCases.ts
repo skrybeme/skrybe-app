@@ -7,7 +7,7 @@ import { GetTreeByIdUseCase } from '@/use-cases/GetTreeByIdUseCase';
 import { InsertTreeNodeUseCase } from '@/use-cases/InsertTreeNodeUseCase';
 import { RebindTreeNodeUseCase } from '@/use-cases/RebindTreeNodeUseCase';
 import { RemoveTreeNodeUseCase } from '@/use-cases/RemoveTreeNodeUseCase';
-import { UpdateTreeNodeUseCase } from '@/use-cases/UpdateTreeNodeUseCase';
+import { UpdateCardDetailsUseCase } from '@/use-cases/UpdateCardDetailsUseCase';
 
 export default interface IUseCases {
   generateChildrenTreeNodes: GenerateChildrenTreeNodesUseCase;
@@ -17,5 +17,5 @@ export default interface IUseCases {
   insertTreeNode: InsertTreeNodeUseCase;
   rebindTreeNode: RebindTreeNodeUseCase;
   removeTreeNode: RemoveTreeNodeUseCase;
-  updateTreeNode: UpdateTreeNodeUseCase;
+  updateCardDetails: UpdateCardDetailsUseCase;
 }

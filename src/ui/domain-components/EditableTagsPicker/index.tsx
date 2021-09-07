@@ -38,6 +38,10 @@ export function EditableTagsPicker({
   }, [initialValue]);
 
   useEffectAfterMount(() => {
+    if (isOpen) {
+      return;
+    }
+
     onClose?.(selectedTags);
   }, [isOpen]);
 

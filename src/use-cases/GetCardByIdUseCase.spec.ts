@@ -1,7 +1,9 @@
+import { StoryCardMap } from '@/mappers';
+import { InMemoryRepo } from '@/repository';
+import { CardDetailsStore } from '@/store';
+import { GetCardByIdUseCase } from './GetCardByIdUseCase';
 import StoryCard from '@/entities/StoryCard';
 import Tree from '@/entities/Tree';
-import { InMemoryRepo } from '@/repository';
-import { GetCardByIdUseCase } from './GetCardByIdUseCase';
 
 describe(`GetCardByIdUseCase`, () => {
   const tree = new Tree<StoryCard>();
@@ -10,33 +12,39 @@ describe(`GetCardByIdUseCase`, () => {
   tree.insert(card);
 
   const inMemoryStoryTreeRepo = new InMemoryRepo([tree]);
+  const cardDetailsStore = new CardDetailsStore();
 
-  const getCardById = new GetCardByIdUseCase(inMemoryStoryTreeRepo);
+  const getCardById = new GetCardByIdUseCase(inMemoryStoryTreeRepo, cardDetailsStore);
 
-  it(`resolves with null if the tree with given id does not exist in the repo`, async () => {
-    const entry = await getCardById.execute({
-      id: card.id,
-      treeId: 'invalid-uuid'
-    });
+  it(
+    `saves null to the store if the tree with given id does not exist in the repo`,
+    async () => {
+      await getCardById.execute({
+        id: card.id,
+        treeId: 'invalid-uuid'
+      });
 
-    expect(entry).toBeNull();
-  });
+      expect(cardDetailsStore.data).toBeNull();
+    }
+  );
 
-  it(`resolves with null if the card with given id does not exist in the tree`, async () => {
-    const entry = await getCardById.execute({
+  it(`saves null to the store if the card with given id does not exist in the tree`, async () => {
+    await getCardById.execute({
       id: 'invalid-uuid',
       treeId: tree.id
     });
 
-    expect(entry).toBeNull();
+    expect(cardDetailsStore.data).toBeNull();
   });
 
-  it(`resolves with card domain model if it exists in the tree`, async () => {
-    const entry = await getCardById.execute({
+  it(`saves card model to the store if it exists in the tree`, async () => {
+    await getCardById.execute({
       id: card.id,
       treeId: tree.id
     });
 
-    expect(entry).toEqual(card);
+    const expectedData = StoryCardMap.toViewModel(card);
+
+    expect(cardDetailsStore.data).toEqual(expectedData);
   });
 });

@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import {
   LocalStorageStoryTreeDataSource
 } from '@/data-sources/localstorage/LocalStorageStoryTreeDataSource';
@@ -15,26 +16,54 @@ import { GetTreeByIdUseCase } from '@/use-cases/GetTreeByIdUseCase';
 import { InsertTreeNodeUseCase } from '@/use-cases/InsertTreeNodeUseCase';
 import { RebindTreeNodeUseCase } from '@/use-cases/RebindTreeNodeUseCase';
 import { RemoveTreeNodeUseCase } from '@/use-cases/RemoveTreeNodeUseCase';
-import { UpdateTreeNodeUseCase } from '@/use-cases/UpdateTreeNodeUseCase';
 import { Container, ContainerModule } from 'inversify';
 import * as SYMBOL from './symbols';
+import { ITagCollectionStore, TagCollectionStore } from '@/store/TagCollectionStore';
+import { UpdateCardDetailsUseCase } from '@/use-cases/UpdateCardDetailsUseCase';
 
 const container = new Container();
 
 container.load(new ContainerModule((bind) => {
+  bind<CardDetailsStore>(SYMBOL.store.CardDetailsStore)
+    .toConstantValue(new CardDetailsStore());
+
+  bind<StoryTreeRootDetailsStore>(SYMBOL.store.StoryTreeRootDetailsStore)
+    .toConstantValue(new StoryTreeRootDetailsStore());
+
+  bind<ITagCollectionStore>(SYMBOL.store.TagCollectionStore)
+    .toConstantValue(new TagCollectionStore());
+}));
+
+container.load(new ContainerModule((bind) => {
   bind<IUseCases>(SYMBOL.UseCases).toDynamicValue(({ container }) => {
+    const cardDetailsStore
+      = container.get<CardDetailsStore>(SYMBOL.store.CardDetailsStore);
+
+    const storyTreeRootDetailsStore
+      = container.get<StoryTreeRootDetailsStore>(SYMBOL.store.StoryTreeRootDetailsStore);
+
+    const tagCollectionStore
+      = container.get<ITagCollectionStore>(SYMBOL.store.TagCollectionStore);
+
     const tagsRepo = container.get<ITagRepo>(SYMBOL.TagRepo);
+
     const treeRepo = container.get<IStoryTreeRepo>(SYMBOL.TreeRepo);
 
     return {
-      generateChildrenTreeNodes: new GenerateChildrenTreeNodesUseCase(treeRepo),
-      getCardById: new GetCardByIdUseCase(treeRepo),
-      getTagsByTree: new GetTagsByTreeUseCase(tagsRepo),
-      getTreeById: new GetTreeByIdUseCase(treeRepo),
-      insertTreeNode: new InsertTreeNodeUseCase(treeRepo),
-      rebindTreeNode: new RebindTreeNodeUseCase(treeRepo),
-      removeTreeNode: new RemoveTreeNodeUseCase(treeRepo),
-      updateTreeNode: new UpdateTreeNodeUseCase(tagsRepo, treeRepo)
+      generateChildrenTreeNodes:
+        new GenerateChildrenTreeNodesUseCase(treeRepo, storyTreeRootDetailsStore),
+      getCardById: new GetCardByIdUseCase(treeRepo, cardDetailsStore),
+      getTagsByTree: new GetTagsByTreeUseCase(tagsRepo, tagCollectionStore),
+      getTreeById: new GetTreeByIdUseCase(treeRepo, storyTreeRootDetailsStore),
+      insertTreeNode: new InsertTreeNodeUseCase(treeRepo, storyTreeRootDetailsStore),
+      rebindTreeNode: new RebindTreeNodeUseCase(treeRepo, storyTreeRootDetailsStore),
+      removeTreeNode: new RemoveTreeNodeUseCase(treeRepo, storyTreeRootDetailsStore),
+      updateCardDetails: new UpdateCardDetailsUseCase(
+        tagsRepo,
+        treeRepo,
+        storyTreeRootDetailsStore,
+        cardDetailsStore,
+      )
     };
   });
 }));
@@ -57,11 +86,6 @@ container.load(new ContainerModule((bind) => {
 
   bind<IStoryTreeDataSource>(SYMBOL.TreeDataSource)
     .toConstantValue(mockTreeDataSource);
-}));
-
-container.load(new ContainerModule((bind) => {
-  bind<CardDetailsStore>(SYMBOL.store.CardDetailsStore);
-  bind<StoryTreeRootDetailsStore>(SYMBOL.store.StoryTreeRootDetailsStore);
 }));
 
 export { container }

@@ -1,33 +1,33 @@
-import React, { useEffect } from 'react';
+import React from 'react';
+import { observer } from 'mobx-react-lite';
 import { CardEditor_VariantA } from '@/ui/domain-components/CardEditor';
-import { useCardDetailsPresenter, useTagCollectionPresenter } from '@/ui/presenters';
-import { TagViewModel } from '@/interfaces/view-models';
+import { useCardEditorPresenter } from './presenter';
 
-export function CardEditor({ cardId }): React.ReactElement {
-  const { card, triggerGetCardById, updateTreeNode } = useCardDetailsPresenter({ cardId });
+export type CardEditorProps = React.PropsWithChildren<{ cardId?: string }>;
 
-  const { tags, triggerGetTagsByTree } = useTagCollectionPresenter();
+export const CardEditor = observer<CardEditorProps>(({ cardId }): React.ReactElement => {
+  const {
+    card,
+    getCardById,
+    getTagsByTree,
+    handleChange,
+    tags
+  } = useCardEditorPresenter({ cardId });
 
-  useEffect(() => {
-    triggerGetTagsByTree('example-tree');
-    triggerGetCardById(cardId);
-  }, []);
-
-  const handleChange = React.useCallback((args: { body: string, header: string, tags: TagViewModel[] }) => {
-    updateTreeNode('c0773e64-3a3a-11eb-adc1-0242ac120002', cardId, {
-      body: args.body,
-      header: args.header,
-      tags: args.tags.map(({ id }) => id)
-    });
-  }, [updateTreeNode]);
+  React.useEffect(() => {
+    getTagsByTree.execute({ treeId: 'ba5ff9b6-c93c-4af9-b6d2-8e73168db61c' });
+    getCardById.execute({ id: cardId!, treeId: 'ba5ff9b6-c93c-4af9-b6d2-8e73168db61c' });
+  }, [cardId, getCardById]);
 
   return (
-    <CardEditor_VariantA
-      availableTags={tags.data || []}
-      body={card.data?.body}
-      header={card.data?.header}
-      onChange={handleChange}
-      tags={card.data?.tags || []}
-    />
+    <div data-testid="card-editor">
+      <CardEditor_VariantA
+        availableTags={tags || []}
+        body={card?.body}
+        header={card?.header}
+        onChange={handleChange}
+        tags={card?.tags || []}
+      />
+    </div>
   );
-}
+});

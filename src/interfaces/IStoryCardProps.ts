@@ -1,9 +1,9 @@
-import ITag from "./ITag";
+import Tag from '@/entities/Tag';
 
 interface IStoryCardProps {
   body?: string;
   header?: string;
-  tags?: Array<ITag>;
+  tags?: Array<Tag>;
 };
 
 export default IStoryCardProps;

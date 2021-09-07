@@ -1,25 +1,38 @@
-import { AsyncMaybe, UuidType } from '@/common/types';
+import { Maybe, UuidType } from '@/common/types';
 import { IExecutable, IStoryTreeRepo } from '@/interfaces';
 import StoryCard from '@/entities/StoryCard';
+import { CardDetailsStore } from '@/store';
 
 export interface GetCardByIdRequest {
   id: UuidType;
   treeId: UuidType;
 }
 
-export class GetCardByIdUseCase implements IExecutable<
-  GetCardByIdRequest,
-  AsyncMaybe<StoryCard>
-> {
-  constructor(private _treeRepo: IStoryTreeRepo) {}
+export class GetCardByIdUseCase implements IExecutable<GetCardByIdRequest> {
+  constructor(
+    private _treeRepo: IStoryTreeRepo,
+    private _cardDetailsStore: CardDetailsStore
+  ) {}
 
-  async execute(request: GetCardByIdRequest): AsyncMaybe<StoryCard> {
+  private _saveResult(data: Maybe<StoryCard>) {
+    this._cardDetailsStore.set({
+      data,
+      isError: false,
+      isLoading: false
+    });
+  }
+
+  async execute(request: GetCardByIdRequest): Promise<void> {
+    this._cardDetailsStore.reset();
+
     const tree = await this._treeRepo.getById(request.treeId);
 
     if (!tree) {
-      return Promise.resolve(null);
+      this._saveResult(null);
     }
 
-    return tree?.getNodeById(request.id);
+    const result = tree?.getNodeById(request.id);
+
+    this._saveResult(result);
   }
 }

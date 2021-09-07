@@ -4,13 +4,13 @@ import { action, computed, makeObservable, observable } from 'mobx';
 
 export abstract class AbstractStore<TDomainModel, TViewModel> implements Readonly<ILoadable<TViewModel>> {
   @observable
-  protected _data: Maybe<TDomainModel>;
+  _data: Maybe<TDomainModel>;
 
   @observable
-  protected _isError!: boolean;
+  _isError!: boolean;
 
   @observable
-  protected _isLoading!: boolean;
+  _isLoading!: boolean;
   
   constructor() {
     this.reset();
