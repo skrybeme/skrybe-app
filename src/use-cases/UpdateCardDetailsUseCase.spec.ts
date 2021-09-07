@@ -1,5 +1,5 @@
 import { StoryCardMap, StoryTreeMap } from '@/mappers';
-import { InMemoryRepo } from '@/repository';
+import { InMemoryRepo, InMemoryStoryTreeRepo } from '@/repository';
 import { CardDetailsStore } from '@/store';
 import { StoryTreeRootDetailsStore } from '@/store/StoryTreeRootDetailsStore';
 import { UpdateCardDetailsUseCase } from './UpdateCardDetailsUseCase';
@@ -25,7 +25,7 @@ describe(`UpdateCardDetailsUseCase`, () => {
   tree.insert(root);
 
   const inMemoryTagRepo = new InMemoryRepo(tagCollection);
-  const inMemoryStoryTreeRepo = new InMemoryRepo([tree]);
+  const inMemoryStoryTreeRepo = new InMemoryStoryTreeRepo([tree]);
   const storyTreeRootDetailsStore = new StoryTreeRootDetailsStore();
   const cardDetailsStore = new CardDetailsStore();
 

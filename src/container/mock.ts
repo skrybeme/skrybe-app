@@ -11,8 +11,9 @@ const container = new Container();
 const mocks = {
   generateChildrenTreeNodesUseCaseExecutionMock: jest.fn(),
   getCardByIdUseCaseExecutionMock: jest.fn(),
+  getStoryTreeInfoCollectionUseCaseExecutionMock: jest.fn(),
   getTagsByTreeUseCaseExecutionMock: jest.fn(),
-  getTreeByIdUseCaseExecutionMock: jest.fn(),
+  getTreeUseCaseExecutionMock: jest.fn(),
   insertTreeNodeUseCaseExecutionMock: jest.fn(),
   rebindTreeNodeUseCaseExecutionMock: jest.fn(),
   removeTreeNodeUseCaseExecutionMock: jest.fn(),
@@ -26,8 +27,11 @@ container.load(new ContainerModule((bind) => {
         execute: mocks.generateChildrenTreeNodesUseCaseExecutionMock
       },
       getCardById: { execute: mocks.getCardByIdUseCaseExecutionMock },
+      getStoryTreeInfoCollection: {
+        execute: mocks.getStoryTreeInfoCollectionUseCaseExecutionMock
+      },
       getTagsByTree: { execute: mocks.getTagsByTreeUseCaseExecutionMock },
-      getTreeById: { execute: mocks.getTreeByIdUseCaseExecutionMock },
+      getTree: { execute: mocks.getTreeUseCaseExecutionMock },
       insertTreeNode: { execute: mocks.insertTreeNodeUseCaseExecutionMock },
       rebindTreeNode: { execute: mocks.rebindTreeNodeUseCaseExecutionMock },
       removeTreeNode: { execute: mocks.removeTreeNodeUseCaseExecutionMock },

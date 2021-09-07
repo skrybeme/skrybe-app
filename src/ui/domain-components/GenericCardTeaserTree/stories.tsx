@@ -84,6 +84,7 @@ Default.args = {
     header: lorem.sentence(),
     id: '',
     parentId: null,
-    tags: []
+    tags: [],
+    treeRootId: ''
   }
 };

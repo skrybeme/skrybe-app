@@ -1,15 +1,15 @@
+import { StoryTreeMap } from '@/mappers';
+import { StoryTreeRootDetailsStore } from '@/store/StoryTreeRootDetailsStore';
+import { InsertTreeNodeUseCase } from './InsertTreeNodeUseCase';
+import { InMemoryStoryTreeRepo } from '@/repository';
 import StoryCard from '@/entities/StoryCard';
 import Tag from '@/entities/Tag';
 import Tree from '@/entities/Tree';
-import { StoryTreeMap } from '@/mappers';
-import { InMemoryRepo } from '@/repository';
-import { StoryTreeRootDetailsStore } from '@/store/StoryTreeRootDetailsStore';
-import { InsertTreeNodeUseCase } from './InsertTreeNodeUseCase';
 
 describe(`InsertTreeNodeUseCase`, () => {
   const tree = new Tree<StoryCard>();
 
-  const inMemoryStoryTreeRepo = new InMemoryRepo([tree]);
+  const inMemoryStoryTreeRepo = new InMemoryStoryTreeRepo([tree]);
   const storyTreeRootDetailsStore = new StoryTreeRootDetailsStore();
 
   const insertTreeNode = new InsertTreeNodeUseCase(

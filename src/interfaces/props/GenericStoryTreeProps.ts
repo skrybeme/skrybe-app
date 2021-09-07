@@ -18,5 +18,6 @@ export default interface GenericCardTeaserTreeProps {
   removeTreeNode(nodeId: string): void;
   root: Maybe<StoryTreeViewModel>;
   style?: CSSProperties;
+  treeId?: string;
   updateTreeNode(nodeId: string, props: { header?: string }): void;
 }

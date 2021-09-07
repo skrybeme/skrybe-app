@@ -28,5 +28,8 @@ module.exports = {
         filename: './index.html'
     })
   ],
-  devtool: '#source-map'
+  devServer: {
+    historyApiFallback: true
+  },
+  devtool: 'source-map'
 };

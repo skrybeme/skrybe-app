@@ -1,9 +1,9 @@
 import { Maybe } from '@/common/types';
 import { crawlBreadthFirst } from '@/entities/Crawler';
-import StoryCard from '@/entities/StoryCard';
-import Tree from '@/entities/Tree';
 import { ITreeNodeContext } from '@/interfaces';
 import { StoryTreeViewModel } from '@/interfaces/view-models';
+import StoryCard from '@/entities/StoryCard';
+import Tree from '@/entities/Tree';
 import TagMap from './TagMap';
 
 export default class StoryTreeMap {
@@ -15,12 +15,13 @@ export default class StoryTreeMap {
     }
 
     let out: StoryTreeViewModel = {
-      id: root.id,
-      header: root.header,
       body: root.body,
-      tags: root.tags.map(TagMap.toViewModel),
       children: [],
-      parentId: null
+      header: root.header,
+      id: root.id,
+      parentId: null,
+      tags: root.tags.map(TagMap.toViewModel),
+      treeRootId: domainModel.id
     };
 
     let childrenOf = {
@@ -32,13 +33,14 @@ export default class StoryTreeMap {
         return;
       }
 
-      const entry = {
-        id: node.id,
-        header: node.header,
+      const entry: StoryTreeViewModel = {
         body: node.body,
-        tags: node.tags.map(TagMap.toViewModel),
         children: [],
-        parentId
+        header: node.header,
+        id: node.id,
+        parentId,
+        tags: node.tags.map(TagMap.toViewModel),
+        treeRootId: domainModel.id
       };
 
       Object.assign(childrenOf, {

@@ -1,12 +1,12 @@
 import { StoryTreeRootDetailsStore } from "@/store/StoryTreeRootDetailsStore";
+import { InMemoryStoryTreeRepo } from "@/repository/InMemoryStoryTreeRepo";
 import StoryCard from "../entities/StoryCard";
 import Tag from "../entities/Tag";
 import Tree from "../entities/Tree";
-import { InMemoryRepo } from "../repository";
 import { GenerateChildrenTreeNodesUseCase } from "./GenerateChildrenTreeNodesUseCase";
 
 describe(`GenerateChildrenTreeNodesUseCase`, () => {
-  const inMemoryStoryTreeRepo = new InMemoryRepo([new Tree<StoryCard>()]);
+  const inMemoryStoryTreeRepo = new InMemoryStoryTreeRepo([new Tree<StoryCard>()]);
   const storyTreeRootDetailsStore = new StoryTreeRootDetailsStore();
 
   const generateChildrenTreeNodes = new GenerateChildrenTreeNodesUseCase(

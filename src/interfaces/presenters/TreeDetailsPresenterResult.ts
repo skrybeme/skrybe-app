@@ -1,3 +1,4 @@
+import { Maybe } from '@/common/types';
 import ILoadable from '../ILoadable';
 import { StoryTreeViewModel } from '../view-models';
 
@@ -13,6 +14,7 @@ export default interface TreeDetailsPresenterResult {
   }) => void;
   removeTreeNode: (nodeId: string) => void;
   root: ILoadable<StoryTreeViewModel>;
-  triggerGetTreeById: (treeId: string) => void;
+  treeId: Maybe<string>;
+  triggerGetTree: () => void;
   updateTreeNode: (nodeId: string, props: { header?: string, tags?: string[] }) => void;
 }

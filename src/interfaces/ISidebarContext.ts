@@ -4,5 +4,7 @@ export default interface ISidebarContext {
   readonly isOpen: boolean;
   open: () => void;
   setCardId: (cardId: string) => void;
+  setTreeId: (treeId: string) => void;
+  readonly treeId: string;
   unsetComponent: () => void;
 }

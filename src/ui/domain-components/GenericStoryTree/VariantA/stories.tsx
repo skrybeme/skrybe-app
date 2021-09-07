@@ -38,7 +38,8 @@ Default.args = {
             header: lorem.sentence(),
             id: '5',
             parentId: '2',
-            tags: []
+            tags: [],
+            treeRootId: ''
           }
         ],
         header: lorem.sentence(),
@@ -55,7 +56,8 @@ Default.args = {
             label: '',
             id: ''
           }
-        ]
+        ],
+        treeRootId: ''
       },
       {
         body: '',
@@ -66,7 +68,8 @@ Default.args = {
             header: lorem.sentence(),
             id: '6',
             parentId: '3',
-            tags: []
+            tags: [],
+            treeRootId: ''
           },
           {
             body: '',
@@ -74,13 +77,15 @@ Default.args = {
             header: lorem.sentence(),
             id: '7',
             parentId: '3',
-            tags: []
+            tags: [],
+            treeRootId: ''
           }
         ],
         header: lorem.sentence(),
         id: '3',
         parentId: '1',
-        tags: []
+        tags: [],
+        treeRootId: ''
       },
       {
         body: '',
@@ -88,13 +93,15 @@ Default.args = {
         header: lorem.sentence(),
         id: '4',
         parentId: '1',
-        tags: []
+        tags: [],
+        treeRootId: ''
       }
     ],
     header: lorem.sentence(),
     id: '1',
     parentId: null,
-    tags: []
+    tags: [],
+    treeRootId: ''
   },
   updateTreeNode: action('updateTreeNode')
 };

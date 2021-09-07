@@ -1,3 +1,4 @@
+import { Nav } from '@/ui/views/Nav/styles';
 import { px, Space } from '@/ui/styles/spacing';
 import styled from 'styled-components';
 
@@ -10,6 +11,11 @@ export const App = styled.div`
   *::selection {
     background-color: ${props => props.theme.primaryLight};
     color: ${props => props.theme.light};
+  }
+
+  ${Nav} {
+    top: 48px;
+    z-index: 1;
   }
 `;
 

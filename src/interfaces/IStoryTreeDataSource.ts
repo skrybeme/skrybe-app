@@ -1,10 +1,15 @@
 import { AsyncMaybe, UuidType } from '@/common/types';
-import IDataSource from './IDataSource';
 import StoryCard from '@/entities/StoryCard';
 import Tree from '@/entities/Tree';
+import IPersistable from './IPersistable';
 
-export default interface IStoryTreeDataSource extends IDataSource<Tree<StoryCard>> {
+export interface StoryTreeDataSourceQuery {
+  storyTreeInfoId: UuidType;
+}
+
+export default interface IStoryTreeDataSource extends IPersistable<Tree<StoryCard>> {
   getById(id: UuidType): AsyncMaybe<Tree<StoryCard>>;
   getCollection(): Promise<Tree<StoryCard>[]>;
+  getOneBy(query: StoryTreeDataSourceQuery): AsyncMaybe<Tree<StoryCard>>;
   save(tree: Tree<StoryCard>): Promise<Tree<StoryCard>>;
 }

@@ -1,9 +1,11 @@
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
 import { Themes } from '../src/ui/styles/theme';
+import * as GS from '../src/ui/styles/global';
 
 const StoryWrapper = ({ children }: React.PropsWithChildren<{}>) => (
   <ThemeProvider theme={Themes.purple}>
+    <GS.CssReset />
     {children}
   </ThemeProvider>
 )

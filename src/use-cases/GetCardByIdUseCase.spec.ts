@@ -1,6 +1,6 @@
 import { StoryCardMap } from '@/mappers';
-import { InMemoryRepo } from '@/repository';
 import { CardDetailsStore } from '@/store';
+import { InMemoryStoryTreeRepo } from '@/repository';
 import { GetCardByIdUseCase } from './GetCardByIdUseCase';
 import StoryCard from '@/entities/StoryCard';
 import Tree from '@/entities/Tree';
@@ -11,7 +11,7 @@ describe(`GetCardByIdUseCase`, () => {
 
   tree.insert(card);
 
-  const inMemoryStoryTreeRepo = new InMemoryRepo([tree]);
+  const inMemoryStoryTreeRepo = new InMemoryStoryTreeRepo([tree]);
   const cardDetailsStore = new CardDetailsStore();
 
   const getCardById = new GetCardByIdUseCase(inMemoryStoryTreeRepo, cardDetailsStore);

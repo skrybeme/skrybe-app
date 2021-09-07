@@ -2,18 +2,28 @@ import { UuidType, Maybe } from '@/common/types';
 import StoryCard from '@/entities/StoryCard';
 import Tree from '@/entities/Tree';
 import Tag from '@/entities/Tag';
-import { StoryCardLocalStorageModel } from './models/StoryCardLocalStorageModel';
-import { StoryTreeLocalStorageModel } from './models/StoryTreeLocalStorageModel';
 import ITagProps from '@/interfaces/ITagProps';
+import { StoryTreeLocalStorageModel } from '../models/StoryTreeLocalStorageModel';
+import { StoryCardLocalStorageModel } from '../models/StoryCardLocalStorageModel';
+import { StoryTreeInfoLocalStorageModel } from '../models/StoryTreeInfoLocalStorageModel';
+import { StoryTreeInfoLocalStorageMap } from './StoryTreeInfoLocalStorageMap';
 
 export class StoryTreeLocalStorageMap {
-  static toDomainModel(localStorageModel: StoryTreeLocalStorageModel): Tree<StoryCard> {
+  // @TODO Test the case when story tree info is undefined.
+  static toDomainModel(
+    storyTreeRootLocalStorageModel: StoryTreeLocalStorageModel,
+    storyTreeInfoLocalStorageModel?: StoryTreeInfoLocalStorageModel
+  ): Tree<StoryCard> {
     const storyTreeDomainModel = new Tree<StoryCard>(
-      undefined,
-      localStorageModel.id
+      storyTreeInfoLocalStorageModel
+        ? {
+          info: StoryTreeInfoLocalStorageMap.toDomainModel(storyTreeInfoLocalStorageModel)
+        }
+        : {},
+      storyTreeRootLocalStorageModel.id
     );
     
-    const rootContext = Object.values(localStorageModel.tree)
+    const rootContext = Object.values(storyTreeRootLocalStorageModel.tree)
       .find(({ isRoot }) => isRoot);
 
     // @TODO Test this case
@@ -41,7 +51,7 @@ export class StoryTreeLocalStorageMap {
       }
   
       nodeContext.childrenIds.forEach((childId: UuidType) => {
-        const childNodeContext = localStorageModel.tree[childId];
+        const childNodeContext = storyTreeRootLocalStorageModel.tree[childId];
   
         if (!childNodeContext) {
           return;
@@ -56,6 +66,12 @@ export class StoryTreeLocalStorageMap {
 
   static toLocalStorageModel(domainModel: Tree<StoryCard>): StoryTreeLocalStorageModel {
     let tree = {};
+
+    if (!domainModel.info) {
+      throw new Error(
+        `[StoryTreeLocalStorageMap.toLocalStorageModel] Property "info" in domain entity is invalid.`
+      );
+    }
 
     Array.from(domainModel.getRawTreeMap().entries()).map(([id, nodeContext]) => {
       tree[id] = {
@@ -75,6 +91,7 @@ export class StoryTreeLocalStorageMap {
 
     return {
       id: domainModel.id,
+      infoId: domainModel.info.id,
       tree
     };
   }

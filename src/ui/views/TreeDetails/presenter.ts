@@ -5,10 +5,18 @@ import { useContainer } from '@/ui/hooks';
 import { StoryTreeRootDetailsStore } from '@/store/StoryTreeRootDetailsStore';
 import * as SYMBOL from '@/container/symbols';
 
-export function useTreeDetailsPresenter(): TreeDetailsPresenterResult {
+export interface TreeDetailsPresenterProps {
+  storyTreeInfoId: string;
+}
+
+// @TODO CRITICAL
+// What if story tree root is not resolved?
+export function useTreeDetailsPresenter({
+  storyTreeInfoId
+}: TreeDetailsPresenterProps): TreeDetailsPresenterResult {
   const {
     generateChildrenTreeNodes,
-    getTreeById,
+    getTree,
     insertTreeNode,
     removeTreeNode,
     updateCardDetails
@@ -24,10 +32,10 @@ export function useTreeDetailsPresenter(): TreeDetailsPresenterResult {
           parentNodeId: nodeId,
           placeBeforeNodeId,
           source,
-          treeId: 'c0773e64-3a3a-11eb-adc1-0242ac120002'
+          treeId: storyTreeRootDetailsStore.data?.treeRootId || ''
         });
       },
-      [generateChildrenTreeNodes]
+      [generateChildrenTreeNodes, storyTreeRootDetailsStore.data?.treeRootId]
     ),
     insertTreeNode: React.useCallback(
       (
@@ -43,28 +51,29 @@ export function useTreeDetailsPresenter(): TreeDetailsPresenterResult {
           parentNodeId,
           place,
           tags: [],
-          treeId: 'c0773e64-3a3a-11eb-adc1-0242ac120002'
+          treeId: storyTreeRootDetailsStore.data?.treeRootId || ''
         });
       },
-      [insertTreeNode]
+      [insertTreeNode, storyTreeRootDetailsStore.data?.treeRootId]
     ),
     root: storyTreeRootDetailsStore,
     removeTreeNode: React.useCallback((nodeId: string) => {
       removeTreeNode.execute({
         id: nodeId,
-        treeId: 'c0773e64-3a3a-11eb-adc1-0242ac120002'
+        treeId: storyTreeRootDetailsStore.data?.treeRootId || ''
       });
-    }, [removeTreeNode]),
-    triggerGetTreeById: React.useCallback((_: string) => {
-      getTreeById.execute({ id: 'c0773e64-3a3a-11eb-adc1-0242ac120002' });
-    }, [getTreeById]),
+    }, [removeTreeNode, storyTreeRootDetailsStore.data?.treeRootId]),
+    treeId: storyTreeRootDetailsStore.data?.treeRootId || '',
+    triggerGetTree: React.useCallback(() => {
+      getTree.execute({ storyTreeInfoId });
+    }, [getTree, storyTreeInfoId]),
     updateTreeNode: React.useCallback((nodeId: string, { header, tags }: any) => {
       updateCardDetails.execute({
         header,
         id: nodeId,
         tags,
-        treeId: 'c0773e64-3a3a-11eb-adc1-0242ac120002',
+        treeId: storyTreeRootDetailsStore.data?.treeRootId || ''
       });
-    }, [updateCardDetails])
+    }, [storyTreeRootDetailsStore.data?.treeRootId, updateCardDetails])
   };
 }

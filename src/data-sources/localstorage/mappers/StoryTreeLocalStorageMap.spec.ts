@@ -1,15 +1,40 @@
 import { StoryTreeLocalStorageMap } from './StoryTreeLocalStorageMap';
-import { StoryTreeLocalStorageModel } from './models/StoryTreeLocalStorageModel';
+import { StoryTreeLocalStorageModel } from '../models/StoryTreeLocalStorageModel';
 import Tree from '@/entities/Tree';
 import StoryCard from '@/entities/StoryCard';
 import Tag from '@/entities/Tag';
 import { TagColor } from '@/entities/enums';
+import StoryTreeInfo from '@/entities/StoryTreeInfo';
+import { lorem } from 'faker';
+import { StoryTreeInfoLocalStorageModel } from '../models/StoryTreeInfoLocalStorageModel';
 
 describe(`StoryTreeLocalStorageMap`, () => {
   describe(`toDomainModel`, () => {
-    it(`maps localStorage model to domain model with respect to parent's children array order`, () => {
-      const input: StoryTreeLocalStorageModel = {
+    it(`throws error if given story tree root is not related to given story tree info`, () => {
+      const storyTreeRoot: StoryTreeLocalStorageModel = {
         id: 'aef2c353-62be-47dc-a24c-3b6210a19e84',
+        infoId: 'c485a8e7-4d89-4265-92be-275167ef7362',
+        tree: {}
+      };
+
+      const storyTreeInfo: StoryTreeInfoLocalStorageModel = {
+        id: '24f2cf20-ab5c-4a90-9267-4a4dfd9819c5',
+        title: lorem.paragraph()
+      };
+
+      expect(() => StoryTreeLocalStorageMap.toDomainModel(storyTreeRoot, storyTreeInfo))
+        .toThrow();
+    });
+
+    it(`maps localStorage model to domain model with respect to parent's children array order`, () => {
+      const storyTreeInfo: StoryTreeInfoLocalStorageModel = {
+        id: 'c485a8e7-4d89-4265-92be-275167ef7362',
+        title: lorem.paragraph()
+      };
+
+      const storyTreeRoot: StoryTreeLocalStorageModel = {
+        id: 'aef2c353-62be-47dc-a24c-3b6210a19e84',
+        infoId: 'c485a8e7-4d89-4265-92be-275167ef7362',
         tree: {
           'ad25244b-9d62-4506-9427-f5ee2e15b3e8': {
             childrenIds: [
@@ -104,7 +129,7 @@ describe(`StoryTreeLocalStorageMap`, () => {
         }
       };
   
-      const output = StoryTreeLocalStorageMap.toDomainModel(input);
+      const output = StoryTreeLocalStorageMap.toDomainModel(storyTreeRoot, storyTreeInfo);
   
       const root = output.getRoot()!;
       const children = output.getChildrenOf(root.id)!;
@@ -152,8 +177,24 @@ describe(`StoryTreeLocalStorageMap`, () => {
   });
 
   describe(`toLocalStorageModel`, () => {
-    it(`maps domain model to localStorage model with respect to parent's children array order`, () => {
+    it(`throws error if domain entity is not related to any story tree info`, () => {
       const tree = new Tree<StoryCard>();
+
+      const root = new StoryCard({
+        body: 'b1',
+        header: 'h1',
+        tags: []
+      });
+
+      tree.insert(root);
+
+      expect(() => StoryTreeLocalStorageMap.toLocalStorageModel(tree)).toThrow();
+    });
+
+    it(`maps domain model to localStorage model with respect to parent's children array order`, () => {
+      const tree = new Tree<StoryCard>({
+        info: new StoryTreeInfo({ title: lorem.sentence() })
+      });
 
       const tags = [
         new Tag({
@@ -233,6 +274,7 @@ describe(`StoryTreeLocalStorageMap`, () => {
 
       expect(output).toEqual({
         id: tree.id,
+        infoId: tree.info!.id,
         tree: {
           [root.id]: {
             childrenIds: children.map(({ id }) => id),

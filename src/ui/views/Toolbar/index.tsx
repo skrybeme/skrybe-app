@@ -2,11 +2,14 @@ import { Logo } from '@/ui/domain-components/Logo';
 import React from 'react';
 import * as S from './styles';
 
-export function Toolbar(): React.ReactElement {
+export function Toolbar({ onHamburgerClick }: any): React.ReactElement {
   return (
     <S.Toolbar>
       <S.Flex>
-        <S.Hamburger id="hamburger">
+        <S.Hamburger
+          id="hamburger"
+          onClick={onHamburgerClick}
+        >
           <span />
           <span />
           <span />

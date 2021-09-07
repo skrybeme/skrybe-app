@@ -2,6 +2,7 @@ import { UuidType, AsyncMaybe } from '@/common/types';
 import { IStoryTreeDataSource } from '@/interfaces';
 import StoryCard from '@/entities/StoryCard';
 import Tree from '@/entities/Tree';
+import { StoryTreeDataSourceQuery } from '@/interfaces/IStoryTreeDataSource';
 
 export default function createInMemoryStoryTreeDataSource(
   collection: Array<Tree<StoryCard>> = []
@@ -9,7 +10,6 @@ export default function createInMemoryStoryTreeDataSource(
   const _collection = collection;
 
   return {
-    boot(): void {},
     getById(id: UuidType): AsyncMaybe<Tree<StoryCard>> {
       const result = _collection.find((tree) => tree.id === id);
 
@@ -17,6 +17,11 @@ export default function createInMemoryStoryTreeDataSource(
     },
     getCollection(): Promise<Tree<StoryCard>[]> {
       return Promise.resolve(_collection);
+    },
+    getOneBy(query: StoryTreeDataSourceQuery): AsyncMaybe<Tree<StoryCard>> {
+      const result = _collection.find((tree) => tree.info?.id === query.storyTreeInfoId);
+
+      return Promise.resolve(result || null);
     },
     save(tree: Tree<StoryCard>): Promise<Tree<StoryCard>> {
       const index = _collection.findIndex((t) => t.equals(tree));
