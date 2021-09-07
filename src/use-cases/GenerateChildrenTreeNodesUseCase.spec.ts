@@ -1,3 +1,4 @@
+import { StoryTreeRootDetailsStore } from "@/store/StoryTreeRootDetailsStore";
 import StoryCard from "../entities/StoryCard";
 import Tag from "../entities/Tag";
 import Tree from "../entities/Tree";
@@ -6,9 +7,12 @@ import { GenerateChildrenTreeNodesUseCase } from "./GenerateChildrenTreeNodesUse
 
 describe(`GenerateChildrenTreeNodesUseCase`, () => {
   const inMemoryStoryTreeRepo = new InMemoryRepo([new Tree<StoryCard>()]);
+  const storyTreeRootDetailsStore = new StoryTreeRootDetailsStore();
 
-  const generateChildrenTreeNodes =
-    new GenerateChildrenTreeNodesUseCase(inMemoryStoryTreeRepo);
+  const generateChildrenTreeNodes = new GenerateChildrenTreeNodesUseCase(
+    inMemoryStoryTreeRepo,
+    storyTreeRootDetailsStore
+  );
 
   // @TODO
   // Test text formatting, especially white spaces and dots at the begining and end of

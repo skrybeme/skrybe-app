@@ -1,7 +1,9 @@
 import StoryCard from "@/entities/StoryCard";
 import Tag from "@/entities/Tag";
 import Tree from "@/entities/Tree";
+import { StoryTreeMap } from "@/mappers";
 import { InMemoryRepo } from "@/repository";
+import { StoryTreeRootDetailsStore } from "@/store/StoryTreeRootDetailsStore";
 import { RemoveTreeNodeUseCase } from "./RemoveTreeNodeUseCase";
 
 describe(`RemoveTreeNodeUseCase`, () => {
@@ -49,23 +51,33 @@ describe(`RemoveTreeNodeUseCase`, () => {
   tree.insert(rootLeftGrandChild, rootLeftChild.id);
 
   const inMemoryStoryTreeRepo = new InMemoryRepo<Tree<StoryCard>>([tree]);
+  const storyTreeRootDetailsStore = new StoryTreeRootDetailsStore();
 
-  const removeTreeNode = new RemoveTreeNodeUseCase(inMemoryStoryTreeRepo);
+  const removeTreeNode = new RemoveTreeNodeUseCase(
+    inMemoryStoryTreeRepo,
+    storyTreeRootDetailsStore
+  );
 
   it(`removes tree node with all its children from the tree`, async () => {
-    await removeTreeNode.execute({
+    const removedNode = await removeTreeNode.execute({
       id: rootLeftChild.id,
       treeId: tree.id
     });
 
-    expect(tree.getChildrenOf(root.id)).toHaveLength(1);
-  });
+    expect(removedNode).toEqual(rootLeftChild);
 
-  it(`persist updated tree with repo's save method`, async () => {
     const persistedTree = await inMemoryStoryTreeRepo.getById(tree.id);
 
     const persistedTreeRoot = persistedTree?.getRoot();
 
     expect(persistedTree!.getChildrenOf(persistedTreeRoot!.id)).toHaveLength(1);
+  });
+
+  it(`saves updated tree in the store`, async () => {
+    const persistedTree = await inMemoryStoryTreeRepo.getById(tree.id);
+
+    const expectedValue = StoryTreeMap.toViewModel(persistedTree!);
+
+    expect(storyTreeRootDetailsStore.data).toEqual(expectedValue);
   });
 });

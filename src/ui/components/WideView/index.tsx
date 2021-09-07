@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useWindowSize } from '@/ui/hooks';
 import { selectNestedCardTree } from '@/ui/store/selectors';
 import * as S from './styles';
-import { useTreeDetailsPresenter } from '@/ui/presenters';
 import { CardTeaser } from '../CardTeaser/VariantA';
+import { useTreeDetailsPresenter } from '@/ui/views/TreeDetails/presenter';
 
 const Card = CardTeaser;
 

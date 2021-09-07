@@ -1,5 +1,8 @@
 import { PartialProps } from '@/common/types';
 import { IUseCases } from '@/interfaces';
+import { CardDetailsStore } from '@/store';
+import { StoryTreeRootDetailsStore } from '@/store/StoryTreeRootDetailsStore';
+import { TagCollectionStore } from '@/store/TagCollectionStore';
 import { Container, ContainerModule } from 'inversify';
 import * as SYMBOL from './symbols';
 
@@ -13,7 +16,7 @@ const mocks = {
   insertTreeNodeUseCaseExecutionMock: jest.fn(),
   rebindTreeNodeUseCaseExecutionMock: jest.fn(),
   removeTreeNodeUseCaseExecutionMock: jest.fn(),
-  updateTreeNodeUseCaseExecutionMock: jest.fn()
+  updateCardDetailsUseCaseExecutionMock: jest.fn()
 };
 
 container.load(new ContainerModule((bind) => {
@@ -28,9 +31,20 @@ container.load(new ContainerModule((bind) => {
       insertTreeNode: { execute: mocks.insertTreeNodeUseCaseExecutionMock },
       rebindTreeNode: { execute: mocks.rebindTreeNodeUseCaseExecutionMock },
       removeTreeNode: { execute: mocks.removeTreeNodeUseCaseExecutionMock },
-      updateTreeNode: { execute: mocks.updateTreeNodeUseCaseExecutionMock }
+      updateCardDetails: { execute: mocks.updateCardDetailsUseCaseExecutionMock }
     };
   });
+}));
+
+container.load(new ContainerModule((bind) => {
+  bind<CardDetailsStore>(SYMBOL.store.CardDetailsStore)
+    .toConstantValue(new CardDetailsStore());
+
+  bind<StoryTreeRootDetailsStore>(SYMBOL.store.StoryTreeRootDetailsStore)
+    .toConstantValue(new StoryTreeRootDetailsStore());
+
+  bind<TagCollectionStore>(SYMBOL.store.TagCollectionStore)
+    .toConstantValue(new TagCollectionStore());
 }));
 
 export {

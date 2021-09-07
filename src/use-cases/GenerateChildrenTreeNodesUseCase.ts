@@ -1,14 +1,18 @@
-import { AsyncMaybe } from "@/common/types";
-import StoryCard from "@/entities/StoryCard";
-import { IStoryTreeRepo } from "@/interfaces";
-import IExecutable from "@/interfaces/IExecutable";
-import { GenerateChildrenTreeNodesRequest } from "@/interfaces/requests";
+import { AsyncMaybe } from '@/common/types';
+import { IStoryTreeRepo } from '@/interfaces';
+import { GenerateChildrenTreeNodesRequest } from '@/interfaces/requests';
+import { StoryTreeRootDetailsStore } from '@/store/StoryTreeRootDetailsStore';
+import StoryCard from '@/entities/StoryCard';
+import IExecutable from '@/interfaces/IExecutable';
 
 export class GenerateChildrenTreeNodesUseCase implements IExecutable<
   GenerateChildrenTreeNodesRequest,
   AsyncMaybe<Array<StoryCard>>
 > {
-  constructor(private _treeRepo: IStoryTreeRepo) {}
+  constructor(
+    private _treeRepo: IStoryTreeRepo,
+    private _storyTreeRootDetailsStore: StoryTreeRootDetailsStore
+  ) {}
 
   public async execute(
     request: GenerateChildrenTreeNodesRequest
@@ -50,7 +54,13 @@ export class GenerateChildrenTreeNodesUseCase implements IExecutable<
       cards.push(card);
     });
 
-    await this._treeRepo.save(tree);
+    const persistedTree = await this._treeRepo.save(tree);
+
+    this._storyTreeRootDetailsStore.set({
+      data: persistedTree,
+      isError: false,
+      isLoading: false
+    });
 
     return Promise.resolve(cards);
   }

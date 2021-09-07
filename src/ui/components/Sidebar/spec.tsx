@@ -6,10 +6,6 @@ import { container } from '@/container/mock';
 import { ContainerProvider } from '@/ui/providers';
 import { fireEvent, render } from '@testing-library/react';
 import { Sidebar } from '.';
-import * as CardEditorView from '@/ui/views/CardEditor';
-
-jest.spyOn(CardEditorView, 'CardEditor')
-  .mockReturnValue(<div data-testid="mocked-card-editor"></div>);
 
 const sidebarContextMock: ISidebarContext = {
   close: jest.fn(),
@@ -51,7 +47,7 @@ describe(`Common Component: Sidebar`, () => {
   it(`renders card editor if context flag is truthy`, () => {
     const { queryByTestId } = render(<Fixture contextValue={{ isOpen: true }} />);
 
-    expect(queryByTestId('mocked-card-editor')).toBeInTheDocument();
+    expect(queryByTestId('card-editor')).toBeInTheDocument();
   });
 
   it(`calls context's method on 'close' button click`, () => {
