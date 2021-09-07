@@ -8,9 +8,13 @@ import { StoryTreeInfoLocalStorageModel } from './models/StoryTreeInfoLocalStora
 import { StoryTreeLocalStorageModel } from './models/StoryTreeLocalStorageModel';
 import { TagColor } from '@/entities/enums';
 import { StoryTreeLocalStorageMap } from './mappers/StoryTreeLocalStorageMap';
-import { defaultStoryTreeRootCollection } from './data';
+import {
+  defaultStoryTreeRootCollection,
+  defaultStoryTreeInfoCollection,
+} from './data';
+import { ILocalStorageStoryTreeInfoDatabase } from './LocalStorageStoryTreeInfoDataSource';
 
-describe(`LocalStorageStoryTreeInfoDataSource`, () => {
+describe(`LocalStorageStoryTreeDataSource`, () => {
   const rootId = datatype.uuid();
   const firstChildId = datatype.uuid();
   const secondChildId = datatype.uuid();
@@ -18,9 +22,17 @@ describe(`LocalStorageStoryTreeInfoDataSource`, () => {
   const firstGrandchildId = datatype.uuid();
   const secondGrandchildId = datatype.uuid();
 
+  const storyTreeInfoCollection: StoryTreeInfoLocalStorageModel[] = [
+    {
+      id: datatype.uuid(),
+      title: lorem.sentence()
+    }
+  ];
+
   const storyTreeRootCollection: StoryTreeLocalStorageModel[] = [
     {
       id: datatype.uuid(),
+      infoId: storyTreeInfoCollection[0].id,
       tree: {
         [rootId]: {
           childrenIds: [
@@ -111,15 +123,24 @@ describe(`LocalStorageStoryTreeInfoDataSource`, () => {
   ];
 
   const mappedStoryTreeRootCollection
-    = storyTreeRootCollection.map(StoryTreeLocalStorageMap.toDomainModel);
+    = storyTreeRootCollection.map((item, index) => StoryTreeLocalStorageMap.toDomainModel(item, storyTreeInfoCollection[index]));
 
-  const localStorageStoryTreeRootDatabaseMock: ILocalStorageStoryTreeRootDatabase = {
+  const localStorageStoryTreeRootDatabaseMock: ILocalStorageStoryTreeRootDatabase & ILocalStorageStoryTreeInfoDatabase = {
+    getStoryTreeInfoById: jest.fn().mockImplementation((id: UuidType) => {
+      const record = storyTreeInfoCollection.find((item) => item.id === id);
+
+      return record || null;
+    }),
+    getStoryTreeInfoCollection: jest.fn().mockReturnValue(storyTreeInfoCollection),
     getStoryTreeRootById: jest.fn().mockImplementation((id: UuidType) => {
       const record = storyTreeRootCollection.find((item) => item.id === id);
 
       return record || null;
     }),
     getStoryTreeRootCollection: jest.fn().mockReturnValue(storyTreeRootCollection),
+    saveStoryTreeInfo: jest.fn().mockImplementation(
+      (record: StoryTreeInfoLocalStorageModel) => record
+    ),
     saveStoryTreeRoot: jest.fn().mockImplementation(
       (record: StoryTreeInfoLocalStorageModel) => record
     )
@@ -153,21 +174,22 @@ describe(`LocalStorageStoryTreeInfoDataSource`, () => {
 
   describe(`save`, () => {
     it(`saves transformed record to provided database`, () => {
-      const entity = defaultStoryTreeRootCollection[0];
+      const storyTreeRoot = defaultStoryTreeRootCollection[0];
 
-      localStorageTreeInfoDataSource.save(entity);
+      localStorageTreeInfoDataSource.save(storyTreeRoot);
 
       expect(localStorageStoryTreeRootDatabaseMock.saveStoryTreeRoot).toBeCalledWith(
-        StoryTreeLocalStorageMap.toLocalStorageModel(entity)
+        StoryTreeLocalStorageMap.toLocalStorageModel(storyTreeRoot)
       );
     });
 
     it(`resolves with persisted record`, async () => {
-      const entity = defaultStoryTreeRootCollection[0];
+      const storyTreeRoot = defaultStoryTreeRootCollection[0];
+      const storyTreeInfo = defaultStoryTreeInfoCollection[0];
 
-      const storedTree = await localStorageTreeInfoDataSource.save(entity);
+      const storedTree = await localStorageTreeInfoDataSource.save(storyTreeRoot);
 
-      expect(entity.equals(storedTree)).toBeTruthy();
+      expect(storyTreeRoot.equals(storedTree)).toBeTruthy();
     });
   });
 });

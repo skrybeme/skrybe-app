@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { NavLink } from 'react-router-dom';
 
 export const Nav = styled.nav`
   background-color: #3A2C61;
@@ -78,16 +79,17 @@ export const ItemText = styled.span`
   line-height: 20px;
 `;
 
-export const ItemLink = styled.a`
+export const ItemLink = styled(NavLink)`
   cursor: pointer;
   display: block;
   padding: 8px 32px;
+  text-decoration: none;
 
-  &:hover:not(.is-active) {
+  &:hover:not(.active) {
     background-color: #4D3C7C;
   }
 
-  &.is-active {
+  &.active {
     background-color: #8F7AC6;
 
     > ${ItemText} {

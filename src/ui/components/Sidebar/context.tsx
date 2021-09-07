@@ -9,6 +9,7 @@ export const SidebarContext = React.createContext<ISidebarContext>({
   isOpen: false,
   open: stubFactory(),
   setCardId: () => stub(),
+  setTreeId: () => stub(),
   unsetComponent: stubFactory()
 });
 
@@ -20,6 +21,11 @@ export function SidebarProvider({
   const [
     cardId,
     setCardId
+  ] = React.useState<string | undefined>(undefined);
+
+  const [
+    treeId,
+    setTreeId
   ] = React.useState<string | undefined>(undefined);
 
   const unsetComponent = React.useCallback(() => {
@@ -34,6 +40,8 @@ export function SidebarProvider({
         isOpen,
         open,
         setCardId,
+        setTreeId,
+        treeId,
         unsetComponent
       }}
     >

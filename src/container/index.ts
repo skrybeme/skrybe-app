@@ -3,7 +3,6 @@ import {
   LocalStorageDatabase
 } from '@/data-sources/localstorage/database/LocalStorageDatabase';
 import {
-  ILocalStorageStoryTreeDataSource,
   ILocalStorageStoryTreeRootDatabase,
   LocalStorageStoryTreeDataSource
 } from '@/data-sources/localstorage/LocalStorageStoryTreeDataSource';
@@ -31,7 +30,7 @@ import {
 import { GetCardByIdUseCase } from '@/use-cases/GetCardByIdUseCase';
 import { GetStoryTreeInfoCollectionUseCase, IStoryTreeInfoRepo } from '@/use-cases/GetStoryTreeInfoCollectionUseCase';
 import { GetTagsByTreeUseCase } from '@/use-cases/GetTagsByTreeUseCase';
-import { GetTreeByIdUseCase } from '@/use-cases/GetTreeByIdUseCase';
+import { GetTreeUseCase } from '@/use-cases/GetTreeUseCase';
 import { InsertTreeNodeUseCase } from '@/use-cases/InsertTreeNodeUseCase';
 import { RebindTreeNodeUseCase } from '@/use-cases/RebindTreeNodeUseCase';
 import { RemoveTreeNodeUseCase } from '@/use-cases/RemoveTreeNodeUseCase';
@@ -76,7 +75,7 @@ container.load(new ContainerModule((bind) => {
       getCardById: new GetCardByIdUseCase(treeRepo, cardDetailsStore),
       getStoryTreeInfoCollection: new GetStoryTreeInfoCollectionUseCase(storyTreeInfoRepo),
       getTagsByTree: new GetTagsByTreeUseCase(tagsRepo, tagCollectionStore),
-      getTreeById: new GetTreeByIdUseCase(treeRepo, storyTreeRootDetailsStore),
+      getTree: new GetTreeUseCase(treeRepo, storyTreeRootDetailsStore),
       insertTreeNode: new InsertTreeNodeUseCase(treeRepo, storyTreeRootDetailsStore),
       rebindTreeNode: new RebindTreeNodeUseCase(treeRepo, storyTreeRootDetailsStore),
       removeTreeNode: new RemoveTreeNodeUseCase(treeRepo, storyTreeRootDetailsStore),
@@ -119,13 +118,13 @@ container.load(new ContainerModule((bind) => {
 }));
 
 container.load(new ContainerModule((bind) => {
-  bind<ILocalStorageStoryTreeDataSource>(SYMBOL.TreeDataSource)
+  bind<IStoryTreeDataSource>(SYMBOL.TreeDataSource)
     .toDynamicValue(({ container }) => {
       const db = container.get<
         ILocalStorageStoryTreeInfoDatabase & ILocalStorageStoryTreeRootDatabase
       >(SYMBOL.LocalStorageDatabase);
 
-      const mockedStoryTreeDataSource: ILocalStorageStoryTreeDataSource
+      const mockedStoryTreeDataSource: IStoryTreeDataSource
         = new LocalStorageStoryTreeDataSource(db);
   
       return mockedStoryTreeDataSource;

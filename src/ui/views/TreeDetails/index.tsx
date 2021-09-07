@@ -9,18 +9,25 @@ import { useTreeDetailsPresenter } from './presenter';
 import * as SYMBOL from '@/container/symbols';
 import * as S from './styles';
 import * as GS from '@/ui/styles/global';
-import { defaultStoryTreeRootCollection } from '@/data-sources/localstorage/data';
 
-export const TreeDetails = observer((): ReactElement => {
+export interface TreeDetailsProps {
+  storyTreeInfoId: string;
+}
+
+export const TreeDetails = observer(({
+  storyTreeInfoId
+}: TreeDetailsProps): ReactElement<TreeDetailsProps> => {
   const dragHandleRef = useDraggable<HTMLDivElement>();
 
   const {
     generateChildrenTreeNodes,
     insertTreeNode,
     removeTreeNode,
-    triggerGetTreeById,
+    root,
+    treeId,
+    triggerGetTree,
     updateTreeNode
-  } = useTreeDetailsPresenter({ storyTreeId: defaultStoryTreeRootCollection[0].id });
+  } = useTreeDetailsPresenter({ storyTreeInfoId });
 
   const storyTreeRootDetailsStore
     = useContainer<StoryTreeRootDetailsStore>(SYMBOL.store.StoryTreeRootDetailsStore);
@@ -31,8 +38,9 @@ export const TreeDetails = observer((): ReactElement => {
   );
 
   useEffect(() => {
-    triggerGetTreeById();
-  }, []);
+    triggerGetTree();
+    // @TODO Test this dependency
+  }, [storyTreeInfoId]);
 
   return (
     <GS.Unscrollable>
@@ -42,6 +50,7 @@ export const TreeDetails = observer((): ReactElement => {
           insertTreeNode={insertTreeNode}
           removeTreeNode={removeTreeNode}
           root={root}
+          treeId={treeId!}
           updateTreeNode={updateTreeNode}
         />
       </S.TreeDetails>

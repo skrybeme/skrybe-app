@@ -1,11 +1,11 @@
 import { UuidType, AsyncMaybe, Maybe } from '@/common/types';
-import { IPersistable } from '@/interfaces';
+import { IPersistable, IStoryTreeDataSource } from '@/interfaces';
 import { StoryTreeLocalStorageModel } from './models/StoryTreeLocalStorageModel';
 import { StoryTreeLocalStorageMap } from './mappers/StoryTreeLocalStorageMap';
 import StoryCard from '@/entities/StoryCard';
 import Tree from '@/entities/Tree';
-
-export type ILocalStorageStoryTreeDataSource = IPersistable<Tree<StoryCard>>;
+import { StoryTreeDataSourceQuery } from '@/interfaces/IStoryTreeDataSource';
+import { ILocalStorageStoryTreeInfoDatabase } from './LocalStorageStoryTreeInfoDataSource';
 
 export interface ILocalStorageStoryTreeRootDatabase {
   getStoryTreeRootById(id: UuidType): Maybe<StoryTreeLocalStorageModel>;
@@ -15,8 +15,8 @@ export interface ILocalStorageStoryTreeRootDatabase {
   ): StoryTreeLocalStorageModel;
 }
 
-export class LocalStorageStoryTreeDataSource implements ILocalStorageStoryTreeDataSource {
-  constructor(private _localStorageDatabase: ILocalStorageStoryTreeRootDatabase) {}
+export class LocalStorageStoryTreeDataSource implements IStoryTreeDataSource {
+  constructor(private _localStorageDatabase: ILocalStorageStoryTreeRootDatabase & ILocalStorageStoryTreeInfoDatabase) {}
 
   getById(id: UuidType): AsyncMaybe<Tree<StoryCard>> {
     const record = this._localStorageDatabase.getStoryTreeRootById(id);
@@ -25,13 +25,41 @@ export class LocalStorageStoryTreeDataSource implements ILocalStorageStoryTreeDa
       return Promise.resolve(null);
     }
 
-    return Promise.resolve(StoryTreeLocalStorageMap.toDomainModel(record));
+    const embedded = this._localStorageDatabase.getStoryTreeInfoById(record?.infoId);
+
+    if (!embedded) {
+      return Promise.resolve(null);
+    }
+
+    return Promise.resolve(StoryTreeLocalStorageMap.toDomainModel(record, embedded));
   }
 
   getCollection(): Promise<Tree<StoryCard>[]> {
     const collection = this._localStorageDatabase.getStoryTreeRootCollection();
 
-    return Promise.resolve(collection.map(StoryTreeLocalStorageMap.toDomainModel));
+    return Promise.resolve(collection.map((item) => {
+      const embedded = this._localStorageDatabase.getStoryTreeInfoById(item?.infoId);
+
+      return StoryTreeLocalStorageMap.toDomainModel(item, embedded!);
+    }));
+  }
+
+  getOneBy(query: StoryTreeDataSourceQuery): AsyncMaybe<Tree<StoryCard>> {
+    const collection = this._localStorageDatabase.getStoryTreeRootCollection();
+
+    const record = collection.find((item) => item.infoId === query.storyTreeInfoId);
+
+    if (!record) {
+      return Promise.resolve(null);
+    }
+
+    const embedded = this._localStorageDatabase.getStoryTreeInfoById(record?.infoId);
+
+    if (!embedded) {
+      return Promise.resolve(null);
+    }
+
+    return Promise.resolve(StoryTreeLocalStorageMap.toDomainModel(record, embedded));
   }
 
   save(entity: Tree<StoryCard>): Promise<Tree<StoryCard>> {
@@ -39,6 +67,8 @@ export class LocalStorageStoryTreeDataSource implements ILocalStorageStoryTreeDa
 
     const result = this._localStorageDatabase.saveStoryTreeRoot(record);
 
-    return Promise.resolve(StoryTreeLocalStorageMap.toDomainModel(result));
+    const embedded = this._localStorageDatabase.getStoryTreeInfoById(record?.infoId);
+
+    return Promise.resolve(StoryTreeLocalStorageMap.toDomainModel(result, embedded!));
   }
 }

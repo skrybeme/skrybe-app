@@ -4,7 +4,7 @@ import {
 import { GetCardByIdUseCase } from '@/use-cases/GetCardByIdUseCase';
 import { GetStoryTreeInfoCollectionUseCase } from '@/use-cases/GetStoryTreeInfoCollectionUseCase';
 import { GetTagsByTreeUseCase } from '@/use-cases/GetTagsByTreeUseCase';
-import { GetTreeByIdUseCase } from '@/use-cases/GetTreeByIdUseCase';
+import { GetTreeUseCase } from '@/use-cases/GetTreeUseCase';
 import { InsertTreeNodeUseCase } from '@/use-cases/InsertTreeNodeUseCase';
 import { RebindTreeNodeUseCase } from '@/use-cases/RebindTreeNodeUseCase';
 import { RemoveTreeNodeUseCase } from '@/use-cases/RemoveTreeNodeUseCase';
@@ -15,7 +15,7 @@ export default interface IUseCases {
   getCardById: GetCardByIdUseCase;
   getStoryTreeInfoCollection: GetStoryTreeInfoCollectionUseCase;
   getTagsByTree: GetTagsByTreeUseCase;
-  getTreeById: GetTreeByIdUseCase;
+  getTree: GetTreeUseCase;
   insertTreeNode: InsertTreeNodeUseCase;
   rebindTreeNode: RebindTreeNodeUseCase;
   removeTreeNode: RemoveTreeNodeUseCase;

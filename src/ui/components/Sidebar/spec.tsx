@@ -12,6 +12,8 @@ const sidebarContextMock: ISidebarContext = {
   isOpen: false,
   open: jest.fn(),
   setCardId: jest.fn(),
+  setTreeId: jest.fn(),
+  treeId: 'test-tree-id',
   unsetComponent: jest.fn(),
   cardId: 'test-card-id'
 };

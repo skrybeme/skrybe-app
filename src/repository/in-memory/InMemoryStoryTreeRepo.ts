@@ -2,6 +2,7 @@ import { AsyncMaybe, UuidType } from '@/common/types';
 import { IStoryTreeRepo } from '@/interfaces';
 import StoryCard from '@/entities/StoryCard';
 import Tree from '@/entities/Tree';
+import { StoryTreeRepoQuery } from '@/interfaces/IStoryTreeRepo';
 
 export default function createInMemoryStoryTreeRepo(
   treeCollection: Tree<StoryCard>[] = []
@@ -16,6 +17,12 @@ export default function createInMemoryStoryTreeRepo(
     },
     getCollection(): Promise<Tree<StoryCard>[]> {
       return Promise.resolve(_treeCollection);
+    },
+    getOneBy({ storyTreeInfoId }: StoryTreeRepoQuery): AsyncMaybe<Tree<StoryCard>> {
+      const record
+        = _treeCollection.find((tree) => tree.info?.id === storyTreeInfoId) || null;
+  
+      return Promise.resolve(record);
     },
     save(tree: Tree<StoryCard>): Promise<Tree<StoryCard>> {
       const index = _treeCollection.findIndex((t) => t.equals(tree));

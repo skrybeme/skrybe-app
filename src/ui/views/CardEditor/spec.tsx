@@ -16,7 +16,10 @@ const cardId = datatype.uuid();
 
 const Fixture = () => (
   <ContainerProvider container={container}>
-    <CardEditor cardId={cardId} />
+    <CardEditor
+      cardId={cardId}
+      treeId="tree-id"
+    />
   </ContainerProvider>
 )
 

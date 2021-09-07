@@ -13,7 +13,7 @@ export interface GenericStoryTreeHookResult {
     }
   ) => () => void;
   onOptionsPickerToggle: (isOpen: boolean) => void;
-  openCard: (nodeId: string) => () => void;
+  openCard: (nodeId: string, treeId: string) => () => void;
   removeCard: (nodeId: string) => () => void;
   updateCard: (nodeId: string) => (header: string) => void;
 }
@@ -66,11 +66,12 @@ export function useGenericStoryTree({
     setIsOptionsPickerOpen(isOpen);
   }, []);
 
-  const { open, setCardId } = React.useContext(SidebarContext);
+  const { open, setCardId, setTreeId } = React.useContext(SidebarContext);
 
-  const openCard = React.useCallback((nodeId: string) => {
+  const openCard = React.useCallback((nodeId: string, treeId: string) => {
     return () => {
       setCardId(nodeId);
+      setTreeId(treeId);
 
       open();
     };

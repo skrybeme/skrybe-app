@@ -4,7 +4,7 @@ import { IIdentifiable } from "@/interfaces";
 export type RepoCollectionQuery<TEntity> = Record<keyof TEntity, any>;
 
 export class InMemoryRepo<TEntity extends IIdentifiable> {
-  constructor(private _collection: Array<TEntity> = []) {}
+  constructor(protected _collection: Array<TEntity> = []) {}
 
   getById(id: UuidType): AsyncMaybe<TEntity> {
     const record = this._collection.find((value) => value.id === id);

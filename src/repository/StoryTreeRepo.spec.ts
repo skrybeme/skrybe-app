@@ -4,6 +4,7 @@ import StoryCard from './../entities/StoryCard';
 import Tree from './../entities/Tree';
 import createCommonPersistableSpec from '../common/specs/persistable';
 import { IStoryTreeRepo } from '../interfaces';
+import { datatype } from 'faker';
 
 describe(`StoryTreeRepo`, () => {
   createCommonPersistableSpec<IStoryTreeRepo, Tree<StoryCard>>(
@@ -15,4 +16,20 @@ describe(`StoryTreeRepo`, () => {
       return entity;
     }
   );
+
+  describe(`getOneBy`, () => {
+    it(`executes proper source method and returns its result`, () => {
+      const dataSource = createInMemoryStoryTreeDataSource([]);
+
+      dataSource.getOneBy = jest.fn();
+
+      const repo = createStoryTreeRepo(dataSource);
+
+      const storyTreeInfoId = datatype.uuid();
+
+      repo.getOneBy({ storyTreeInfoId });
+
+      expect(dataSource.getOneBy).toBeCalledWith({ storyTreeInfoId });
+    })
+  });
 });

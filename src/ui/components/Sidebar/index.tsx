@@ -9,7 +9,7 @@ export const ScrollableContext = React.createContext<IScrollableContext>({
 });
 
 export function Sidebar(): React.ReactElement {
-  const { close, cardId, isOpen } = React.useContext(SidebarContext);
+  const { close, cardId, isOpen, treeId } = React.useContext(SidebarContext);
 
   const left = React.useRef(null);
   const right = React.useRef(null);
@@ -29,7 +29,10 @@ export function Sidebar(): React.ReactElement {
       <S.Side right>
         <ScrollableContext.Provider value={{ ref: right }}>
           <S.Scrollable ref={right}>
-            <CardEditor cardId={cardId} />
+            <CardEditor
+              cardId={cardId}
+              treeId={treeId}
+            />
           </S.Scrollable>
         </ScrollableContext.Provider>
         <S.CloseButton

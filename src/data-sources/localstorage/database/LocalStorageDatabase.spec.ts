@@ -9,8 +9,10 @@ import { defaultStoryTreeInfoCollection, defaultStoryTreeRootCollection } from '
 import { StoryTreeInfoLocalStorageModel } from '../models/StoryTreeInfoLocalStorageModel';
 
 describe(`LocalStorageDatabase`, () => {
-  const mockedStoryTreeRoot = new Tree<StoryCard>();
-    mockedStoryTreeRoot.insert(new StoryCard());
+  const mockedStoryTreeRoot = new Tree<StoryCard>({
+    info: new StoryTreeInfo({ title: lorem.sentence() })
+  });
+  mockedStoryTreeRoot.insert(new StoryCard());
 
   const mockedStoryTreeInfo = new StoryTreeInfo({ title: lorem.sentence() });
 
@@ -200,7 +202,7 @@ describe(`LocalStorageDatabase`, () => {
         const db = new LocalStorageDatabase();
   
         const tree = new Tree<StoryCard>(
-          undefined,
+          { info: new StoryTreeInfo({ title: lorem.sentence() }) },
           defaultStoryTreeRootCollectionLocalStorageModel[0].id
         );
 
@@ -241,7 +243,9 @@ describe(`LocalStorageDatabase`, () => {
       it(`adds story tree root in localStorage collection`, () => {
         const db = new LocalStorageDatabase();
   
-        const tree = new Tree<StoryCard>();
+        const tree = new Tree<StoryCard>({
+          info: new StoryTreeInfo({ title: lorem.sentence() })
+        });
         tree.insert(new StoryCard());
   
         const treeLocalStorageModel = StoryTreeLocalStorageMap.toLocalStorageModel(tree);

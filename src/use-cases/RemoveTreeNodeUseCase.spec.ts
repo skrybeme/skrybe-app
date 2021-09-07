@@ -1,10 +1,10 @@
-import StoryCard from "@/entities/StoryCard";
-import Tag from "@/entities/Tag";
-import Tree from "@/entities/Tree";
-import { StoryTreeMap } from "@/mappers";
-import { InMemoryRepo } from "@/repository";
-import { StoryTreeRootDetailsStore } from "@/store/StoryTreeRootDetailsStore";
-import { RemoveTreeNodeUseCase } from "./RemoveTreeNodeUseCase";
+import { StoryTreeMap } from '@/mappers';
+import { StoryTreeRootDetailsStore } from '@/store/StoryTreeRootDetailsStore';
+import { InMemoryStoryTreeRepo } from '@/repository';
+import { RemoveTreeNodeUseCase } from './RemoveTreeNodeUseCase';
+import StoryCard from '@/entities/StoryCard';
+import Tag from '@/entities/Tag';
+import Tree from '@/entities/Tree';
 
 describe(`RemoveTreeNodeUseCase`, () => {
   const tree = new Tree<StoryCard>();
@@ -50,7 +50,7 @@ describe(`RemoveTreeNodeUseCase`, () => {
   tree.insert(rootRightChild);
   tree.insert(rootLeftGrandChild, rootLeftChild.id);
 
-  const inMemoryStoryTreeRepo = new InMemoryRepo<Tree<StoryCard>>([tree]);
+  const inMemoryStoryTreeRepo = new InMemoryStoryTreeRepo([tree]);
   const storyTreeRootDetailsStore = new StoryTreeRootDetailsStore();
 
   const removeTreeNode = new RemoveTreeNodeUseCase(
