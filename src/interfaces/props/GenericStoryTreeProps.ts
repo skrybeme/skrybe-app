@@ -3,7 +3,11 @@ import { CSSProperties } from 'styled-components';
 import StoryTreeViewModel from '../view-models/StoryTreeViewModel';
 
 export default interface GenericCardTeaserTreeProps {
-  generateChildrenTreeNodes(nodeId: string, placeBeforeNodeId?: string): void;
+  generateChildrenTreeNodes(
+    source: 'body' | 'header',
+    nodeId: string,
+    placeBeforeNodeId?: string
+  ): void;
   insertTreeNode(
     parentNodeId?: string,
     place?: {
@@ -14,5 +18,6 @@ export default interface GenericCardTeaserTreeProps {
   removeTreeNode(nodeId: string): void;
   root: Maybe<StoryTreeViewModel>;
   style?: CSSProperties;
+  treeId?: string;
   updateTreeNode(nodeId: string, props: { header?: string }): void;
 }

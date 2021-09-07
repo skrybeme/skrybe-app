@@ -112,4 +112,22 @@ describe(`StoryCard`, () => {
       expect(card.tags[0]).toEqual(newTag);
     });
   });
+
+  describe(`setTags`, () => {
+    it(`replaces all tags with provided collection`, () => {
+      const card = new StoryCard();
+
+      const oldTags = [new Tag(), new Tag()];
+
+      card.addTag(oldTags[0]);
+      card.addTag(oldTags[1]);
+
+      const newTag = new Tag();
+
+      card.setTags([newTag]);
+
+      expect(card.tags.length).toEqual(1);
+      expect(card.tags[0]).toEqual(newTag);
+    });
+  });
 });

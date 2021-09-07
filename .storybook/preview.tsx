@@ -5,20 +5,15 @@ import * as GS from '../src/ui/styles/global';
 
 const StoryWrapper = ({ children }: React.PropsWithChildren<{}>) => (
   <ThemeProvider theme={Themes.purple}>
-    <GS.Center
-      bgColor='#5E489D'
-      horizontal
-      vertical
-    >
-      {children}
-    </GS.Center>
+    <GS.CssReset />
+    {children}
   </ThemeProvider>
 )
 
 export const decorators = [
   (Story: React.FC) => (
     <StoryWrapper>
-        <Story />
+      <Story />
     </StoryWrapper>
   )
 ];

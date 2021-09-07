@@ -2,15 +2,24 @@ import React from 'react';
 import { GenericStoryTreeProps } from '@/interfaces/props';
 import { Story } from '@storybook/react';
 import { action } from '@storybook/addon-actions'
-import { GenericStoryTree_VariantA } from '.';
+import { GenericStoryTree_VariantA as GenericStoryTree } from '.';
 import { lorem } from 'faker';
 import { TagColor } from '@/entities/enums';
+import * as GS from '@/ui/styles/global';
 
 export default {
   title: 'Domain Components/GenericStoryTree/VariantA'
 }
 
-const Template: Story<GenericStoryTreeProps> = (args) => <GenericStoryTree_VariantA {...args} />;
+const Template: Story<GenericStoryTreeProps> = (args) => (
+  <GS.Center
+    bgColor='#5E489D'
+    horizontal
+    vertical
+  >
+     <GenericStoryTree {...args} />
+  </GS.Center>
+);
 
 export const Default = Template.bind({});
 Default.args = {
@@ -29,7 +38,8 @@ Default.args = {
             header: lorem.sentence(),
             id: '5',
             parentId: '2',
-            tags: []
+            tags: [],
+            treeRootId: ''
           }
         ],
         header: lorem.sentence(),
@@ -46,7 +56,8 @@ Default.args = {
             label: '',
             id: ''
           }
-        ]
+        ],
+        treeRootId: ''
       },
       {
         body: '',
@@ -57,7 +68,8 @@ Default.args = {
             header: lorem.sentence(),
             id: '6',
             parentId: '3',
-            tags: []
+            tags: [],
+            treeRootId: ''
           },
           {
             body: '',
@@ -65,13 +77,15 @@ Default.args = {
             header: lorem.sentence(),
             id: '7',
             parentId: '3',
-            tags: []
+            tags: [],
+            treeRootId: ''
           }
         ],
         header: lorem.sentence(),
         id: '3',
         parentId: '1',
-        tags: []
+        tags: [],
+        treeRootId: ''
       },
       {
         body: '',
@@ -79,13 +93,15 @@ Default.args = {
         header: lorem.sentence(),
         id: '4',
         parentId: '1',
-        tags: []
+        tags: [],
+        treeRootId: ''
       }
     ],
     header: lorem.sentence(),
     id: '1',
     parentId: null,
-    tags: []
+    tags: [],
+    treeRootId: ''
   },
   updateTreeNode: action('updateTreeNode')
 };

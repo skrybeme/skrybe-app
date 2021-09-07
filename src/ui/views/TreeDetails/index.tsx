@@ -1,13 +1,20 @@
 import React, { ReactElement, useEffect } from 'react';
-import { useTreeDetailsPresenter } from '@/ui/presenters';
+import { observer } from 'mobx-react-lite';
 import {
   GenericStoryTree_VariantA as GenericStoryTree
 } from '@/ui/domain-components/GenericStoryTree';
 import { useDraggable } from '@/ui/hooks';
+import { useTreeDetailsPresenter } from './presenter';
 import * as S from './styles';
 import * as GS from '@/ui/styles/global';
 
-export function TreeDetails(): ReactElement {
+export interface TreeDetailsProps {
+  storyTreeInfoId: string;
+}
+
+export const TreeDetails = observer(({
+  storyTreeInfoId
+}: TreeDetailsProps): ReactElement<TreeDetailsProps> => {
   const dragHandleRef = useDraggable<HTMLDivElement>();
 
   const {
@@ -15,13 +22,14 @@ export function TreeDetails(): ReactElement {
     insertTreeNode,
     removeTreeNode,
     root,
-    triggerGetTreeById,
+    treeId,
+    triggerGetTree,
     updateTreeNode
-  } = useTreeDetailsPresenter();
+  } = useTreeDetailsPresenter({ storyTreeInfoId });
 
   useEffect(() => {
-    triggerGetTreeById('c0773e64-3a3a-11eb-adc1-0242ac120002');
-  }, []);
+    triggerGetTree();
+  }, [storyTreeInfoId]);
 
   return (
     <GS.Unscrollable>
@@ -31,9 +39,10 @@ export function TreeDetails(): ReactElement {
           insertTreeNode={insertTreeNode}
           removeTreeNode={removeTreeNode}
           root={root.data}
+          treeId={treeId!}
           updateTreeNode={updateTreeNode}
         />
       </S.TreeDetails>
     </GS.Unscrollable>
   );
-}
+});

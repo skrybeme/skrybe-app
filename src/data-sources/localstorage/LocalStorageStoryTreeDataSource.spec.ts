@@ -1,126 +1,194 @@
-import { LocalStorageStoryTreeDataSource } from './LocalStorageStoryTreeDataSource';
-import defaultStoryTree from './data/defaultStoryTree';
-import { StoryTreeLocalStorageMap } from './StoryTreeLocalStorageMap';
-import Tree from '@/entities/Tree';
-import StoryCard from '@/entities/StoryCard';
+import { UuidType } from '@/common/types';
+import { datatype, lorem } from 'faker';
+import {
+  ILocalStorageStoryTreeRootDatabase,
+  LocalStorageStoryTreeDataSource
+} from './LocalStorageStoryTreeDataSource';
+import { StoryTreeInfoLocalStorageModel } from './models/StoryTreeInfoLocalStorageModel';
+import { StoryTreeLocalStorageModel } from './models/StoryTreeLocalStorageModel';
+import { TagColor } from '@/entities/enums';
+import { StoryTreeLocalStorageMap } from './mappers/StoryTreeLocalStorageMap';
+import {
+  defaultStoryTreeRootCollection,
+  defaultStoryTreeInfoCollection,
+} from './data';
+import { ILocalStorageStoryTreeInfoDatabase } from './LocalStorageStoryTreeInfoDataSource';
 
 describe(`LocalStorageStoryTreeDataSource`, () => {
-  describe(`creation`, () => {
-    it(`does not affect stored data on creation if data is corrupted`, () => {
-      localStorage.setItem('example-tree', 'corrupted!##data');
-  
-      new LocalStorageStoryTreeDataSource();
-  
-      expect(localStorage.getItem('example-tree')).toEqual('corrupted!##data');
+  const rootId = datatype.uuid();
+  const firstChildId = datatype.uuid();
+  const secondChildId = datatype.uuid();
+  const thirdChildId = datatype.uuid();
+  const firstGrandchildId = datatype.uuid();
+  const secondGrandchildId = datatype.uuid();
+
+  const storyTreeInfoCollection: StoryTreeInfoLocalStorageModel[] = [
+    {
+      id: datatype.uuid(),
+      title: lorem.sentence()
+    }
+  ];
+
+  const storyTreeRootCollection: StoryTreeLocalStorageModel[] = [
+    {
+      id: datatype.uuid(),
+      infoId: storyTreeInfoCollection[0].id,
+      tree: {
+        [rootId]: {
+          childrenIds: [
+            firstChildId,
+            secondChildId,
+            thirdChildId
+          ],
+          isRoot: true,
+          node: {
+            body: lorem.sentence(),
+            header: lorem.sentence(),
+            id: 'root-id',
+            tags: [
+              {
+                color: TagColor.BLUE,
+                id: datatype.uuid(),
+                label: lorem.word()
+              },
+              {
+                color: TagColor.PURPLE,
+                id: datatype.uuid(),
+                label: lorem.word()
+              }
+            ]
+          },
+          parentId: ''
+        },
+        [firstChildId]: {
+          childrenIds: [
+            firstGrandchildId,
+            secondGrandchildId
+          ],
+          isRoot: false,
+          node: {
+            body: lorem.sentence(),
+            header: lorem.sentence(),
+            id: firstChildId,
+            tags: []
+          },
+          parentId: rootId
+        },
+        [secondChildId]: {
+          childrenIds: [],
+          isRoot: false,
+          node: {
+            body: lorem.sentence(),
+            header: lorem.sentence(),
+            id: secondChildId,
+            tags: []
+          },
+          parentId: rootId
+        },
+        [thirdChildId]: {
+          childrenIds: [],
+          isRoot: false,
+          node: {
+            body: lorem.sentence(),
+            header: lorem.sentence(),
+            id: thirdChildId,
+            tags: []
+          },
+          parentId: rootId
+        },
+        [firstGrandchildId]: {
+          childrenIds: [],
+          isRoot: false,
+          node: {
+            body: lorem.sentence(),
+            header: lorem.sentence(),
+            id: firstGrandchildId,
+            tags: []
+          },
+          parentId: firstChildId
+        },
+        [secondGrandchildId]: {
+          childrenIds: [],
+          isRoot: false,
+          node: {
+            body: lorem.sentence(),
+            header: lorem.sentence(),
+            id: secondGrandchildId,
+            tags: []
+          },
+          parentId: firstChildId
+        },
+      }
+    }
+  ];
+
+  const mappedStoryTreeRootCollection
+    = storyTreeRootCollection.map((item, index) => StoryTreeLocalStorageMap.toDomainModel(item, storyTreeInfoCollection[index]));
+
+  const localStorageStoryTreeRootDatabaseMock: ILocalStorageStoryTreeRootDatabase & ILocalStorageStoryTreeInfoDatabase = {
+    getStoryTreeInfoById: jest.fn().mockImplementation((id: UuidType) => {
+      const record = storyTreeInfoCollection.find((item) => item.id === id);
+
+      return record || null;
+    }),
+    getStoryTreeInfoCollection: jest.fn().mockReturnValue(storyTreeInfoCollection),
+    getStoryTreeRootById: jest.fn().mockImplementation((id: UuidType) => {
+      const record = storyTreeRootCollection.find((item) => item.id === id);
+
+      return record || null;
+    }),
+    getStoryTreeRootCollection: jest.fn().mockReturnValue(storyTreeRootCollection),
+    saveStoryTreeInfo: jest.fn().mockImplementation(
+      (record: StoryTreeInfoLocalStorageModel) => record
+    ),
+    saveStoryTreeRoot: jest.fn().mockImplementation(
+      (record: StoryTreeInfoLocalStorageModel) => record
+    )
+  };
+
+  const localStorageTreeInfoDataSource
+    = new LocalStorageStoryTreeDataSource(localStorageStoryTreeRootDatabaseMock);
+
+  describe(`getById`, () => {
+    it(`resolves with null if an entity with given id does not exist in database`, () => {
+      expect(localStorageTreeInfoDataSource.getById('non-existent-id')).resolves.toBeNull(); 
     });
 
-    it(`does not affect stored data on creation if data is not corrupted`, () => {
-      localStorage.setItem('example-tree', JSON.stringify({}));
-  
-      new LocalStorageStoryTreeDataSource();
-  
-      expect(localStorage.getItem('example-tree')).toEqual('{}');
+    it(`resolves with transformed record of an entity with given id`, async () => {
+      const storedTree
+        = await localStorageTreeInfoDataSource.getById(storyTreeRootCollection[0].id)!;
+
+      expect(mappedStoryTreeRootCollection[0].equals(storedTree!)).toBeTruthy();
     });
-  })
+  });
 
-  describe(`populating with initial data`, () => {
-    it(`does not overwrite stored data if such exists and is valid`, async () => {
-      const mockedStoryTree = new Tree<StoryCard>();
-      mockedStoryTree.insert(new StoryCard());
+  describe(`getCollection`, () => {
+    it(`resolves with transformed collection of records`, async () => {
+      const collection = await localStorageTreeInfoDataSource.getCollection();
 
-      const treeLocalStorageModel =
-        StoryTreeLocalStorageMap.toLocalStorageModel(mockedStoryTree);
+      expect(collection).toHaveLength(1);
 
-      localStorage.setItem('example-tree', JSON.stringify(treeLocalStorageModel));
-
-      const dataSource = new LocalStorageStoryTreeDataSource();
-
-      dataSource.boot();
-  
-      const result = await dataSource.getById('example-tree');
-
-      expect(result?.equals(mockedStoryTree)).toBeTruthy();
+      expect(mappedStoryTreeRootCollection[0].equals(collection[0])).toBeTruthy();
     });
+  });
 
-    it(`overwrites stored data if such is valid but of invalid type`, async () => {
-      localStorage.setItem('example-tree', JSON.stringify({}));
+  describe(`save`, () => {
+    it(`saves transformed record to provided database`, () => {
+      const storyTreeRoot = defaultStoryTreeRootCollection[0];
 
-      const dataSource = new LocalStorageStoryTreeDataSource();
+      localStorageTreeInfoDataSource.save(storyTreeRoot);
 
-      dataSource.boot();
-  
-      const result = await dataSource.getById('example-tree');
-
-      expect(result).toEqual(defaultStoryTree);
+      expect(localStorageStoryTreeRootDatabaseMock.saveStoryTreeRoot).toBeCalledWith(
+        StoryTreeLocalStorageMap.toLocalStorageModel(storyTreeRoot)
+      );
     });
 
-    it(`overwrites stored data if such is corrupted`, async () => {
-      localStorage.setItem('example-tree', 'corrupted!##data');
+    it(`resolves with persisted record`, async () => {
+      const storyTreeRoot = defaultStoryTreeRootCollection[0];
 
-      const dataSource = new LocalStorageStoryTreeDataSource();
+      const storedTree = await localStorageTreeInfoDataSource.save(storyTreeRoot);
 
-      dataSource.boot();
-  
-      const result = await dataSource.getById('example-tree');
-
-      expect(result).toEqual(defaultStoryTree);
-    });
-
-    it(`populates storage with initial data if storage is empty`, async () => {
-      const dataSource = new LocalStorageStoryTreeDataSource();
-
-      dataSource.boot();
-  
-      const result = await dataSource.getById('example-tree');
-
-      expect(result).toEqual(defaultStoryTree);
-    });
-  })
-
-  describe(`accessing specific tree`, () => {
-    it(`returns null if stored data is corrupted and does not affect it`, async () => {
-      localStorage.setItem('example-tree', 'corrupted!##data');
-  
-      const dataSource = new LocalStorageStoryTreeDataSource();
-  
-      const result = await dataSource.getById('example-tree');
-  
-      expect(result).toBeNull();
-      expect(localStorage.getItem('example-tree')).toEqual('corrupted!##data');
-    });
-
-    it(`returns null if stored data is valid but of wrong type and does not affect it`, async () => {
-      localStorage.setItem('example-tree', JSON.stringify({}));
-  
-      const dataSource = new LocalStorageStoryTreeDataSource();
-  
-      const result = await dataSource.getById('example-tree');
-  
-      expect(result).toBeNull();
-      expect(localStorage.getItem('example-tree')).toEqual('{}');
-    });
-
-    it(`returns tree's domain model by id`, async () => {
-      const treeLocalStorageModel =
-        StoryTreeLocalStorageMap.toLocalStorageModel(defaultStoryTree);
-
-      localStorage.setItem('example-tree', JSON.stringify(treeLocalStorageModel));
-
-      const dataSource = new LocalStorageStoryTreeDataSource();
-  
-      const result = await dataSource.getById('example-tree');
-
-      expect(result).toEqual(defaultStoryTree);
-    });
-  })
-
-  describe(`saving`, () => {
-    it(`saves the tree to localStorage in proper format`, async () => {
-      const dataSource = new LocalStorageStoryTreeDataSource();
-
-      await dataSource.save(defaultStoryTree);
-
-      expect(localStorage.getItem('example-tree')).toEqual(`{"id":"ba5ff9b6-c93c-4af9-b6d2-8e73168db61c","tree":{"ad25244b-9d62-4506-9427-f5ee2e15b3e8":{"childrenIds":["b5db3f95-0c6e-474d-ac47-0adf68b16fa5","0373574e-3160-4b9e-9e4c-082c5abfa1eb"],"isRoot":true,"node":{"body":"","header":"Your story begins here.","id":"ad25244b-9d62-4506-9427-f5ee2e15b3e8","tags":[]},"parentId":""},"b5db3f95-0c6e-474d-ac47-0adf68b16fa5":{"childrenIds":[],"isRoot":false,"node":{"body":"","header":"It can go in one direction.","id":"b5db3f95-0c6e-474d-ac47-0adf68b16fa5","tags":[]},"parentId":"ad25244b-9d62-4506-9427-f5ee2e15b3e8"},"0373574e-3160-4b9e-9e4c-082c5abfa1eb":{"childrenIds":["63a93d48-1040-4a8e-9a47-ef4bc3420e29","5aef3981-b775-4232-b833-d94636079e2b"],"isRoot":false,"node":{"body":"","header":"It can go the other direction.","id":"0373574e-3160-4b9e-9e4c-082c5abfa1eb","tags":[]},"parentId":"ad25244b-9d62-4506-9427-f5ee2e15b3e8"},"63a93d48-1040-4a8e-9a47-ef4bc3420e29":{"childrenIds":[],"isRoot":false,"node":{"body":"","header":"The other direction has one scenario.","id":"63a93d48-1040-4a8e-9a47-ef4bc3420e29","tags":[]},"parentId":"0373574e-3160-4b9e-9e4c-082c5abfa1eb"},"5aef3981-b775-4232-b833-d94636079e2b":{"childrenIds":[],"isRoot":false,"node":{"body":"","header":"And other scenario.","id":"5aef3981-b775-4232-b833-d94636079e2b","tags":[]},"parentId":"0373574e-3160-4b9e-9e4c-082c5abfa1eb"}}}`);
+      expect(storyTreeRoot.equals(storedTree)).toBeTruthy();
     });
   });
 });

@@ -1,6 +1,7 @@
-import { IStoryCard, IStoryCardProps, ITag } from '@/interfaces';
+import { IStoryCard, IStoryCardProps } from '@/interfaces';
 import { UuidType } from '@/common/types';
 import { generateUuid } from '@/utils';
+import Tag from './Tag';
 
 class StoryCard implements IStoryCard {
   private _id: UuidType;
@@ -28,7 +29,7 @@ class StoryCard implements IStoryCard {
     return this._id;
   }
 
-  get tags(): Array<ITag> {
+  get tags(): Array<Tag> {
     return this._props.tags || [];
   }
 
@@ -40,7 +41,7 @@ class StoryCard implements IStoryCard {
     this._props.header = value;
   }
 
-  addTag(tag: ITag): StoryCard {
+  addTag(tag: Tag): StoryCard {
     if (this._props.tags!.find(t => t.id === tag.id)) {
       throw Error(`Tree node cannot have the same tag added twice.`);
     }
@@ -51,7 +52,7 @@ class StoryCard implements IStoryCard {
   }
 
   removeTagById(id: UuidType): StoryCard {
-    const index = this._props.tags!.findIndex((tag: ITag) => tag.id === id);
+    const index = this._props.tags!.findIndex((tag: Tag) => tag.id === id);
 
     if (index < 0) {
       throw new Error(
@@ -64,10 +65,16 @@ class StoryCard implements IStoryCard {
     return this;
   }
 
-  replaceTag(oldTagId: UuidType, newTag: ITag): StoryCard {
-    const index = this._props.tags!.findIndex((tag: ITag) => tag.id === oldTagId);
+  replaceTag(oldTagId: UuidType, newTag: Tag): StoryCard {
+    const index = this._props.tags!.findIndex((tag: Tag) => tag.id === oldTagId);
 
     this._props.tags!.splice(index, 1, newTag);
+
+    return this;
+  }
+
+  setTags(tags: Tag[]): StoryCard {
+    this._props.tags = tags;
 
     return this;
   }

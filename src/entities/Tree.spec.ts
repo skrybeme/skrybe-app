@@ -2,6 +2,8 @@ import Tree from './Tree';
 import { IIdentifiable } from '../interfaces';
 import { UuidType } from '../common/types';
 import { generateUuid } from '../utils';
+import StoryTreeInfo from './StoryTreeInfo';
+import { lorem } from 'faker';
 
 class Identifiable implements IIdentifiable {
   constructor(private _id: UuidType = generateUuid()) {}
@@ -20,6 +22,34 @@ class Identifiable implements IIdentifiable {
 // // H I
 
 describe(`StoryTree`, () => {
+  describe(`property "info"`, () => {
+    it(`returns null by default`, () => {  
+      const tree = new Tree<Identifiable>();
+
+      expect(tree.info).toBeNull();
+    });
+
+    it(`returns proper story tree info if such was defined`, () => {
+      const storyTreeInfo = new StoryTreeInfo({ title: lorem.sentence() });
+
+      const tree = new Tree<Identifiable>({ info: storyTreeInfo });
+
+      expect(tree.info).toEqual(storyTreeInfo);
+    });
+
+    it(`allows to story tree info in existing object`, () => {
+      const storyTreeInfo = new StoryTreeInfo({ title: lorem.sentence() });
+
+      const tree = new Tree<Identifiable>({ info: storyTreeInfo });
+
+      const updatedStoryTreeInfo = new StoryTreeInfo({ title: lorem.sentences() });
+
+      tree.info = updatedStoryTreeInfo;
+
+      expect(tree.info).toEqual(updatedStoryTreeInfo);
+    });
+  });
+
   describe(`equals`, () => {
     it(`returns true if given trees have the same nodes and the same structure`, () => {
       const treeA = new Tree<Identifiable>();

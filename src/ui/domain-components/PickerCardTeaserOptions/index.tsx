@@ -13,7 +13,7 @@ export function PickerCardTeaserOptions_VariantA({
   const { close, isOpen, toggle } = useToggle();
 
   const emitGenerateChildren = useCallback(() => {
-    onGenerateChildren?.();
+    onGenerateChildren?.('body');
     close();
   }, [close, onGenerateChildren]);
 

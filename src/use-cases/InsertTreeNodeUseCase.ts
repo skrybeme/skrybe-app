@@ -1,14 +1,18 @@
-import { AsyncMaybe } from "@/common/types";
-import StoryCard from "@/entities/StoryCard";
-import Tag from "@/entities/Tag";
-import { IExecutable, IStoryTreeRepo } from "@/interfaces";
-import { InsertTreeNodeRequest } from "@/interfaces/requests";
+import { IExecutable, IStoryTreeRepo } from '@/interfaces';
+import { InsertTreeNodeRequest } from '@/interfaces/requests';
+import { StoryTreeRootDetailsStore } from '@/store/StoryTreeRootDetailsStore';
+import StoryCard from '@/entities/StoryCard';
+import Tag from '@/entities/Tag';
+import { AsyncMaybe } from '@/common/types';
 
 export class InsertTreeNodeUseCase implements IExecutable<
   InsertTreeNodeRequest,
   AsyncMaybe<StoryCard>
 > {
-  constructor(private _treeRepo: IStoryTreeRepo) {}
+  constructor(
+    private _treeRepo: IStoryTreeRepo,
+    private _storyTreeRootDetailsStore: StoryTreeRootDetailsStore
+  ) {}
 
   async execute(request: InsertTreeNodeRequest): AsyncMaybe<StoryCard> {
     const tree = await this._treeRepo.getById(request.treeId);
@@ -23,14 +27,19 @@ export class InsertTreeNodeUseCase implements IExecutable<
       tags: request.tags.map((tag) => new Tag({
         color: tag.color,
         label: tag.label
-      })),
+      }))
     });
 
-    // @TODO
-    // Insert should return inserted object.
-    await tree.insert(card, request.parentNodeId, request.place);
+    // @TODO insert should return inserted card.
+    tree.insert(card, request.parentNodeId, request.place);
 
-    await this._treeRepo.save(tree);
+    const persistedTree = await this._treeRepo.save(tree);
+
+    this._storyTreeRootDetailsStore.set({
+      data: persistedTree,
+      isError: false,
+      isLoading: false
+    });
 
     return Promise.resolve(card);
   }

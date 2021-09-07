@@ -1,0 +1,53 @@
+import React from 'react';
+import { useToggle } from '@/ui/hooks';
+import { stub, stubFactory } from '@/utils';
+import { Sidebar } from '.';
+import { ISidebarContext } from '@/interfaces';
+
+export const SidebarContext = React.createContext<ISidebarContext>({
+  close: stubFactory(),
+  isOpen: false,
+  open: stubFactory(),
+  setCardId: () => stub(),
+  setTreeId: () => stub(),
+  treeId: '',
+  unsetComponent: stubFactory()
+});
+
+export function SidebarProvider({
+  children
+}: React.PropsWithChildren<{}>): React.ReactElement {
+  const { close, isOpen, open } = useToggle(false);
+
+  const [
+    cardId,
+    setCardId
+  ] = React.useState<string | undefined>(undefined);
+
+  const [
+    treeId,
+    setTreeId
+  ] = React.useState<string>('');
+
+  const unsetComponent = React.useCallback(() => {
+    setCardId(undefined);
+  }, [setCardId]);
+
+  return (
+    <SidebarContext.Provider
+      value={{
+        close,
+        cardId,
+        isOpen,
+        open,
+        setCardId,
+        setTreeId,
+        treeId,
+        unsetComponent
+      }}
+    >
+      {children}
+      <Sidebar />
+    </SidebarContext.Provider>
+  );
+}

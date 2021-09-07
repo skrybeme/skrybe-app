@@ -1,15 +1,21 @@
-import StoryCard from "@/entities/StoryCard";
-import Tag from "@/entities/Tag";
-import Tree from "@/entities/Tree";
-import { InMemoryRepo } from "@/repository";
-import { InsertTreeNodeUseCase } from "./InsertTreeNodeUseCase";
+import { StoryTreeMap } from '@/mappers';
+import { StoryTreeRootDetailsStore } from '@/store/StoryTreeRootDetailsStore';
+import { InsertTreeNodeUseCase } from './InsertTreeNodeUseCase';
+import { InMemoryStoryTreeRepo } from '@/repository';
+import StoryCard from '@/entities/StoryCard';
+import Tag from '@/entities/Tag';
+import Tree from '@/entities/Tree';
 
 describe(`InsertTreeNodeUseCase`, () => {
   const tree = new Tree<StoryCard>();
 
-  const inMemoryStoryTreeRepo = new InMemoryRepo([tree]);
+  const inMemoryStoryTreeRepo = new InMemoryStoryTreeRepo([tree]);
+  const storyTreeRootDetailsStore = new StoryTreeRootDetailsStore();
 
-  const insertTreeNode = new InsertTreeNodeUseCase(inMemoryStoryTreeRepo);
+  const insertTreeNode = new InsertTreeNodeUseCase(
+    inMemoryStoryTreeRepo,
+    storyTreeRootDetailsStore
+  );
 
   const root = new StoryCard({
     body: '',
@@ -42,7 +48,7 @@ describe(`InsertTreeNodeUseCase`, () => {
   tree.insert(rootLeftChild);
   tree.insert(rootRightChild);
 
-  it(`returns tree with inserted node`, async () => {
+  it(`inserts tree node in the tree`, async () => {
     await inMemoryStoryTreeRepo.save(tree);
 
     const firstAddedCard = await insertTreeNode.execute({
@@ -89,9 +95,17 @@ describe(`InsertTreeNodeUseCase`, () => {
     ])
   });
 
-  it(`persist updated tree in repository`, async () => {
+  it(`persists updated tree in repository`, async () => {
     const persistedTree = await inMemoryStoryTreeRepo.getById(tree.id);
 
     expect(persistedTree!.getChildrenOf(root.id)).toHaveLength(5);
+  });
+
+  it(`saves updated tree in the store`, async () => {
+    const persistedTree = await inMemoryStoryTreeRepo.getById(tree.id);
+
+    const expectedValue = StoryTreeMap.toViewModel(persistedTree!);
+
+    expect(storyTreeRootDetailsStore.data).toEqual(expectedValue);
   });
 });

@@ -1,20 +1,22 @@
 import { AsyncMaybe, UuidType } from "@/common/types";
 import { IIdentifiable } from "@/interfaces";
 
-export class InMemoryRepo<T extends IIdentifiable> {
-  constructor(private _collection: Array<T> = []) {}
+export type RepoCollectionQuery<TEntity> = Record<keyof TEntity, any>;
 
-  getById(id: UuidType): AsyncMaybe<T> {
+export class InMemoryRepo<TEntity extends IIdentifiable> {
+  constructor(protected _collection: Array<TEntity> = []) {}
+
+  getById(id: UuidType): AsyncMaybe<TEntity> {
     const record = this._collection.find((value) => value.id === id);
 
     return Promise.resolve(record || null);
   }
 
-  getCollection(): Promise<T[]> {
+  getCollection(query?: RepoCollectionQuery<TEntity>): Promise<TEntity[]> {
     return Promise.resolve(this._collection);
   }
 
-  async save(record: T): Promise<T> {
+  async save(record: TEntity): Promise<TEntity> {
     let recordFound = this._collection.find((t) => t.id === record.id);
 
     if (recordFound) {

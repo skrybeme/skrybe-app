@@ -1,3 +1,5 @@
+import "reflect-metadata";
+
 class LocalStorageMock implements Storage {
   constructor(private _storage: { [key: string]: string } = {}) {}
 

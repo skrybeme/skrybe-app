@@ -6,16 +6,30 @@ import * as S from './styles';
 import { IPickerContext } from '@/interfaces';
 
 export function PickerCardTeaserOptions_VariantB({
+  onCardOpen,
   onGenerateChildren,
   onRemoveNode,
   onToggle
 }: PickerCardTeaserOptionsProps): React.ReactElement<PickerCardTeaserOptionsProps> {
   const { close, isOpen, toggle } = useToggle();
 
-  const emitGenerateChildren = React.useCallback(() => {
-    onGenerateChildren?.();
-    close();
-  }, [close, onGenerateChildren]);
+  const emitGenerateChildrenFromBody = React.useCallback(
+    (open: IPickerContext['open']) => {
+      onGenerateChildren?.('body');
+      open('default');
+      close();
+    },
+    [close, onGenerateChildren]
+  );
+
+  const emitGenerateChildrenFromHeader = React.useCallback(
+    (open: IPickerContext['open']) => {
+      onGenerateChildren?.('header');
+      open('default');
+      close();
+    },
+    [close, onGenerateChildren]
+  );
 
   const emitRemoveNode = React.useCallback(() => {
     onRemoveNode?.();
@@ -25,7 +39,12 @@ export function PickerCardTeaserOptions_VariantB({
   const onCancel = React.useCallback((open: IPickerContext['open']) => {
     open('default');
     close();
-  }, [close])
+  }, [close]);
+
+  const onCardOpenButtonClick = React.useCallback(() => {
+    onCardOpen?.();
+    close();
+  }, [close, onCardOpen]);
 
   React.useEffect(() => {
     onToggle?.(isOpen);
@@ -46,13 +65,13 @@ export function PickerCardTeaserOptions_VariantB({
         <PickerTab name="default">
         <PickerItem
             hoverable
-            onClick={emitGenerateChildren}
+            onClick={onCardOpenButtonClick}
           >
             Open card
           </PickerItem>
           <PickerItem
             hoverable
-            onClick={emitGenerateChildren}
+            onClick={open => open('generate')}
           >
             Generate subcards...
           </PickerItem>
@@ -61,6 +80,23 @@ export function PickerCardTeaserOptions_VariantB({
             onClick={open => open('remove')}
           >
             Remove card...
+          </PickerItem>
+        </PickerTab>
+        <PickerTab name="generate">
+          <PickerItem onClick={open => open('default')}>
+            Back
+          </PickerItem>
+          <PickerItem
+            hoverable
+            onClick={emitGenerateChildrenFromBody}
+          >
+            Generate from body
+          </PickerItem>
+          <PickerItem
+            hoverable
+            onClick={emitGenerateChildrenFromHeader}
+          >
+            Generate from header
           </PickerItem>
         </PickerTab>
         <PickerTab name="remove">

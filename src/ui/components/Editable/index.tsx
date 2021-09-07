@@ -8,6 +8,7 @@ export function Editable({
   handleBlur,
   handleChange,
   handleFocus,
+  placeholder,
   value
 }: EditableProps): ReactElement<EditableProps> {
   const ref = useRef<HTMLDivElement>(null);
@@ -75,6 +76,7 @@ export function Editable({
       onInput={onChange}
       onKeyDown={onKeyDown}
       onPaste={onPaste}
+      placeholder={placeholder}
       ref={ref}
     />
   );

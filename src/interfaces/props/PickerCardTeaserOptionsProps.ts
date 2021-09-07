@@ -1,5 +1,6 @@
 export default interface PickerCardTeaserOptionsProps {
-  onGenerateChildren?: () => void;
+  onCardOpen?: () => void;
+  onGenerateChildren?: (source: 'body' | 'header') => void;
   onRemoveNode?: () => void;
   onToggle?: (isOpen: boolean) => void;
 }

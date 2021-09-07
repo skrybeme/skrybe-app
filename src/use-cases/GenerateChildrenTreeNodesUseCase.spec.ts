@@ -1,14 +1,18 @@
+import { StoryTreeRootDetailsStore } from "@/store/StoryTreeRootDetailsStore";
+import { InMemoryStoryTreeRepo } from "@/repository/InMemoryStoryTreeRepo";
 import StoryCard from "../entities/StoryCard";
 import Tag from "../entities/Tag";
 import Tree from "../entities/Tree";
-import { InMemoryRepo } from "../repository";
 import { GenerateChildrenTreeNodesUseCase } from "./GenerateChildrenTreeNodesUseCase";
 
 describe(`GenerateChildrenTreeNodesUseCase`, () => {
-  const inMemoryStoryTreeRepo = new InMemoryRepo([new Tree<StoryCard>()]);
+  const inMemoryStoryTreeRepo = new InMemoryStoryTreeRepo([new Tree<StoryCard>()]);
+  const storyTreeRootDetailsStore = new StoryTreeRootDetailsStore();
 
-  const generateChildrenTreeNodes =
-    new GenerateChildrenTreeNodesUseCase(inMemoryStoryTreeRepo);
+  const generateChildrenTreeNodes = new GenerateChildrenTreeNodesUseCase(
+    inMemoryStoryTreeRepo,
+    storyTreeRootDetailsStore
+  );
 
   // @TODO
   // Test text formatting, especially white spaces and dots at the begining and end of
@@ -37,6 +41,40 @@ describe(`GenerateChildrenTreeNodesUseCase`, () => {
 
         const generatedChildren = await generateChildrenTreeNodes.execute({
           parentNodeId: root.id,
+          source: 'body',
+          treeId: tree.id
+        });
+
+        expect(generatedChildren).toHaveLength(3);
+        expect(generatedChildren![0].header).toEqual(`First sentence`);
+        expect(generatedChildren![1].header).toEqual(`Second sentence`);
+        expect(generatedChildren![2].header).toEqual(`Third sentence`);
+      }
+    );
+
+    it(
+      `inserts child for every sentence in parent's header with sentence as the header`,
+      async () => {
+        const header = `First sentence. Second sentence. Third sentence.`;
+
+        const tree = new Tree<StoryCard>();
+
+        const root = new StoryCard({
+          body: '',
+          header: header,
+          tags: [
+            new Tag(),
+            new Tag()
+          ]
+        });
+        
+        tree.insert(root);
+
+        await inMemoryStoryTreeRepo.save(tree);
+
+        const generatedChildren = await generateChildrenTreeNodes.execute({
+          parentNodeId: root.id,
+          source: 'header',
           treeId: tree.id
         });
 
@@ -81,6 +119,7 @@ describe(`GenerateChildrenTreeNodesUseCase`, () => {
 
         await generateChildrenTreeNodes.execute({
           parentNodeId: root.id,
+          source: 'body',
           treeId: tree.id
         });
 
@@ -126,6 +165,7 @@ describe(`GenerateChildrenTreeNodesUseCase`, () => {
         await generateChildrenTreeNodes.execute({
           parentNodeId: root.id,
           placeBeforeNodeId: rootChild.id,
+          source: 'body',
           treeId: tree.id
         });
 
@@ -159,6 +199,38 @@ describe(`GenerateChildrenTreeNodesUseCase`, () => {
 
     const generatedChildren = await generateChildrenTreeNodes.execute({
       parentNodeId: root.id,
+      source: 'body',
+      treeId: tree.id
+    });
+
+    expect(generatedChildren).toHaveLength(4);
+    expect(generatedChildren![0].header).toEqual(`First sentence`);
+    expect(generatedChildren![1].header).toEqual(`S econd sentence, or another`);
+    expect(generatedChildren![2].header).toEqual(`Third $`);
+    expect(generatedChildren![3].header).toEqual(`sentence`)
+  });
+
+  it(`ignores redundant whitespaces and punctuation marks in parent's header`, async () => {
+    const header = `.. # %%$  .. First sentence.    S   econd sentence,  or another   . ... Third  $.sentence. ..    , ;  `;
+
+    const tree = new Tree<StoryCard>();
+
+    const root = new StoryCard({
+      body: '',
+      header,
+      tags: [
+        new Tag(),
+        new Tag()
+      ]
+    });
+      
+    tree.insert(root);
+
+    await inMemoryStoryTreeRepo.save(tree);
+
+    const generatedChildren = await generateChildrenTreeNodes.execute({
+      parentNodeId: root.id,
+      source: 'header',
       treeId: tree.id
     });
 

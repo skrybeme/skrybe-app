@@ -1,6 +1,7 @@
 export default interface ToggleResult {
   close: () => void;
-  isOpen: boolean;
+  readonly isOpen: boolean;
   open: () => void;
+  set: (isOpen?: boolean) => void;
   toggle: () => void;
 }
