@@ -8,4 +8,5 @@ export default interface StoryTreeViewModel {
   id: UuidType;
   parentId: Maybe<UuidType>;
   tags: Array<TagViewModel>;
+  treeRootId: UuidType;
 }

@@ -8,6 +8,7 @@ import * as SYMBOL from '@/container/symbols';
 
 export interface CardEditorPresenterProps {
   cardId?: string;
+  treeId: string
 }
 
 export type CardEditorPresenterResult = Pick<IUseCases, 'getCardById' | 'getTagsByTree'> & {
@@ -21,7 +22,8 @@ export type CardEditorPresenterResult = Pick<IUseCases, 'getCardById' | 'getTags
 };
 
 export function useCardEditorPresenter({
-  cardId
+  cardId,
+  treeId
 }: CardEditorPresenterProps): CardEditorPresenterResult {
   const {
     getCardById,
@@ -42,7 +44,7 @@ export function useCardEditorPresenter({
         header: args.header,
         id: cardId!,
         tags: args.tags.map(({ id }) => id),
-        treeId: 'ba5ff9b6-c93c-4af9-b6d2-8e73168db61c'
+        treeId
       });
     },
     [updateCardDetails]

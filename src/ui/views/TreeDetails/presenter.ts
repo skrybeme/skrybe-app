@@ -9,6 +9,8 @@ export interface TreeDetailsPresenterProps {
   storyTreeInfoId: string;
 }
 
+// @TODO CRITICAL
+// What if story tree root is not resolved?
 export function useTreeDetailsPresenter({
   storyTreeInfoId
 }: TreeDetailsPresenterProps): TreeDetailsPresenterResult {
@@ -30,10 +32,10 @@ export function useTreeDetailsPresenter({
           parentNodeId: nodeId,
           placeBeforeNodeId,
           source,
-          treeId: 'c0773e64-3a3a-11eb-adc1-0242ac120002'
+          treeId: storyTreeRootDetailsStore.data?.treeRootId || ''
         });
       },
-      [generateChildrenTreeNodes]
+      [generateChildrenTreeNodes, storyTreeRootDetailsStore.data?.treeRootId]
     ),
     insertTreeNode: React.useCallback(
       (
@@ -49,29 +51,29 @@ export function useTreeDetailsPresenter({
           parentNodeId,
           place,
           tags: [],
-          treeId: 'c0773e64-3a3a-11eb-adc1-0242ac120002'
+          treeId: storyTreeRootDetailsStore.data?.treeRootId || ''
         });
       },
-      [insertTreeNode]
+      [insertTreeNode, storyTreeRootDetailsStore.data?.treeRootId]
     ),
     root: storyTreeRootDetailsStore,
     removeTreeNode: React.useCallback((nodeId: string) => {
       removeTreeNode.execute({
         id: nodeId,
-        treeId: 'c0773e64-3a3a-11eb-adc1-0242ac120002'
+        treeId: storyTreeRootDetailsStore.data?.treeRootId || ''
       });
-    }, [removeTreeNode]),
-    treeId: storyTreeRootDetailsStore.data?.id,
+    }, [removeTreeNode, storyTreeRootDetailsStore.data?.treeRootId]),
+    treeId: storyTreeRootDetailsStore.data?.treeRootId || '',
     triggerGetTree: React.useCallback(() => {
       getTree.execute({ storyTreeInfoId });
-    }, [getTree]),
+    }, [getTree, storyTreeInfoId]),
     updateTreeNode: React.useCallback((nodeId: string, { header, tags }: any) => {
       updateCardDetails.execute({
         header,
         id: nodeId,
         tags,
-        treeId: 'c0773e64-3a3a-11eb-adc1-0242ac120002',
+        treeId: storyTreeRootDetailsStore.data?.treeRootId || ''
       });
-    }, [updateCardDetails])
+    }, [storyTreeRootDetailsStore.data?.treeRootId, updateCardDetails])
   };
 }

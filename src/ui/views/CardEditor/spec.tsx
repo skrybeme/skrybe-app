@@ -13,10 +13,14 @@ import StoryCard from '@/entities/StoryCard';
 import Tag from '@/entities/Tag';
 
 const cardId = datatype.uuid();
+const treeId = datatype.uuid();
 
 const Fixture = () => (
   <ContainerProvider container={container}>
-    <CardEditor cardId={cardId} />
+    <CardEditor
+      cardId={cardId}
+      treeId={treeId}
+    />
   </ContainerProvider>
 )
 
@@ -56,9 +60,7 @@ describe(`View: CardEditor`, () => {
 
       render(<Fixture />);
 
-      expect(mocks.getTagsByTreeUseCaseExecutionMock).toBeCalledWith({
-        treeId: 'ba5ff9b6-c93c-4af9-b6d2-8e73168db61c'
-      });
+      expect(mocks.getTagsByTreeUseCaseExecutionMock).toBeCalledWith({ treeId });
     });
 
     it(`executes card details fetching use case on mount`, () => {
@@ -68,7 +70,7 @@ describe(`View: CardEditor`, () => {
 
       expect(mocks.getCardByIdUseCaseExecutionMock).toBeCalledWith({
         id: cardId,
-        treeId: 'ba5ff9b6-c93c-4af9-b6d2-8e73168db61c'
+        treeId
       });
     });
   
@@ -95,7 +97,7 @@ describe(`View: CardEditor`, () => {
         header: typed,
         id: data.id,
         tags: data.tags.map(({ id }) => id),
-        treeId: 'ba5ff9b6-c93c-4af9-b6d2-8e73168db61c'
+        treeId
       });
     });
 
@@ -122,7 +124,7 @@ describe(`View: CardEditor`, () => {
         header: typed,
         id: data.id,
         tags: data.tags.map(({ id }) => id),
-        treeId: 'ba5ff9b6-c93c-4af9-b6d2-8e73168db61c'
+        treeId
       });
     });
   
@@ -149,7 +151,7 @@ describe(`View: CardEditor`, () => {
         header: data.header,
         id: data.id,
         tags: data.tags.map(({ id }) => id),
-        treeId: 'ba5ff9b6-c93c-4af9-b6d2-8e73168db61c'
+        treeId
       });
     });
 
@@ -186,7 +188,7 @@ describe(`View: CardEditor`, () => {
         header: data.header,
         id: data.id,
         tags: tagCollection.slice(4, 7).map(({ id }) => id),
-        treeId: 'ba5ff9b6-c93c-4af9-b6d2-8e73168db61c'
+        treeId
       });
     });
   })

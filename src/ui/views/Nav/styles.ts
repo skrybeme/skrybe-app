@@ -4,6 +4,7 @@ import { NavLink } from 'react-router-dom';
 export const Nav = styled.nav`
   background-color: #3A2C61;
   bottom: 0;
+  box-shadow: inset 0px 3px 2px rgba(0, 0, 0, 0.15);
   left: 0;
   position: fixed;
   top: 0;

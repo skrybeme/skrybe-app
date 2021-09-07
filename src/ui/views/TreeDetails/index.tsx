@@ -29,7 +29,6 @@ export const TreeDetails = observer(({
 
   useEffect(() => {
     triggerGetTree();
-    // @TODO Test this dependency
   }, [storyTreeInfoId]);
 
   return (

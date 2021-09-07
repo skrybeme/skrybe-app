@@ -1,9 +1,9 @@
 import React from 'react';
+import { observer } from 'mobx-react-lite';
 import { useHistory } from 'react-router-dom';
 import { StoryTreeInfoViewModel } from '@/interfaces/view-models';
 import { useNavPresenter } from './presenter';
 import * as S from './styles';
-import { observer } from 'mobx-react-lite';
 
 interface ListProps {
   collection: StoryTreeInfoViewModel[];
@@ -11,7 +11,7 @@ interface ListProps {
 
 function List({ collection }: ListProps): React.ReactElement {
   return (
-    <>
+    <S.List>
       {collection.map((item) => (
         <S.ListItem key={item.id}>
           <S.ItemLink to={`/${item.id}`}>
@@ -21,7 +21,7 @@ function List({ collection }: ListProps): React.ReactElement {
           </S.ItemLink>
         </S.ListItem>
       ))}
-    </>
+    </S.List>
   )
 }
 
@@ -56,9 +56,7 @@ export const Nav = observer(({ isOpen }: NavProps): React.ReactElement => {
           </S.GroupHeader>
           <S.AddIcon />
         </S.Flex>
-        <S.List>
-          {collection.data && <List collection={collection.data} />}
-        </S.List>
+        {collection.data && <List collection={collection.data} />}
         <S.Flex>
           <S.GroupHeader>
             Generated stories

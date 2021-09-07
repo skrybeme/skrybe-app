@@ -29,7 +29,10 @@ export function Sidebar(): React.ReactElement {
       <S.Side right>
         <ScrollableContext.Provider value={{ ref: right }}>
           <S.Scrollable ref={right}>
-            <CardEditor cardId={cardId} />
+            <CardEditor
+              cardId={cardId}
+              treeId={treeId}
+            />
           </S.Scrollable>
         </ScrollableContext.Provider>
         <S.CloseButton

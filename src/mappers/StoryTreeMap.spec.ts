@@ -33,6 +33,7 @@ describe(`StoryTreeMap`, () => {
           color: tag.color,
           label: tag.label
         })),
+        treeRootId: tree.id,
         children: [
           {
             id: rootLeftChild.id,
@@ -44,6 +45,7 @@ describe(`StoryTreeMap`, () => {
               color: tag.color,
               label: tag.label
             })),
+            treeRootId: tree.id,
             children: [
               {
                 id: rootGrandLeftChild.id,
@@ -55,6 +57,7 @@ describe(`StoryTreeMap`, () => {
                   color: tag.color,
                   label: tag.label
                 })),
+                treeRootId: tree.id,
                 children: []
               }
             ]
@@ -69,6 +72,7 @@ describe(`StoryTreeMap`, () => {
               color: tag.color,
               label: tag.label
             })),
+            treeRootId: tree.id,
             children: [
               {
                 id: rootGrandRightChild.id,
@@ -80,6 +84,7 @@ describe(`StoryTreeMap`, () => {
                   color: tag.color,
                   label: tag.label
                 })),
+                treeRootId: tree.id,
                 children: [
                   {
                     id: rootGrandGrandRightChild.id,
@@ -91,6 +96,7 @@ describe(`StoryTreeMap`, () => {
                       color: tag.color,
                       label: tag.label
                     })),
+                    treeRootId: tree.id,
                     children: []
                   }
                 ]
