@@ -30,20 +30,24 @@ import {
 import { GetCardByIdUseCase } from '@/use-cases/GetCardByIdUseCase';
 import { GetStoryTreeInfoCollectionUseCase, IStoryTreeInfoRepo } from '@/use-cases/GetStoryTreeInfoCollectionUseCase';
 import { GetTagsByTreeUseCase } from '@/use-cases/GetTagsByTreeUseCase';
-import { GetTreeUseCase } from '@/use-cases/GetTreeUseCase';
 import { InsertTreeNodeUseCase } from '@/use-cases/InsertTreeNodeUseCase';
 import { RebindTreeNodeUseCase } from '@/use-cases/RebindTreeNodeUseCase';
 import { RemoveTreeNodeUseCase } from '@/use-cases/RemoveTreeNodeUseCase';
 import { Container, ContainerModule } from 'inversify';
-import * as SYMBOL from './symbols';
 import { ITagCollectionStore, TagCollectionStore } from '@/store/TagCollectionStore';
 import { UpdateCardDetailsUseCase } from '@/use-cases/UpdateCardDetailsUseCase';
+import { GetTreeUseCase } from '@/use-cases/GetTreeUseCase';
+import { StoryTreeInfoCollectionStore } from '@/store/StoryTreeInfoCollectionStore';
+import * as SYMBOL from './symbols';
 
 const container = new Container();
 
 container.load(new ContainerModule((bind) => {
   bind<CardDetailsStore>(SYMBOL.store.CardDetailsStore)
     .toConstantValue(new CardDetailsStore());
+
+  bind<StoryTreeInfoCollectionStore>(SYMBOL.store.StoryTreeInfoCollectionStore)
+    .toConstantValue(new StoryTreeInfoCollectionStore());
 
   bind<StoryTreeRootDetailsStore>(SYMBOL.store.StoryTreeRootDetailsStore)
     .toConstantValue(new StoryTreeRootDetailsStore());
@@ -60,6 +64,10 @@ container.load(new ContainerModule((bind) => {
     const storyTreeRootDetailsStore
       = container.get<StoryTreeRootDetailsStore>(SYMBOL.store.StoryTreeRootDetailsStore);
 
+    const storyTreeInfoCollectionStore = container.get<StoryTreeInfoCollectionStore>(
+      SYMBOL.store.StoryTreeInfoCollectionStore
+    );
+
     const tagCollectionStore
       = container.get<ITagCollectionStore>(SYMBOL.store.TagCollectionStore);
 
@@ -73,7 +81,10 @@ container.load(new ContainerModule((bind) => {
       generateChildrenTreeNodes:
         new GenerateChildrenTreeNodesUseCase(treeRepo, storyTreeRootDetailsStore),
       getCardById: new GetCardByIdUseCase(treeRepo, cardDetailsStore),
-      getStoryTreeInfoCollection: new GetStoryTreeInfoCollectionUseCase(storyTreeInfoRepo),
+      getStoryTreeInfoCollection: new GetStoryTreeInfoCollectionUseCase(
+        storyTreeInfoRepo,
+        storyTreeInfoCollectionStore
+      ),
       getTagsByTree: new GetTagsByTreeUseCase(tagsRepo, tagCollectionStore),
       getTree: new GetTreeUseCase(treeRepo, storyTreeRootDetailsStore),
       insertTreeNode: new InsertTreeNodeUseCase(treeRepo, storyTreeRootDetailsStore),

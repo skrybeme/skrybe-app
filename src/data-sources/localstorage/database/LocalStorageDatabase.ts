@@ -52,8 +52,6 @@ export class LocalStorageDatabase implements ILocalStorageStoryTreeInfoDatabase,
   }
 
   getStoryTreeRootById(id: UuidType): Maybe<StoryTreeLocalStorageModel> {
-    
-  
     return this.getStoryTreeRootCollection().find((item) => item.id === id) || null;
   }
 

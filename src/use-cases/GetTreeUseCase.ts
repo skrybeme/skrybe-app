@@ -1,13 +1,18 @@
-import { AsyncMaybe } from "@/common/types";
-import StoryCard from "@/entities/StoryCard";
-import Tree from "@/entities/Tree";
-import { IExecutable, IStoryTreeRepo } from "@/interfaces";
-import { GetTreeRequest } from "@/interfaces/requests";
+import { IExecutable, IStoryTreeRepo } from '@/interfaces';
+import { GetTreeRequest } from '@/interfaces/requests';
+import { StoryTreeRootDetailsStore } from '@/store/StoryTreeRootDetailsStore';
 
-export class GetTreeUseCase implements IExecutable<GetTreeRequest, AsyncMaybe<Tree<StoryCard>>> {
-  constructor(private _treeRepo: IStoryTreeRepo) {}
+export class GetTreeUseCase implements IExecutable<GetTreeRequest> {
+  constructor(
+    private _treeRepo: IStoryTreeRepo,
+    private _storyTreeRootDetailsStore: StoryTreeRootDetailsStore
+  ) {}
 
-  execute(request: GetTreeRequest): AsyncMaybe<Tree<StoryCard>> {
-    return this._treeRepo.getOneBy({ storyTreeInfoId: request.storyTreeInfoId });
+  async execute(request: GetTreeRequest): Promise<void> {
+    const data = await this._treeRepo.getOneBy({
+      storyTreeInfoId: request.storyTreeInfoId
+    });
+
+    this._storyTreeRootDetailsStore.set({ data });
   }
 }

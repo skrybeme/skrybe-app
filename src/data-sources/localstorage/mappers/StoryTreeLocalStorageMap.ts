@@ -9,14 +9,17 @@ import { StoryTreeInfoLocalStorageModel } from '../models/StoryTreeInfoLocalStor
 import { StoryTreeInfoLocalStorageMap } from './StoryTreeInfoLocalStorageMap';
 
 export class StoryTreeLocalStorageMap {
+  // @TODO Test the case when story tree info is undefined.
   static toDomainModel(
     storyTreeRootLocalStorageModel: StoryTreeLocalStorageModel,
-    storyTreeInfoLocalStorageModel: StoryTreeInfoLocalStorageModel
+    storyTreeInfoLocalStorageModel?: StoryTreeInfoLocalStorageModel
   ): Tree<StoryCard> {
     const storyTreeDomainModel = new Tree<StoryCard>(
-      {
-        info: StoryTreeInfoLocalStorageMap.toDomainModel(storyTreeInfoLocalStorageModel)
-      },
+      storyTreeInfoLocalStorageModel
+        ? {
+          info: StoryTreeInfoLocalStorageMap.toDomainModel(storyTreeInfoLocalStorageModel)
+        }
+        : {},
       storyTreeRootLocalStorageModel.id
     );
     

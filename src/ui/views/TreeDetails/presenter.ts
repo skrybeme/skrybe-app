@@ -5,10 +5,16 @@ import { useContainer } from '@/ui/hooks';
 import { StoryTreeRootDetailsStore } from '@/store/StoryTreeRootDetailsStore';
 import * as SYMBOL from '@/container/symbols';
 
-export function useTreeDetailsPresenter(): TreeDetailsPresenterResult {
+export interface TreeDetailsPresenterProps {
+  storyTreeInfoId: string;
+}
+
+export function useTreeDetailsPresenter({
+  storyTreeInfoId
+}: TreeDetailsPresenterProps): TreeDetailsPresenterResult {
   const {
     generateChildrenTreeNodes,
-    getTreeById,
+    getTree,
     insertTreeNode,
     removeTreeNode,
     updateCardDetails
@@ -55,9 +61,10 @@ export function useTreeDetailsPresenter(): TreeDetailsPresenterResult {
         treeId: 'c0773e64-3a3a-11eb-adc1-0242ac120002'
       });
     }, [removeTreeNode]),
-    triggerGetTreeById: React.useCallback((_: string) => {
-      getTreeById.execute({ id: 'c0773e64-3a3a-11eb-adc1-0242ac120002' });
-    }, [getTreeById]),
+    treeId: storyTreeRootDetailsStore.data?.id,
+    triggerGetTree: React.useCallback(() => {
+      getTree.execute({ storyTreeInfoId });
+    }, [getTree]),
     updateTreeNode: React.useCallback((nodeId: string, { header, tags }: any) => {
       updateCardDetails.execute({
         header,

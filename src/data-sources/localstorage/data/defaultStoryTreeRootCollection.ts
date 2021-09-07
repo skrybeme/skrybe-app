@@ -56,7 +56,7 @@ const collection: Tree<StoryCard>[] = defaultStoryTreeInfoCollection.map((storyT
   } else if (index === 2) {
     const tree = new Tree<StoryCard>(
       { info: storyTreeInfo },
-      'b6ca02de-3758-4fb3-b401-1a72b9cad387'
+      'eae41908-57a8-46ef-addc-c8fc16001047'
     );
 
     tree.insert(new StoryCard({

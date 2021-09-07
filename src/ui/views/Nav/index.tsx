@@ -1,24 +1,46 @@
-import { useStoryTreeInfoCollectionPresenter } from '@/ui/presenters';
 import React from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+import { StoryTreeInfoViewModel } from '@/interfaces/view-models';
+import { useNavPresenter } from './presenter';
 import * as S from './styles';
+import { observer } from 'mobx-react-lite';
+
+interface ListProps {
+  collection: StoryTreeInfoViewModel[];
+}
+
+function List({ collection }: ListProps): React.ReactElement {
+  return (
+    <>
+      {collection.map((item) => (
+        <S.ListItem key={item.id}>
+          <S.ItemLink to={`/${item.id}`}>
+            <S.ItemText>
+              {item.title}
+            </S.ItemText>
+          </S.ItemLink>
+        </S.ListItem>
+      ))}
+    </>
+  )
+}
 
 export interface NavProps {
   isOpen: boolean;
 }
 
-export function Nav({ isOpen }: NavProps): React.ReactElement {
+export const Nav = observer(({ isOpen }: NavProps): React.ReactElement => {
+  const history = useHistory();
+
   const {
     collection,
     executeGetStoryTreeInfoCollection
-  } = useStoryTreeInfoCollectionPresenter();
+  } = useNavPresenter();
 
   React.useEffect(() => {
     executeGetStoryTreeInfoCollection();
   }, [executeGetStoryTreeInfoCollection]);
   
-  const history = useHistory();
-
   React.useLayoutEffect(() => {
     if (history.location.pathname === "/" && collection.data) {
       history.push(collection.data[0].id);
@@ -35,15 +57,7 @@ export function Nav({ isOpen }: NavProps): React.ReactElement {
           <S.AddIcon />
         </S.Flex>
         <S.List>
-          {collection.data && collection.data.map((item) => (
-            <S.ListItem key={item.id}>
-              <S.ItemLink to={`/${item.id}`}>
-                <S.ItemText>
-                  {item.title}
-                </S.ItemText>
-              </S.ItemLink>
-            </S.ListItem>
-          ))}
+          {collection.data && <List collection={collection.data} />}
         </S.List>
         <S.Flex>
           <S.GroupHeader>
@@ -84,4 +98,4 @@ export function Nav({ isOpen }: NavProps): React.ReactElement {
       </S.Container>
     </S.Nav>
   );
-}
+});

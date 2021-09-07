@@ -1,35 +1,34 @@
-import { AsyncMaybe } from "@/common/types";
-import StoryCard from "@/entities/StoryCard";
-import StoryTreeInfo from "@/entities/StoryTreeInfo";
-import Tree from "@/entities/Tree";
-import { InMemoryStoryTreeRepo } from "@/repository/InMemoryStoryTreeRepo";
-import { lorem } from "faker";
-import { GetTreeUseCase } from "./GetTreeUseCase";
+import { InMemoryStoryTreeRepo } from '@/repository';
+import { GetTreeUseCase } from './GetTreeUseCase';
+import { StoryTreeRootDetailsStore } from '@/store/StoryTreeRootDetailsStore';
+import { StoryTreeMap } from '@/mappers';
+import { lorem } from 'faker';
+import StoryCard from '@/entities/StoryCard';
+import Tree from '@/entities/Tree';
+import StoryTreeInfo from '@/entities/StoryTreeInfo';
 
-describe(`GetTreeByIdUseCase`, () => {
+describe(`GetTreeUseCase`, () => {
   const tree = new Tree<StoryCard>({
     info: new StoryTreeInfo({ title: lorem.sentence() })
   });
 
   const inMemoryStoryTreeRepo = new InMemoryStoryTreeRepo([tree]);
+  const storyTreeRootDetailsStore = new StoryTreeRootDetailsStore();
 
-  const getTree = new GetTreeUseCase(inMemoryStoryTreeRepo);
+  const getTree = new GetTreeUseCase(inMemoryStoryTreeRepo, storyTreeRootDetailsStore);
 
   it(
-    `resolves with null if the tree with given info id does not exist in the repo`,
+    `saves null to the store if the tree with given id does not exist in the repo`,
     async () => {
-      const entry = await getTree.execute({ storyTreeInfoId: 'invalid-uuid' });
+      await getTree.execute({ storyTreeInfoId: 'invalid-uuid' });
 
-      expect(entry).toBeNull();
+      expect(storyTreeRootDetailsStore.data).toBeNull();
     }
   );
 
-  it(
-    `resolves with story tree domain model fetched by info id if it exists in the repo`,
-    async () => {
-      const entry = await getTree.execute({ storyTreeInfoId: tree.info!.id });
+  it(`saves story tree to the store if it exists in the repo`, async () => {
+    await getTree.execute({ storyTreeInfoId: tree.info!.id });
 
-      expect(entry).toEqual(tree);
-    }
-  );
+    expect(storyTreeRootDetailsStore.data).toEqual(StoryTreeMap.toViewModel(tree));
+  });
 });

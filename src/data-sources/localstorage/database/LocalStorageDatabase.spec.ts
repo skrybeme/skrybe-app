@@ -200,6 +200,11 @@ describe(`LocalStorageDatabase`, () => {
   
       it(`updates story tree root in localStorage collection`, () => {
         const db = new LocalStorageDatabase();
+
+        localStorage.setItem(
+          LocalStorageDatabase.KEY_STORY_TREE_ROOT_COLLECTION,
+          JSON.stringify(defaultStoryTreeRootCollectionLocalStorageModel
+        ));
   
         const tree = new Tree<StoryCard>(
           { info: new StoryTreeInfo({ title: lorem.sentence() }) },
@@ -212,7 +217,10 @@ describe(`LocalStorageDatabase`, () => {
   
         const result = db.saveStoryTreeRoot(treeLocalStorageModel);
 
-        const expectedValue = [treeLocalStorageModel];
+        const expectedValue = [
+          treeLocalStorageModel,
+          ...defaultStoryTreeRootCollectionLocalStorageModel.slice(1)
+        ];
   
         expect(localStorage.getItem(LocalStorageDatabase.KEY_STORY_TREE_ROOT_COLLECTION))
           .toEqual(JSON.stringify(expectedValue));

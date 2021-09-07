@@ -185,7 +185,6 @@ describe(`LocalStorageStoryTreeDataSource`, () => {
 
     it(`resolves with persisted record`, async () => {
       const storyTreeRoot = defaultStoryTreeRootCollection[0];
-      const storyTreeInfo = defaultStoryTreeInfoCollection[0];
 
       const storedTree = await localStorageTreeInfoDataSource.save(storyTreeRoot);
 
