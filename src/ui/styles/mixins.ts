@@ -27,6 +27,19 @@ export const positionCover = () => css`
   top: 0;
 `;
 
+export const positionCoverAfter = (distance = 0) => css`
+  position: relative;
+
+  &:after {
+    bottom: ${distance}px;
+    content: '';
+    left: ${distance}px;
+    position: absolute;
+    right: ${distance}px;
+    top: ${distance}px;
+  }
+`;
+
 export const positionCoverBefore = (distance = 0) => css`
   position: relative;
 
