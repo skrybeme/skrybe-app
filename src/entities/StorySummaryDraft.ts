@@ -1,7 +1,8 @@
-import { Maybe, UuidType } from '@/common/types';
+import { UuidType } from '@/common/types';
 import { StorySummary } from './StorySummary';
 import StoryCard from './StoryCard';
 import Tree from './Tree';
+import { generateUuid } from '@/utils';
 
 export interface StorySummaryDraftProps {
   cards: StoryCard[];
@@ -12,7 +13,7 @@ export interface StorySummaryDraftProps {
 export class StorySummaryDraft {
   constructor(
     private _props: StorySummaryDraftProps,
-    private _id: Maybe<UuidType> = null
+    private _id: UuidType = generateUuid()
   ) {
     if (!_props.cards?.length) {
       return;

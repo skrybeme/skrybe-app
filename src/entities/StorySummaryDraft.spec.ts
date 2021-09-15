@@ -43,12 +43,6 @@ describe(`Entity: StorySummaryDraft`, () => {
       expect(entity.id).toEqual(id);
     });
 
-    it(`returns entity id when it is null`, () => {
-      const entity = new StorySummaryDraft(Fixture);
-
-      expect(entity.id).toBeNull();
-    });
-
     it(`returns story tree`, () => {
       const entity = new StorySummaryDraft({
         cards: [],
