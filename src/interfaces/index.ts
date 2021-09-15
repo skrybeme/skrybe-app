@@ -1,3 +1,4 @@
+export { default as IAbstractDomainStore } from './IAbstractDomainStore';
 export { default as IBootable } from './IBootable';
 export { default as IContainerContext } from './IContainerContetxt';
 export { default as IDataSource } from './IDataSource';
@@ -9,6 +10,7 @@ export { default as IModalContext } from './IModalContext';
 export { default as IPersistable } from './IPersistable';
 export { default as IPickerContext } from './IPickerContext';
 export { default as IPoint } from './IPoint';
+export { default as IRepo } from './IRepo';
 export { default as IScrollableContext } from './IScrollableContext';
 export { default as ISidebarContext } from './ISidebarContext';
 export { default as IStoryCard } from './IStoryCard';
