@@ -38,13 +38,13 @@ describe(`Entity: StorySummaryDraft`, () => {
     it(`returns entity id`, () => {
       const id = generateUuid();
 
-      const entity = new StorySummaryDraft(undefined, id);
+      const entity = new StorySummaryDraft(Fixture, id);
 
       expect(entity.id).toEqual(id);
     });
 
     it(`returns entity id when it is null`, () => {
-      const entity = new StorySummaryDraft();
+      const entity = new StorySummaryDraft(Fixture);
 
       expect(entity.id).toBeNull();
     });
@@ -61,7 +61,7 @@ describe(`Entity: StorySummaryDraft`, () => {
     it(`returns story summary title`, () => {
       const title = lorem.sentence();
 
-      const entity = new StorySummaryDraft({ cards: [], title });
+      const entity = new StorySummaryDraft({ cards: [], title, tree: Fixture.tree });
 
       expect(entity.title).toEqual(title);
     });
@@ -77,10 +77,6 @@ describe(`Entity: StorySummaryDraft`, () => {
   });
 
   describe(`creation`, () => {
-    it(`throws error if creating with cards and no story tree`, () => {
-      expect(() => new StorySummaryDraft({ cards: Fixture.cards })).toThrow();
-    });
-
     it(`throws error if creating with cards that are not a part of given story tree`, () => {
       expect(() => new StorySummaryDraft({
         cards: [new StoryCard()],

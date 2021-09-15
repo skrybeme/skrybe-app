@@ -6,22 +6,16 @@ import Tree from './Tree';
 export interface StorySummaryDraftProps {
   cards: StoryCard[];
   title?: string;
-  tree?: Tree<StoryCard>;
+  tree: Tree<StoryCard>;
 }
 
 export class StorySummaryDraft {
   constructor(
-    private _props?: StorySummaryDraftProps,
+    private _props: StorySummaryDraftProps,
     private _id: Maybe<UuidType> = null
   ) {
-    if (!_props?.cards?.length) {
+    if (!_props.cards?.length) {
       return;
-    }
-
-    if (!_props.tree) {
-      throw new Error(
-        `[StorySummaryDraft] Cannot create story summary draft with cards and without no story tree.`
-      );
     }
 
     const treeNodesMap = _props.tree.getAllNodes();
@@ -43,7 +37,7 @@ export class StorySummaryDraft {
   }
 
   get cards(): StoryCard[] {
-    return this._props?.cards || [];
+    return this._props.cards || [];
   }
 
   get id() {
@@ -51,10 +45,10 @@ export class StorySummaryDraft {
   }
 
   get title(): UuidType | undefined {
-    return this._props?.title;
+    return this._props.title;
   }
 
   get tree(): Tree<StoryCard> | undefined {
-    return this._props?.tree;
+    return this._props.tree;
   }
 }
