@@ -1,14 +1,19 @@
 import { borderCircle } from '@/ui/styles/mixins';
 import styled, { css } from 'styled-components';
 
-export const Button = styled.button<{ muted: boolean, onClick: any, rounded: boolean, transparent?: boolean }>`${({ muted, rounded }) => css`
+export const Button = styled.button<{
+  muted: boolean,
+  onClick: any,
+  rounded: boolean,
+  upper?: boolean
+}>`${({ muted, rounded, upper }) => css`
   align-items: center;
   background-color: white;
   border: 0;
   border-radius: 2px;
   cursor: pointer;
   display: inline-flex;
-  font-size: 15px;
+  font-size: 14px;
   height: 30px;
   justify-content: center;
   margin: 10px;
@@ -17,6 +22,10 @@ export const Button = styled.button<{ muted: boolean, onClick: any, rounded: boo
   padding-right: 5px;
   position: relative;
   transition: all 0.1s ease-out;
+
+  ${upper && css`
+    text-transform: uppercase;
+  `};
 
   &:after {
     ${borderCircle()};
@@ -38,10 +47,10 @@ export const Button = styled.button<{ muted: boolean, onClick: any, rounded: boo
     background-color: #5b3da2;
     color: #fff;
 
-    &:after {
+    /* &:after {
       opacity: 1;
       transform: none;
-    }
+    } */
   }
 
   ${muted && css`

@@ -1,8 +1,10 @@
-import { ReactNode } from 'react';
+import { MouseEventHandler, ReactNode } from 'react';
 
 export default interface ButtonProps {
   children: ReactNode;
   muted?: boolean;
-  onClick?: (e: MouseEvent) => void;
+  onClick?: MouseEventHandler;
   rounded?: boolean;
+  upper?: boolean;
+  variant?: 'primary';
 }
