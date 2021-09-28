@@ -22,6 +22,10 @@ export const Button = styled.button<Omit<ButtonProps, 'onClick'>>`${({
   padding: ${px(Space.S)} ${px(Space.L)};
   position: relative;
 
+  & + & {
+    margin-left: ${px(Space.S)};
+  }
+
   &:hover {
       background-color: #e5e5e5;
     }

@@ -2,6 +2,7 @@
 // These colors should be defined in @/ui/styles/theme and then imported here.
 export enum TagColor {
   BLUE = '#008BDB',
+  EMPTY = '#e8e8e8',
   GREEN = '#1EC689',
   ORANGE = '#FF8D6C',
   PURPLE = '#B34D99',

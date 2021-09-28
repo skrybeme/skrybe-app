@@ -50,8 +50,12 @@ export const CardLabel = styled.div<{ isSelected?: boolean }>`
 
   &:after {
     background-color: #d2d2d2;
+    height: 12px;
+    left: 2px;
     opacity: 0;
+    top: 6px;
     transition: background-color 0.05s ease-in-out;
+    width: 12px;
   }
 
   &:hover {
@@ -76,6 +80,8 @@ export const CardLabel = styled.div<{ isSelected?: boolean }>`
 
     &:after {
       background-color: #333;
+      border: 2px solid #fff;
+      box-shadow: 0px 0px 0px 2px #333;
       opacity: 1;
     }
   `};

@@ -27,28 +27,28 @@ export const positionCover = () => css`
   top: 0;
 `;
 
-export const positionCoverAfter = (distance = 0) => css`
+export const positionCoverAfter = (distance = 0, distanceY = distance) => css`
   position: relative;
 
   &:after {
-    bottom: ${distance}px;
+    bottom: ${distanceY}px;
     content: '';
     left: ${distance}px;
     position: absolute;
     right: ${distance}px;
-    top: ${distance}px;
+    top: ${distanceY}px;
   }
 `;
 
-export const positionCoverBefore = (distance = 0) => css`
+export const positionCoverBefore = (distance = 0, distanceY = distance) => css`
   position: relative;
 
   &:before {
-    bottom: ${distance}px;
+    bottom: ${distanceY}px;
     content: '';
     left: ${distance}px;
     position: absolute;
     right: ${distance}px;
-    top: ${distance}px;
+    top: ${distanceY}px;
   }
 `;
