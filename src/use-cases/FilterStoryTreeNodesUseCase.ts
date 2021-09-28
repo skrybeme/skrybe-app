@@ -16,6 +16,7 @@ export interface FilterStoryTreeNodesRequest {
   treeId: UuidType;
 }
 
+// @TODO Interfejs nie ujawnia, co use case właściwie zwraca.
 export class FilterStoryTreeNodesUseCase implements IExecutable<FilterStoryTreeNodesRequest> {
   constructor(
     private _storyTreeRootRepo: IStoryTreeRepo,

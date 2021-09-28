@@ -2,7 +2,9 @@ import { IExecutable, IStoryTreeRepo } from '@/interfaces';
 import { GetTreeRequest } from '@/interfaces/requests';
 import { StoryTreeRootDetailsStore } from '@/store/StoryTreeRootDetailsStore';
 
-export class GetTreeUseCase implements IExecutable<GetTreeRequest> {
+export type IGetTreeUseCase = IExecutable<GetTreeRequest>;
+
+export class GetTreeUseCase implements IGetTreeUseCase {
   constructor(
     private _treeRepo: IStoryTreeRepo,
     private _storyTreeRootDetailsStore: StoryTreeRootDetailsStore

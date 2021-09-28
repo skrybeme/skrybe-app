@@ -9,6 +9,12 @@ export interface PreviewStorySummaryDraftRequest {
   treeId: UuidType;
 }
 
+/**
+ * This use case is responsible for generating actual story summary draft based on
+ * previously filtered story tree nodes.
+ * 
+ * @TODO Change the name of the use case to be more descriptive/precise.
+ */
 export class PreviewStorySummaryDraftUseCase implements IExecutable<
   PreviewStorySummaryDraftRequest
 > {
