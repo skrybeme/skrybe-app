@@ -19,12 +19,12 @@ export const noSelect = () => css`
   user-select: none;
 `;
 
-export const positionCover = () => css`
-  bottom: 0;
-  left: 0;
+export const positionCover = (distance = 0) => css`
+  bottom: ${distance}px;
+  left: ${distance}px;
   position: absolute;
-  right: 0;
-  top: 0;
+  right: ${distance}px;
+  top: ${distance}px;
 `;
 
 export const positionCoverBefore = (distance = 0) => css`

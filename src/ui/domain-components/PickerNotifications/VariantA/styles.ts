@@ -75,6 +75,19 @@ export const Message = styled.div`
   }
 `;
 
+export const EmailInput = styled.input`
+  background: transparent;
+  margin-top: 24px;
+  color: #fff;
+  font-size: 16px;
+  border: 1px solid #444;
+  padding: 4px 8px;
+  line-height: 24px;
+  width: 100%;
+  outline: 1px;
+  outline-color: #fff;
+`;
+
 export const MessageFooter = styled.div`
   margin-top: 24px;
 
@@ -111,4 +124,30 @@ export const Button = styled.button`
       opacity: 1;
     }
   }
+`;
+
+export const MessageSubscriptionSuccess = styled.div`
+  color: #fff;
+  margin-top: 24px;
+
+  i {
+    color: #8bc34a;
+    font-size: 32px;
+    margin-right: 16px;
+  }
+
+  p {
+    strong {
+      font-weight: 600;
+    }
+
+    & + p {
+      margin-top: 8px;
+    }
+  }
+`;
+
+export const MessageWithIcon = styled.div`
+  align-items: center;
+  display: flex;
 `;
