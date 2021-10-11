@@ -19,9 +19,10 @@ const BallMixin = () => `
 `;
 
 export const Context = styled.div`
-  padding-top: 143px;
   ${flex};
-  ${positionCover};
+  ${positionCover()};
+
+  padding-top: 143px;
   align-items: baseline;
   overflow: hidden;
 `;
