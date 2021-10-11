@@ -10,10 +10,12 @@ export interface SignToESLRequest {
   email: string;
 }
 
-export class SignToESLUseCase implements IExecutable<
+export interface ISignToESLUseCase extends IExecutable<
   SignToESLRequest,
   Promise<Nullable<SignToESLErrorUnion>>
-> {
+> {}
+
+export class SignToESLUseCase implements ISignToESLUseCase {
   constructor(private _eslRepo: IESLDataSource) {}
 
   async execute(
