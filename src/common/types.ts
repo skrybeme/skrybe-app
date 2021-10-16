@@ -1,4 +1,8 @@
 export type AsyncMaybe<T> = Promise<T | null | undefined>;
+export interface ErrorResult<TType> {
+  message: string;
+  type: TType;
+}
 export type EventAware = Pick<
   WindowEventHandlers,
   "addEventListener" | "removeEventListener"

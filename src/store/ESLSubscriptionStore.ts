@@ -1,23 +1,17 @@
 import {
   CannotSendConfirmationEmail,
-  EmailAlreadyTaken,
-  InvalidEmailFormat
+  EmailAlreadyTaken
 } from '@/use-cases/sign-to-esl/errors';
 import { ISignToESLUseCase } from '@/use-cases/sign-to-esl/SignToESLUseCase';
 import { action, computed, makeAutoObservable, observable, runInAction } from 'mobx';
+import { ErrorResult } from '@/common/types';
 
 export class ESLSubscriptionStore {
   @observable
   private _data = false;
 
   @observable
-  private _errorMessage?: string;
-
-  @observable
-  private _errorType?: 'expected' | 'unexpected';
-
-  @observable
-  private _isError = false;
+  private _error?: ErrorResult<'expected' | 'unexpected'>;
 
   @observable
   private _isLoading = false;
@@ -29,9 +23,7 @@ export class ESLSubscriptionStore {
   @action
   private _initLoading(): void {
     this._data = false;
-    this._errorMessage = undefined;
-    this._errorType = undefined;
-    this._isError = false;
+    this._error = undefined;
     this._isLoading = true;
   }
 
@@ -49,23 +41,29 @@ export class ESLSubscriptionStore {
       }
 
       this._data = false;
-      this._isError = true;
 
       if (result instanceof CannotSendConfirmationEmail) {
-        this._errorMessage = 'This email address seems to be unreachable. Make sure it is correct.';
-        this._errorType = 'expected';
+        this._error = {
+          message: 'This email address seems to be unreachable. Make sure it is correct.',
+          type: 'expected'
+        };
       } else if (result instanceof EmailAlreadyTaken) {
-        this._errorMessage = 'This email is already taken.';
-        this._errorType = 'expected';
-      } else if (result instanceof InvalidEmailFormat) {
-        this._errorMessage = 'Invalid email format.';
-        this._errorType = 'expected';
+        this._error = {
+          message: 'This email is already taken.',
+          type: 'expected'
+        };
+      } else {
+        this._error = {
+          message: 'Invalid email format.',
+          type: 'expected'
+        };
       } 
     } catch (e) {
       runInAction(() => {
-        this._errorMessage = `Oops, something unexpected went badly wrong... Please, try again later. Sorry about that.`;
-        this._errorType = 'unexpected';
-        this._isError = true;
+        this._error = {
+          message: 'Oops, something unexpected went badly wrong... Please, try again later. Sorry about that.',
+          type: 'unexpected'
+        };
       });
     } finally {
       runInAction(() => {
@@ -81,17 +79,17 @@ export class ESLSubscriptionStore {
 
   @computed
   get errorMessage() {
-    return this._errorMessage;
+    return this._error?.message;
   }
 
   @computed
   get errorType() {
-    return this._errorType;
+    return this._error?.type;
   }
 
   @computed
   get isError() {
-    return this._isError;
+    return this._error !== undefined;
   }
 
   @computed
