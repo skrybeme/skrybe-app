@@ -14,7 +14,7 @@ describe(`ESLSubscriptionStore`, () => {
 
     const store = new ESLSubscriptionStore(useCase);
 
-    expect(store.data).toBeNull();
+    expect(store.data).toBeFalsy();
     expect(store.isError).toBeFalsy();
     expect(store.isLoading).toBeFalsy();
     expect(store.errorMessage).toBeUndefined();
@@ -35,7 +35,7 @@ describe(`ESLSubscriptionStore`, () => {
           return;
         }
 
-        expect(store.data).toBeNull();
+        expect(store.data).toBeFalsy();
         expect(store.isError).toBeFalsy();
         expect(store.errorMessage).toBeUndefined();
         expect(store.errorType).toBeUndefined();
@@ -67,7 +67,7 @@ describe(`ESLSubscriptionStore`, () => {
               return
             }
 
-            expect(store.data).toBeNull();
+            expect(store.data).toBeTruthy();
             expect(store.isError).toBeFalsy();
             expect(store.errorMessage).toBeUndefined();
             expect(store.errorType).toBeUndefined();
@@ -95,7 +95,7 @@ describe(`ESLSubscriptionStore`, () => {
               return
             }
 
-            expect(store.data).toBeNull();
+            expect(store.data).toBeFalsy();
             expect(store.isError).toBeTruthy();
             expect(store.errorMessage).toEqual('This email address seems to be unreachable. Make sure it is correct.');
             expect(store.errorType).toEqual('expected');
@@ -123,7 +123,7 @@ describe(`ESLSubscriptionStore`, () => {
               return
             }
 
-            expect(store.data).toBeNull();
+            expect(store.data).toBeFalsy();
             expect(store.isError).toBeTruthy();
             expect(store.errorMessage).toEqual('This email is already taken.');
             expect(store.errorType).toEqual('expected');
@@ -151,7 +151,7 @@ describe(`ESLSubscriptionStore`, () => {
               return
             }
 
-            expect(store.data).toBeNull();
+            expect(store.data).toBeFalsy();
             expect(store.isError).toBeTruthy();
             expect(store.errorMessage).toEqual('Invalid email format.');
             expect(store.errorType).toEqual('expected');
@@ -179,7 +179,7 @@ describe(`ESLSubscriptionStore`, () => {
               return
             }
 
-            expect(store.data).toBeNull();
+            expect(store.data).toBeFalsy();
             expect(store.isError).toBeTruthy();
             expect(store.errorMessage).toEqual(`Oops, something unexpected went badly wrong... Please, try again later. Sorry about that.`);
             expect(store.errorType).toEqual('unexpected');

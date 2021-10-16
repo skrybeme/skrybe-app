@@ -8,7 +8,7 @@ import { action, computed, makeAutoObservable, observable, runInAction } from 'm
 
 export class ESLSubscriptionStore {
   @observable
-  private _data: null = null;
+  private _data = false;
 
   @observable
   private _errorMessage?: string;
@@ -28,7 +28,7 @@ export class ESLSubscriptionStore {
 
   @action
   private _initLoading(): void {
-    this._data = null;
+    this._data = false;
     this._errorMessage = undefined;
     this._errorType = undefined;
     this._isError = false;
@@ -43,9 +43,12 @@ export class ESLSubscriptionStore {
       const result = await this._signToESLUseCase.execute({ email });
 
       if (result === null) {
+        this._data = true;
+
         return;
       }
 
+      this._data = false;
       this._isError = true;
 
       if (result instanceof CannotSendConfirmationEmail) {

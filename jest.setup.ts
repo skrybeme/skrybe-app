@@ -1,4 +1,7 @@
+import jestFetchMock from 'jest-fetch-mock';
 import "reflect-metadata";
+
+jestFetchMock.enableMocks();
 
 class LocalStorageMock implements Storage {
   constructor(private _storage: { [key: string]: string } = {}) {}
