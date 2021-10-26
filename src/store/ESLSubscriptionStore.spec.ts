@@ -3,30 +3,28 @@ import { ISignToESLUseCase } from '@/use-cases/sign-to-esl/SignToESLUseCase';
 import { internet, lorem } from 'faker';
 import { reaction } from 'mobx';
 import { ESLSubscriptionStore } from './ESLSubscriptionStore';
+import { container, mocks } from '@/container/mock';
+import * as SYMBOL from '@/container/symbols';
 
 describe(`ESLSubscriptionStore`, () => {
   const email = internet.email();
+
+  const store = container.get<ESLSubscriptionStore>(SYMBOL.store.ESLSubscriptionStore);
 
   it(`has initial state`, () => {
     const useCase: ISignToESLUseCase = {
       execute: () => Promise.resolve(null)
     };
 
-    const store = new ESLSubscriptionStore(useCase);
-
     expect(store.data).toBeFalsy();
-    expect(store.isError).toBeFalsy();
+    expect(store.error).toBeUndefined();
     expect(store.isLoading).toBeFalsy();
-    expect(store.errorMessage).toBeUndefined();
-    expect(store.errorType).toBeUndefined();
   });
 
   it(`sets loading state on signToESL action call`, (done) => {
     const useCase: ISignToESLUseCase = {
       execute: () => Promise.resolve(null)
     };
-
-    const store = new ESLSubscriptionStore(useCase);
 
     reaction(
       () => store.isLoading,
@@ -36,10 +34,7 @@ describe(`ESLSubscriptionStore`, () => {
         }
 
         expect(store.data).toBeFalsy();
-        expect(store.isError).toBeFalsy();
-        expect(store.errorMessage).toBeUndefined();
-        expect(store.errorType).toBeUndefined();
-
+        expect(store.error).toBeUndefined();
         expect(store.isLoading).toBeTruthy();
 
         done();
@@ -51,13 +46,9 @@ describe(`ESLSubscriptionStore`, () => {
 
   describe(`use case result scenarios`, () => {
     describe(`use case resolves with null`, () => {
-      const useCase: ISignToESLUseCase = {
-        execute: () => Promise.resolve(null)
-      };
-  
-      const store = new ESLSubscriptionStore(useCase);
-
       it(`sets proper state`, (done) => {
+        mocks.signToESLUseCaseExecutionMock.mockResolvedValueOnce(null);
+
         store.signToESL(email);
 
         reaction(
@@ -68,9 +59,7 @@ describe(`ESLSubscriptionStore`, () => {
             }
 
             expect(store.data).toBeTruthy();
-            expect(store.isError).toBeFalsy();
-            expect(store.errorMessage).toBeUndefined();
-            expect(store.errorType).toBeUndefined();
+            expect(store.error).toBeUndefined();
 
             done();
           }
@@ -79,13 +68,11 @@ describe(`ESLSubscriptionStore`, () => {
     });
 
     describe(`use case resolves with CannotSendConfirmationEmail error`, () => {
-      const useCase: ISignToESLUseCase = {
-        execute: () => Promise.resolve(new CannotSendConfirmationEmail())
-      };
-  
-      const store = new ESLSubscriptionStore(useCase);
-
       it(`sets proper state`, (done) => {
+        mocks
+          .signToESLUseCaseExecutionMock
+          .mockResolvedValueOnce(new CannotSendConfirmationEmail());
+
         store.signToESL(email);
 
         reaction(
@@ -96,9 +83,10 @@ describe(`ESLSubscriptionStore`, () => {
             }
 
             expect(store.data).toBeFalsy();
-            expect(store.isError).toBeTruthy();
-            expect(store.errorMessage).toEqual('This email address seems to be unreachable. Make sure it is correct.');
-            expect(store.errorType).toEqual('expected');
+            expect(store.error).toEqual({
+              message: 'This email address seems to be unreachable. Make sure it is correct.',
+              type: 'expected'
+            });
 
             done();
           }
@@ -107,13 +95,11 @@ describe(`ESLSubscriptionStore`, () => {
     });
 
     describe(`use case resolves with EmailAlreadyTaken error`, () => {
-      const useCase: ISignToESLUseCase = {
-        execute: () => Promise.resolve(new EmailAlreadyTaken())
-      };
-  
-      const store = new ESLSubscriptionStore(useCase);
-
       it(`sets proper state`, (done) => {
+        mocks
+          .signToESLUseCaseExecutionMock
+          .mockResolvedValueOnce(new EmailAlreadyTaken());
+
         store.signToESL(email);
 
         reaction(
@@ -124,9 +110,10 @@ describe(`ESLSubscriptionStore`, () => {
             }
 
             expect(store.data).toBeFalsy();
-            expect(store.isError).toBeTruthy();
-            expect(store.errorMessage).toEqual('This email is already taken.');
-            expect(store.errorType).toEqual('expected');
+            expect(store.error).toEqual({
+              message: 'This email is already taken.',
+              type: 'expected'
+            });
 
             done();
           }
@@ -135,13 +122,11 @@ describe(`ESLSubscriptionStore`, () => {
     });
 
     describe(`use case resolves with InvalidEmailFormat error`, () => {
-      const useCase: ISignToESLUseCase = {
-        execute: () => Promise.resolve(new InvalidEmailFormat())
-      };
-  
-      const store = new ESLSubscriptionStore(useCase);
-
       it(`sets proper state`, (done) => {
+        mocks
+          .signToESLUseCaseExecutionMock
+          .mockResolvedValueOnce(new InvalidEmailFormat());
+
         store.signToESL(email);
 
         reaction(
@@ -152,9 +137,10 @@ describe(`ESLSubscriptionStore`, () => {
             }
 
             expect(store.data).toBeFalsy();
-            expect(store.isError).toBeTruthy();
-            expect(store.errorMessage).toEqual('Invalid email format.');
-            expect(store.errorType).toEqual('expected');
+            expect(store.error).toEqual({
+              message: 'Invalid email format.',
+              type: 'expected'
+            });
 
             done();
           }
@@ -163,13 +149,11 @@ describe(`ESLSubscriptionStore`, () => {
     });
 
     describe(`use case resolves with unexpected error`, () => {
-      const useCase: ISignToESLUseCase = {
-        execute: () => Promise.reject(new Error(lorem.paragraph()))
-      };
-  
-      const store = new ESLSubscriptionStore(useCase);
-
       it(`sets proper state`, (done) => {
+        mocks
+          .signToESLUseCaseExecutionMock
+          .mockRejectedValueOnce(new Error(lorem.paragraph()));
+
         store.signToESL(email);
 
         reaction(
@@ -180,9 +164,10 @@ describe(`ESLSubscriptionStore`, () => {
             }
 
             expect(store.data).toBeFalsy();
-            expect(store.isError).toBeTruthy();
-            expect(store.errorMessage).toEqual(`Oops, something unexpected went badly wrong... Please, try again later. Sorry about that.`);
-            expect(store.errorType).toEqual('unexpected');
+            expect(store.error).toEqual({
+              message: `Oops, something unexpected went badly wrong... Please, try again later. Sorry about that.`,
+              type: 'unexpected'
+            });
 
             done();
           }

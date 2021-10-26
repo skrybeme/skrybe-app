@@ -3,28 +3,34 @@ import {
   EmailAlreadyTaken
 } from '@/use-cases/sign-to-esl/errors';
 import { ISignToESLUseCase } from '@/use-cases/sign-to-esl/SignToESLUseCase';
-import { action, computed, makeAutoObservable, observable, runInAction } from 'mobx';
+import { action, autorun, computed, makeAutoObservable, observable, runInAction } from 'mobx';
 import { ErrorResult } from '@/common/types';
+import { inject, injectable } from 'inversify';
+import * as SYMBOL from '@/container/symbols';
 
+@injectable()
 export class ESLSubscriptionStore {
   @observable
-  private _data = false;
+  data = false;
 
   @observable
-  private _error?: ErrorResult<'expected' | 'unexpected'>;
+  error?: ErrorResult<'expected' | 'unexpected'> = undefined;
 
   @observable
-  private _isLoading = false;
+  isLoading = false;
 
-  constructor(private _signToESLUseCase: ISignToESLUseCase) {
+  @inject(SYMBOL.useCase.SignToESLUseCase)
+  private _signToESLUseCase!: ISignToESLUseCase;
+
+  constructor() {
     makeAutoObservable(this);
   }
 
   @action
   private _initLoading(): void {
-    this._data = false;
-    this._error = undefined;
-    this._isLoading = true;
+    this.data = false;
+    this.error = undefined;
+    this.isLoading = true;
   }
 
   @action
@@ -35,65 +41,42 @@ export class ESLSubscriptionStore {
       const result = await this._signToESLUseCase.execute({ email });
 
       if (result === null) {
-        this._data = true;
+        this.data = true;
+        this.error = undefined;
+        this.isLoading = false;
 
         return;
       }
 
-      this._data = false;
+      this.data = false;
 
       if (result instanceof CannotSendConfirmationEmail) {
-        this._error = {
+        this.error = {
           message: 'This email address seems to be unreachable. Make sure it is correct.',
           type: 'expected'
         };
       } else if (result instanceof EmailAlreadyTaken) {
-        this._error = {
+        this.error = {
           message: 'This email is already taken.',
           type: 'expected'
         };
       } else {
-        this._error = {
+        this.error = {
           message: 'Invalid email format.',
           type: 'expected'
         };
       } 
     } catch (e) {
       runInAction(() => {
-        this._error = {
+        this.error = {
           message: 'Oops, something unexpected went badly wrong... Please, try again later. Sorry about that.',
           type: 'unexpected'
         };
       });
     } finally {
       runInAction(() => {
-        this._isLoading = false;
+        this.isLoading = false;
       });
     }
-  }
-
-  @computed
-  get data() {
-    return this._data;
-  }
-
-  @computed
-  get errorMessage() {
-    return this._error?.message;
-  }
-
-  @computed
-  get errorType() {
-    return this._error?.type;
-  }
-
-  @computed
-  get isError() {
-    return this._error !== undefined;
-  }
-
-  @computed
-  get isLoading() {
-    return this._isLoading;
   }
 }

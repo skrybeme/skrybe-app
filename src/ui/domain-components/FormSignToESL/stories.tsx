@@ -24,8 +24,6 @@ const Template: Story<FormSignToESLProps> = (args) => {
 
 export const Default = Template.bind({});
 Default.args = {
-    error: '',
-    isLoading: false,
     onCancel: action('onCancel'),
     onSubmit: action('onSubmit')
 };

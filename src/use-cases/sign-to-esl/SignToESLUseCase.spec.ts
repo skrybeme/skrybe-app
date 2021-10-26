@@ -90,7 +90,7 @@ describe(`SignToESLUseCase`, () => {
 
       try {
         await signToESLUseCase.execute({ email });
-      } catch (e: any) {
+      } catch (e) {
         expect(e instanceof Error).toBeTruthy();
         expect(e.message).toEqual('unexpected error message');
       }

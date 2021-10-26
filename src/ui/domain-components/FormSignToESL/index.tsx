@@ -1,46 +1,72 @@
 import React from 'react';
 import * as S from './styles';
+import { useContainer } from '@/ui/hooks';
+import { ESLSubscriptionStore } from '@/store/ESLSubscriptionStore';
+import * as SYMBOL from '@/container/symbols';
+import { observer } from 'mobx-react-lite';
 
 export interface FormSignToESLProps {
   emailInputRef?: React.RefObject<HTMLInputElement>;
-  error?: string;
-  isLoading?: boolean;
   onCancel?: () => void;
+  onChange?: (value: string) => void;
   onSubmit?: (email: string) => void;
+  value: string;
 }
 
-export function FormSignToESL({
+export const FormSignToESL = observer(({
   emailInputRef,
-  error,
-  isLoading,
   onCancel,
-  onSubmit
-}: FormSignToESLProps): React.ReactElement<FormSignToESLProps> {
-  const [email, setEmail] = React.useState('');
+  onChange,
+  onSubmit,
+  value
+}: FormSignToESLProps): React.ReactElement<FormSignToESLProps> => {
+  const store = useContainer<ESLSubscriptionStore>(SYMBOL.store.ESLSubscriptionStore);
 
-  const handleSubmit = React.useCallback<React.FormEventHandler<HTMLFormElement>>((e) => {
-    e.preventDefault();
+  const [error, setError] = React.useState(store.error?.message);
 
-    onSubmit?.(email);
-  }, [email, onSubmit]);
+  React.useEffect(() => {
+    setError(store?.error?.message);
+  }, [store.error]);
+
+  const handleSubmit = React.useCallback<React.FormEventHandler<HTMLFormElement>>(
+    (e) => {
+      e.preventDefault();
+
+      store?.signToESL(value);
+
+      onSubmit?.(value);
+    },
+    [value, onSubmit]
+  );
 
   const handleInputChange = React.useCallback<React.ChangeEventHandler<HTMLInputElement>>(
     (e) => {
-      setEmail(e.target.value);
+      onChange?.(e.target.value);
+    },
+    []
+  );
+
+  const handleInputFocus = React.useCallback<React.FocusEventHandler<HTMLInputElement>>(
+    (e) => {
+      setError(undefined);
     },
     []
   );
 
   return (
-    <S.FormSignToESL onSubmit={handleSubmit}>
+    <S.FormSignToESL
+      data-testid="form-sign-to-esl"
+      onSubmit={handleSubmit}
+    >
       {error && <S.Error>{error}</S.Error>}
       <S.EmailInput
-        className={error && 'has-error'}
+        className={error ? 'has-error' : ''}
         onChange={handleInputChange}
+        onFocus={handleInputFocus}
         placeholder="your.email@address.com"
         ref={emailInputRef}
         type="email"
-        value={email}
+        value={value}
       />
       <S.ActionButtons>
         <S.Button
@@ -56,11 +82,11 @@ export function FormSignToESL({
           Cancel
         </S.Button>
       </S.ActionButtons>
-      {isLoading && (
-        <S.Loader>
-          <S.Spinner></S.Spinner>
+      {store.isLoading && (
+        <S.Loader data-testid="form-sign-to-esl-loader">
+          <S.Spinner />
         </S.Loader>
       )}
     </S.FormSignToESL>
   );
-}
+});

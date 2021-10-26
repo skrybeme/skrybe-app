@@ -13,7 +13,7 @@ export type ResponseBody = {
 
 export class ESLSubscriptionRestApiDataSource implements IESLDataSource {
   async save(email: string): Promise<Nullable<SignToESLErrorUnion>> {
-    const response = await fetch('https://skrybeapi.site/esl/subscription', {
+    const response = await fetch('https://api.skrybe.co/esl/subscription', {
       body: email,
       headers: {
         'Content-Type': 'text/plain'

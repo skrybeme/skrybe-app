@@ -1,7 +1,7 @@
 import { positionCoverBefore } from '@/ui/styles/mixins';
 import styled, { css } from 'styled-components';
 
-export const PickerNotifications_VariantA = styled.div``;
+export const PickerESL_VariantA = styled.div``;
 
 export const BellIconTrigger = styled.button<{ isOpen?: boolean }>`
   ${positionCoverBefore()};

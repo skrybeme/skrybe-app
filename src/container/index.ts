@@ -39,6 +39,9 @@ import { UpdateCardDetailsUseCase } from '@/use-cases/UpdateCardDetailsUseCase';
 import { GetTreeUseCase } from '@/use-cases/GetTreeUseCase';
 import { StoryTreeInfoCollectionStore } from '@/store/StoryTreeInfoCollectionStore';
 import * as SYMBOL from './symbols';
+import { IESLDataSource, ISignToESLUseCase, SignToESLUseCase } from '@/use-cases/sign-to-esl/SignToESLUseCase';
+import { ESLSubscriptionRestApiDataSource } from '@/data-sources/restapi/ESLSubscriptionRestApiDataSource';
+import { ESLSubscriptionStore } from '@/store/ESLSubscriptionStore';
 
 const container = new Container();
 
@@ -117,6 +120,22 @@ container.load(new ContainerModule((bind) => {
   const tagRepo: ITagRepo = new TagRepo();
 
   bind<ITagRepo>(SYMBOL.TagRepo).toConstantValue(tagRepo);
+}));
+
+container.load(new ContainerModule((bind) => {
+  const eslDataSource = new ESLSubscriptionRestApiDataSource();
+
+  bind<IESLDataSource>(SYMBOL.dataSource.ESLSubscriptionDataSource).toConstantValue(eslDataSource);
+}));
+
+container.load(new ContainerModule((bind) => {
+  bind<ISignToESLUseCase>(SYMBOL.useCase.SignToESLUseCase).toDynamicValue(({ container }) => {
+    return new SignToESLUseCase(container.get(SYMBOL.dataSource.ESLSubscriptionDataSource));
+  });
+}));
+
+container.load(new ContainerModule((bind) => {
+  bind<ESLSubscriptionStore>(SYMBOL.store.ESLSubscriptionStore).to(ESLSubscriptionStore).inSingletonScope();
 }));
 
 container.load(new ContainerModule((bind) => {

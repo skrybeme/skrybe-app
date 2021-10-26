@@ -1,9 +1,7 @@
 import { Logo } from '@/ui/domain-components/Logo';
-import {
-  PickerNotifications_VariantA as PickerNotifications
-} from '@/ui/domain-components/PickerNotifications';
 import React from 'react';
 import * as S from './styles';
+import { Notifications } from '@/ui/views/Notifications';
 
 export function Toolbar({ onHamburgerClick }: any): React.ReactElement {
   return (
@@ -21,7 +19,7 @@ export function Toolbar({ onHamburgerClick }: any): React.ReactElement {
           <Logo id="logo" />
         </S.LogoContainer>
         <S.Flex>
-          <PickerNotifications hasUnreadMessages />
+          <Notifications />
           <S.ThemePicker>
             <i className="fas fa-palette"></i>
           </S.ThemePicker>
