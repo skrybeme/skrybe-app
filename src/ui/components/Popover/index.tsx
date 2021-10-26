@@ -14,7 +14,8 @@ export function Popover({ children, isOpen, left, onClickOutside }: PopoverProps
 
   return (
     <S.Popover
-      isOpen={isOpen}
+      className={isOpen ? 'is-open' : ''}
+      data-testid="popover"
       ref={self}
     >
       <S.Body left={left}>

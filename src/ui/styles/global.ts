@@ -51,3 +51,7 @@ export const Unscrollable = styled.div`
   position: relative;
   width: 100%;
 `;
+
+export const Width = styled.div<{ width: number }>`${({ width }) => css`
+  width: ${width}px;
+`}`;

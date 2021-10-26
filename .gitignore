@@ -20,3 +20,6 @@ cypress/videos
 
 # storybook examples
 src/stories
+
+# ide
+.idea

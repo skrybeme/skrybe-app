@@ -2,16 +2,18 @@ import styled from 'styled-components';
 import { positionCover } from '@/ui/styles/mixins';
 
 export const Context = styled.div`
-  overflow: hidden;
-  ${positionCover}
+  ${positionCover()}
+
+  overflow: hidden;  
 `;
 
 export const Wrapper = styled.div`
+  ${positionCover()}
+
   margin: 0 -1000px;
   display: flex;
   align-items: center;
   justify-content: center;
-  ${positionCover}
 `;
 
 export const Card = styled.div<any>`

@@ -51,9 +51,29 @@ export const LogoContainer = styled.div`
   height: 24px;
 `;
 
-export const ProfilePicture = styled.div`${({ theme }) => css`
+export const ThemePicker = styled.div`
   align-items: center;
-  background-color: ${theme.profilePicture.bg};
+  cursor: pointer;
+  display: flex;
+  height: 48px;
+  justify-content: center;
+  width: 48px;
+
+  > i {
+    color: rgb(167, 149, 207);
+    font-size: 24px;
+  }
+
+  &:hover {
+    > i {
+      color: #fff;
+    }
+  }
+`;
+
+export const ProfilePictureImage = styled.div`${({ theme }) => css`
+  align-items: center;
+  background-color: rgb(167, 149, 207);
   border-radius: 50%;
   display: flex;
   height: 32px;
@@ -67,5 +87,20 @@ export const ProfilePicture = styled.div`${({ theme }) => css`
     font-weight: 700;
     line-height: 20px;
     text-transform: uppercase;
+  }
+`}`;
+
+export const ProfilePicture = styled.div`${({ theme }) => css`
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  height: 48px;
+  justify-content: center;
+  width: 48px;
+
+  &:hover {
+    ${ProfilePictureImage} {
+      background-color: #fff;
+    }
   }
 `}`;
